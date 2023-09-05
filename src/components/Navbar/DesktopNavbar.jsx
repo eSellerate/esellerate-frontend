@@ -43,13 +43,13 @@ export default function DesktopNavbar () {
               color="secondary"
               name="Christian"
               size="sm"
-              src="https://imageio.forbes.com/specials-images/imageserve/5ed00f17d4a99d0006d2e738/0x0.jpg?format=jpg&crop=4666,4663,x154,y651,safe&height=416&width=416&fit=bounds"
+              src="https://datepsychology.com/wp-content/uploads/2022/09/gigachad.jpg"
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Perfil</p>
-              <p className="font-semibold">a20110469@live.ceti.mx</p>
+              <p className="font-semibold">chad-giga@esellerate.mx</p>
             </DropdownItem>
             <DropdownItem key="settings">Ajustes</DropdownItem>
             <DropdownItem key="team_settings">Productos</DropdownItem>
