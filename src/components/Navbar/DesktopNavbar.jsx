@@ -21,17 +21,21 @@ export default function DesktopNavbar () {
         <p className="font-bold text-inherit">Esellerate</p>
       </NavbarBrand>
 
+      <div className='sm:block hidden'>
       <NavbarContent className="sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <NavLink to="/test"> Inicio </NavLink>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <NavLink to="/inventory" activeClassName="text-secondary"> Inventario </NavLink>
-        </NavbarItem>
-        <NavbarItem>
-          <NavLink to="/" activeClassName="text-secondary"> Comentarios </NavLink>
-        </NavbarItem>
+
+          <NavbarItem>
+            <NavLink to="/test"> Inicio </NavLink>
+          </NavbarItem>
+          <NavbarItem isActive>
+            <NavLink to="/inventory" activeClassName="text-secondary"> Inventario </NavLink>
+          </NavbarItem>
+          <NavbarItem>
+            <NavLink to="/" activeClassName="text-secondary"> Comentarios </NavLink>
+          </NavbarItem>
+
       </NavbarContent>
+      </div>
 
       <NavbarContent as="div" justify="end">
         <Dropdown placement="bottom-end">
@@ -50,6 +54,15 @@ export default function DesktopNavbar () {
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Perfil</p>
               <p className="font-semibold">chad-giga@esellerate.mx</p>
+            </DropdownItem>
+            <DropdownItem className="block sm:hidden">
+                <NavLink to="/test"> Test </NavLink>
+            </DropdownItem>
+            <DropdownItem className="block sm:hidden">
+                <NavLink to="/inventory"> Inventario </NavLink>
+            </DropdownItem>
+            <DropdownItem className="block sm:hidden">
+                <NavLink to="/"> Inicio </NavLink>
             </DropdownItem>
             <DropdownItem key="settings">Ajustes</DropdownItem>
             <DropdownItem key="team_settings">Productos</DropdownItem>

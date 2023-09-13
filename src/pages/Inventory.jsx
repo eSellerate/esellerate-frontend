@@ -4,7 +4,7 @@ import { Input, Pagination } from '@nextui-org/react'
 
 // Components
 import Summary from '../components/Inventory/Summary'
-import InventoryCard from '../components/Inventory/InventoryCard'
+import ProductModal from '../components/Inventory/ProductModal'
 
 const Inventory = () => {
   return (
@@ -29,7 +29,7 @@ const Inventory = () => {
                 <section className='flex flex-wrap gap-7 pb-10'>
                     {
                         // Iterate 20 times (for testing purposes)
-                        [...Array(20)].map((_, index) => (<InventoryCard key={index}/>))
+                        [...Array(20)].map((_, index) => (<ProductModal sku={index} key={index}/>))
                     }
                 </section>
                 <section className='flex justify-center pb-5'>
