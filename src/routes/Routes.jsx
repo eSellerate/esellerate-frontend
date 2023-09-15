@@ -13,9 +13,9 @@ const Routes = () => {
     <BrowserRouter>
       <DesktopNavbar />
       <ReactDomRoutes>
-        <Route path="/" element={<App />} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/inventory" element={<Inventory />} />
+        <Route path='/' element={<App />} />
+        <Route path='/test' element={<Test />} />
+        <Route path='/inventory' element={<Inventory />} />
       </ReactDomRoutes>
     </BrowserRouter>
   )
