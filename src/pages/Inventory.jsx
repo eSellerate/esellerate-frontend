@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { Input, Pagination } from '@nextui-org/react'
+import axios from 'axios'
 
 // Components
 import Summary from '../components/Inventory/Summary'
 import ProductModal from '../components/Inventory/ProductModal'
 
-const Inventory = () => {
+export default function Inventory () {
+  useEffect(() => {
+    async function fetchData () {
+      const res = await axios.get('https://fakestoreapi.com/products')
+      console.log(res)
+    }
+    fetchData()
+  }, [])
+
   return (
         <React.Fragment>
             <div className='px-32'>
@@ -43,5 +52,3 @@ const Inventory = () => {
         </React.Fragment>
   )
 }
-
-export default Inventory

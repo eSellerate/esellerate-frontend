@@ -41,7 +41,7 @@ const ProductModal = (props) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Nombre del producto</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Editar producto</ModalHeader>
               <ModalBody>
                 <Input
                   autoFocus
@@ -75,8 +75,8 @@ const ProductModal = (props) => {
                 </Switch>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
-                  Close
+                <Button color="primary" variant="flat" onPress={onClose}>
+                  Editar
                 </Button>
               </ModalFooter>
             </>

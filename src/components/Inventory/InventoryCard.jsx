@@ -13,6 +13,7 @@ const InventoryCard = (props) => {
   InventoryCard.propTypes = {
     name: PropTypes.string.isRequired
   }
+
   return (
     <Card className="max-w-[300px] hover:cursor-pointer hover:shadow">
       <CardHeader className="flex gap-3 justify-center">
