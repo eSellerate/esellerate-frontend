@@ -20,7 +20,7 @@ const Summary = (props) => {
   }
 
   return (
-    <Card className='p-4 hover:cursor-default'>
+    <Card className='p-4 hover:cursor-default md:mx-0 mx-auto'>
       <div className='flex items-center gap-4'>
         {
         flag ? <BiBasket size={50} /> : <BiMoney size={50} />
