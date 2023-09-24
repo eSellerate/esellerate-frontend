@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes as ReactDomRoutes } from 'react-router-dom
 
 // Components
 import DesktopNavbar from '../components/Navbar/DesktopNavbar'
+import MobileNavbar from '../components/Navbar/MobileNavbar'
 import Test from '../components/test/Test'
 import Inventory from '../pages/Inventory'
 import App from '../App'
@@ -11,7 +12,10 @@ import App from '../App'
 const Routes = () => {
   return (
     <BrowserRouter>
-      <DesktopNavbar />
+      <>
+        <MobileNavbar/>
+        <DesktopNavbar/>
+      </>
       <ReactDomRoutes>
         <Route path='/' element={<App />} />
         <Route path='/test' element={<Test />} />

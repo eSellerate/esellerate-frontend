@@ -15,7 +15,7 @@ import logo from '../../assets/logo.svg'
 
 export default function DesktopNavbar () {
   return (
-    <Navbar isBordered>
+    <Navbar isBordered className="lg:flex hidden">
       <NavbarBrand>
         <img src={logo} alt='Esellerate Logo' className='w-8 h-8' />
         <p className='font-bold text-inherit'>Esellerate</p>
