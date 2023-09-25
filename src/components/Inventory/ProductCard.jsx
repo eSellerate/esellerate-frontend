@@ -12,6 +12,7 @@ import {
   Switch,
   Card,
   CardHeader,
+  CardFooter,
   CardBody,
   Divider,
   Image,
@@ -38,22 +39,34 @@ export default function ProductCard(props) {
   return (
     <>
       <div onClick={onOpen} className="md:w-auto w-full">
-        <Card className="min-width-[72] w-72 h-96 hover:cursor-pointer hover:shadow md:mx-0 mx-auto">
-          <CardHeader className="flex gap-3 justify-center">
-            <Image
-              className="h-56 object-contain"
-              loading="lazy"
-              isZoomed
-              alt={product.name}
-              src={product.image}
-            />
-          </CardHeader>
-          <Divider />
+        <Card
+          isFooterBlurred
+          radius="lg"
+          className="w-fit h-fit hover:cursor-pointer hover:shadow md:mx-0 mx-auto border-none md:p-1 px-4"
+        >
+          {/* <CardHeader className="flex gap-3 justify-center"> */}
+          <Image
+            className="object-contain"
+            loading="lazy"
+            isZoomed
+            alt={product.name}
+            src={product.image}
+          />
+          <CardFooter className="justify-between space-x-1 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+            <p className=" text-black/80 font-bold text-secondary truncate">
+              {product.title}
+            </p>
+            <Button className="font-bold" color="danger" variant="bordered">
+              Delete
+            </Button>
+          </CardFooter>
+          {/* </CardHeader> */}
+          {/* <Divider />
           <CardBody>
             <p className="text-secondary truncate">{product.title}</p>
             <p>SKU</p>
             <p>Existencias: 500</p>
-          </CardBody>
+          </CardBody> */}
         </Card>
       </div>
       <Modal

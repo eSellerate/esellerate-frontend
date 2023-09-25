@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { Input, Pagination } from "@nextui-org/react";
 import axios from "axios";
+import Masonry from "react-responsive-masonry";
 
 // Components
 import Summary from "../components/Inventory/Summary";
@@ -22,10 +23,12 @@ export default function Inventory() {
       setProducts(response.data);
     }
   }
-
+  const items = products.map((product, key) => (
+    <ProductCard product={product} key={key} />
+  ));
   return (
     <>
-      <div className="md:px-32 px-4">
+      <div className="md:px-12 px-4">
         <section className="py-9">
           <h1 className="text-2xl font-bold mb-7 md:text-left text-center">
             Resumen de Inventario
@@ -44,11 +47,21 @@ export default function Inventory() {
             startContent={<CiSearch />}
           />
         </section>
-        <section className="flex flex-wrap gap-7 pb-10">
-          {products.map((product, key) => (
-            <ProductCard product={product} key={key} />
-          ))}
-        </section>
+        <div className="hidden md:block">
+          <section
+            className="flex flex-wrap gap-7 pb-10"
+            style={{ display: "flex", flexWrap: "wrap" }}
+          >
+            <Masonry columnsCount={4} gutter="15px">{items}</Masonry>
+          </section>
+        </div>
+        <div className="block md:hidden">
+          <section className="flex flex-wrap gap-7 pb-10">
+            {products.map((product, key) => (
+              <ProductCard product={product} key={key} />
+            ))}
+          </section>
+        </div>
         <section className="flex justify-center pb-5">
           <Pagination
             total={10}
