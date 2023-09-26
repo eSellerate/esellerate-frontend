@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const Summary = (props) => {
   Summary.propTypes = {
     name: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
+    value: PropTypes.string.isRequired,
   };
 
   const flag = props.name === "Productos";
