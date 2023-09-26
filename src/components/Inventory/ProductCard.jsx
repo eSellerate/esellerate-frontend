@@ -42,17 +42,17 @@ export default function ProductCard(props) {
         <Card
           isFooterBlurred
           radius="lg"
-          className="w-fit h-fit hover:cursor-pointer hover:shadow md:mx-0 mx-auto border-none md:p-1 px-4"
+          className="bg-white w-fit h-fit hover:cursor-pointer hover:shadow md:mx-0 mx-auto border-none md:p-1 px-4"
         >
           {/* <CardHeader className="flex gap-3 justify-center"> */}
           <Image
-            className="object-contain"
+            className="object-contain p-4"
             loading="lazy"
             isZoomed
             alt={product.name}
             src={product.image}
           />
-          <CardFooter className="justify-between space-x-1 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+          <CardFooter className="justify-between space-x-1 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small z-10">
             <p className=" text-black/80 font-bold text-secondary truncate">
               {product.title}
             </p>

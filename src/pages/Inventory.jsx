@@ -36,23 +36,27 @@ export default function Inventory() {
           <div className="flex gap-14 place-content-center md:flex-row flex-col  md:px-0">
             <Summary name="Productos" value="150" />
             <Summary name="Valor" value="23000" />
+            <Summary name="Crear Post" value="0" />
+            <div className="grow flex justify-center items-center">
+              <Input
+                type="text"
+                label="Busca un producto"
+                placeholder="Escribe para buscar..."
+                startContent={<CiSearch />}
+              />
+            </div>
           </div>
         </section>
-        <section className="mb-10 flex md:flex-row-reverse mx-auto md:mx-0">
-          <Input
-            type="text"
-            label="Busca un producto"
-            className="w-1/3 md:mx-0 mx-auto"
-            placeholder="Escribe para buscar..."
-            startContent={<CiSearch />}
-          />
-        </section>
+        {/* <section className="mb-10 flex md:flex-row-reverse mx-auto md:mx-0">
+        </section> */}
         <div className="hidden md:block">
           <section
             className="flex flex-wrap gap-7 pb-10"
             style={{ display: "flex", flexWrap: "wrap" }}
           >
-            <Masonry columnsCount={4} gutter="15px">{items}</Masonry>
+            <Masonry columnsCount={4} gutter="15px">
+              {items}
+            </Masonry>
           </section>
         </div>
         <div className="block md:hidden">
