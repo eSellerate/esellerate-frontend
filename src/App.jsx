@@ -1,8 +1,7 @@
 import React from 'react'
 import axios from 'axios';
-import { Button, ButtonGroup } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import './App.css'
-import { Button } from '@nextui-org/react'
 
 function testz() {
   const options = {
