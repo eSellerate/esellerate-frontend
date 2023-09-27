@@ -5,11 +5,11 @@ import { NextUIProvider } from '@nextui-org/react'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <NextUIProvider>
-    <main className='dark text-foreground bg-background'>
-      <React.StrictMode>
+  <React.StrictMode>
+    <NextUIProvider>
+      <main className="dark text-foreground bg-background">
         <Routes />
-      </React.StrictMode>
-    </main>
-  </NextUIProvider>
+      </main>
+    </NextUIProvider>
+  </React.StrictMode>
 )
