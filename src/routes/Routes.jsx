@@ -13,8 +13,8 @@ const Routes = () => {
   return (
     <BrowserRouter>
       <>
-        <MobileNavbar/>
-        <DesktopNavbar/>
+        <MobileNavbar />
+        <DesktopNavbar />
       </>
       <ReactDomRoutes>
         <Route path='/' element={<App />} />

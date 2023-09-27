@@ -10,7 +10,7 @@ import {
   NavbarMenuItem,
   Button
 }
-from '@nextui-org/react'
+  from '@nextui-org/react'
 import logo from '../../assets/logo.svg'
 
 export default function MobileNavbar () {
@@ -30,7 +30,7 @@ export default function MobileNavbar () {
   ]
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className="lg:hidden block">
+    <Navbar onMenuOpenChange={setIsMenuOpen} className='lg:hidden block'>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}

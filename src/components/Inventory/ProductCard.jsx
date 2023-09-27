@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   Modal,
   ModalContent,
@@ -11,52 +11,49 @@ import {
   Input,
   Switch,
   Card,
-  CardHeader,
   CardFooter,
-  CardBody,
-  Divider,
-  Image,
-} from "@nextui-org/react";
-import PropTypes from "prop-types";
+  Image
+} from '@nextui-org/react'
+import PropTypes from 'prop-types'
 
-export default function ProductCard(props) {
+export default function ProductCard (props) {
   ProductCard.propTypes = {
-    product: PropTypes.object,
-  };
+    product: PropTypes.object
+  }
 
   // destructuring of props
-  const { product } = props;
+  const { product } = props
 
   // state
-  const [title, setTitle] = useState(product.title);
-  const [description, setDescription] = useState(product.description);
-  const [price, setPrice] = useState(product.price);
+  const [title, setTitle] = useState(product.title)
+  const [description, setDescription] = useState(product.description)
+  const [price, setPrice] = useState(product.price)
   // UI state
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(true)
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   return (
     <>
-      <div onClick={onOpen} className="md:w-auto w-full">
+      <div onClick={onOpen} className='md:w-auto w-full'>
         <Card
           isFooterBlurred
-          radius="lg"
-          className="bg-white w-fit h-fit hover:cursor-pointer hover:shadow md:mx-0 mx-auto border-none md:p-1 px-4"
+          radius='lg'
+          className='bg-white w-fit h-fit hover:cursor-pointer hover:shadow md:mx-0 mx-auto border-none md:p-1 px-4'
         >
           {/* <CardHeader className="flex gap-3 justify-center"> */}
           <Image
-            className="object-contain p-4"
-            loading="lazy"
+            className='object-contain p-4'
+            loading='lazy'
             isZoomed
             alt={product.name}
             src={product.image}
           />
-          <CardFooter className="justify-between space-x-1 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small z-10">
-            <p className=" text-black/80 font-bold text-secondary truncate">
+          <CardFooter className='justify-between space-x-1 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small z-10'>
+            <p className=' text-black/80 font-bold text-secondary truncate'>
               {product.title}
             </p>
-            <Button className="font-bold" color="danger" variant="bordered">
+            <Button className='font-bold' color='danger' variant='bordered'>
               Delete
             </Button>
           </CardFooter>
@@ -70,82 +67,82 @@ export default function ProductCard(props) {
         </Card>
       </div>
       <Modal
-        backdrop="blur"
+        backdrop='blur'
         isOpen={isOpen}
-        size="5xl"
+        size='5xl'
         onOpenChange={onOpenChange}
-        placement="top-center"
+        placement='top-center'
       >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader>Editar producto</ModalHeader>
               <ModalBody>
-                <div className="p-5 flex md:flex-row flex-col gap-28 justify-center">
-                  <div className="flex items-center  md:mx-0 mx-auto">
+                <div className='p-5 flex md:flex-row flex-col gap-28 justify-center'>
+                  <div className='flex items-center  md:mx-0 mx-auto'>
                     <Image
-                      className="md:w-64 w-60 object-contain"
+                      className='md:w-64 w-60 object-contain'
                       src={product.image}
                     />
                   </div>
-                  <div className="md:w-96 w-80 flex flex-col gap-2">
+                  <div className='md:w-96 w-80 flex flex-col gap-2'>
                     <Input
                       autoFocus
-                      label="SKU"
+                      label='SKU'
                       disabled
                       value={product.id}
-                      placeholder="Sku del producto"
-                      variant="bordered"
+                      placeholder='Sku del producto'
+                      variant='bordered'
                     />
                     <Input
-                      label="Nombre"
+                      label='Nombre'
                       value={title}
                       onChange={(e) => {
-                        setTitle(e.target.value);
+                        setTitle(e.target.value)
                       }}
-                      placeholder="Nombre del producto"
-                      type="text"
-                      variant="bordered"
+                      placeholder='Nombre del producto'
+                      type='text'
+                      variant='bordered'
                     />
                     <Textarea
-                      label="Descripción"
+                      label='Descripción'
                       value={description}
                       onChange={(e) => {
-                        setDescription(e.target.value);
+                        setDescription(e.target.value)
                       }}
-                      placeholder="Descripcion del producto"
+                      placeholder='Descripcion del producto'
                       multiple
-                      type="text"
-                      variant="bordered"
+                      type='text'
+                      variant='bordered'
                     />
                     <Input
-                      label="Precio"
+                      label='Precio'
                       onChange={(e) => {
-                        setPrice(e.target.value);
+                        setPrice(e.target.value)
                       }}
                       value={price}
-                      placeholder="Precio del producto"
-                      type="number"
-                      variant="bordered"
-                      startContent="$"
-                      endContent="MXN"
+                      placeholder='Precio del producto'
+                      type='number'
+                      variant='bordered'
+                      startContent='$'
+                      endContent='MXN'
                     />
                     <div>
-                      <p className="text-secondary mb-2">Estado del producto</p>
+                      <p className='text-secondary mb-2'>Estado del producto</p>
                       <Switch
                         isSelected={enabled}
                         onValueChange={() => {
-                          setEnabled(!enabled);
+                          setEnabled(!enabled)
                         }}
                       >
-                        {enabled ? "Habilitado 😉👌" : "Deshabilitado 😣🚫"}
+                        {enabled ? 'Habilitado 😉👌' : 'Deshabilitado 😣🚫'}
                       </Switch>
                     </div>
                   </div>
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" variant="flat" onPress={onClose}>
+                <Button color='primary' variant='flat' onPress={onClose}>
                   Editar
                 </Button>
               </ModalFooter>
@@ -154,5 +151,5 @@ export default function ProductCard(props) {
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }
