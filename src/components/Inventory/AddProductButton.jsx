@@ -16,7 +16,6 @@ import {
 import { BiPlus } from 'react-icons/bi'
 
 export default function AddProduct () {
-
   const [categories, setCategories] = useState([])
 
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -28,11 +27,11 @@ export default function AddProduct () {
 
   async function getCategories () {
     await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}api/v1/mercado-libre/categories`)
-    .then((response) => {
-      const { data } = response.data
-      setCategories(data)
-    })
-    .catch((error) => console.log(error.response))
+      .then((response) => {
+        const { data } = response.data
+        setCategories(data)
+      })
+      .catch((error) => console.log(error.response))
   }
 
   // conditions of product for select
@@ -50,8 +49,6 @@ export default function AddProduct () {
       value: 'refurbished'
     }
   ]
-
-
 
   return (
     <>
