@@ -8,9 +8,11 @@ import Masonry from 'react-responsive-masonry'
 import Summary from '../components/Inventory/Summary'
 import ProductCard from '../components/Inventory/ProductCard'
 import AddProductButton from '../components/Inventory/AddProductButton'
+import LoadingCard from '../components/Utilities/Loading/LoadingCard'
 
 export default function Inventory () {
   const [products, setProducts] = useState([])
+  const [loadingProducts, setLoadingProducts] = useState(true)
 
   useEffect(() => {
     getProducts()
@@ -22,10 +24,13 @@ export default function Inventory () {
     )
     if (response.status === 200) {
       setProducts(response.data)
+      setLoadingProducts(false)
     }
   }
   const items = products.map((product, key) => (
-    <ProductCard product={product} key={key} />
+    <>
+    { loadingProducts ? <LoadingCard /> : <ProductCard product={product} key={key} /> }
+    </>
   ))
   return (
     <>
@@ -62,6 +67,7 @@ export default function Inventory () {
         </div>
         <div className='block md:hidden'>
           <section className='flex flex-wrap gap-7 pb-10'>
+            <LoadingCard />
             {products.map((product, key) => (
               <ProductCard product={product} key={key} />
             ))}

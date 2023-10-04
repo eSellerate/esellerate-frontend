@@ -47,6 +47,7 @@ export default function AddProduct () {
   async function handleChildCategories () {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/categories/${selectedCategory}`)
+      console.log(response.data.data.settings.listing_allowed)
       const { children_categories } = response.data.data
       setChildCategories(children_categories)
     } catch (error) {
@@ -97,6 +98,7 @@ export default function AddProduct () {
         size='3xl'
         isOpen={isOpen}
         onClose={onClose}
+        scrollBehavior='inside'
         backdrop='blur'
       >
         <ModalContent>
@@ -176,7 +178,7 @@ export default function AddProduct () {
                     >
                       {categories.map((category) => (
                         <SelectItem
-                          onClick={ () => setSelectedCategory(category.id) }
+                          onClick={() => setSelectedCategory(category.id)}
                           key={category.id}
                           value={category.id}
                         >
@@ -202,7 +204,7 @@ export default function AddProduct () {
                               </SelectItem>
                             ))}
                           </Select>
-                        )
+                          )
                         : <></>
                     }
                     <label htmlFor='Images' className='text-xs'>Imágenes</label>
