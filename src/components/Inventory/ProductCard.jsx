@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Modal,
   ModalContent,
@@ -15,6 +15,7 @@ import {
   Image
 } from '@nextui-org/react'
 import PropTypes from 'prop-types'
+import error404img from '../../assets/imagen-404.webp'
 
 export default function ProductCard (props) {
   ProductCard.propTypes = {
@@ -24,12 +25,21 @@ export default function ProductCard (props) {
   // destructuring of props
   const { product } = props
 
+  // get images
+  const image = product.pictures ?? null
+
   // state
   const [title, setTitle] = useState(product.title)
   const [description, setDescription] = useState(product.description)
   const [price, setPrice] = useState(product.price)
   // UI state
   const [enabled, setEnabled] = useState(true)
+
+  useEffect(() => {
+    if (product.status !== 'active') {
+      setEnabled(false)
+    }
+  }, [])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -39,15 +49,15 @@ export default function ProductCard (props) {
         <Card
           isFooterBlurred
           radius='lg'
-          className='bg-white w-fit h-fit hover:cursor-pointer hover:shadow md:mx-0 mx-auto border-none md:p-1 px-4'
+          className='flex bg-white h-fit hover:cursor-pointer hover:shadow md:mx-0 mx-auto border-none md:p-1 px-4 w-auto'
         >
           {/* <CardHeader className="flex gap-3 justify-center"> */}
           <Image
-            className='object-contain p-4'
+            className='object-contain p-4 m-auto'
             loading='lazy'
             isZoomed
-            alt={product.name}
-            src={product.image}
+            alt={product.title}
+            src={image ? image[0].url : error404img}
           />
           <CardFooter className='justify-between space-x-1 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small z-10'>
             <p className=' text-black/80 font-bold text-secondary truncate'>
@@ -82,7 +92,7 @@ export default function ProductCard (props) {
                   <div className='flex items-center  md:mx-0 mx-auto'>
                     <Image
                       className='md:w-64 w-60 object-contain'
-                      src={product.image}
+                      src={image ? image[0].url : error404img}
                     />
                   </div>
                   <div className='md:w-96 w-80 flex flex-col gap-2'>
@@ -125,7 +135,7 @@ export default function ProductCard (props) {
                       type='number'
                       variant='bordered'
                       startContent='$'
-                      endContent='MXN'
+                      endContent={product.currency_id}
                     />
                     <div>
                       <p className='text-secondary mb-2'>Estado del producto</p>
@@ -135,7 +145,7 @@ export default function ProductCard (props) {
                           setEnabled(!enabled)
                         }}
                       >
-                        {enabled ? 'Habilitado 😉👌' : 'Deshabilitado 😣🚫'}
+                        {enabled ? 'Habilitado 🥵👌' : 'Deshabilitado 😣🚫'}
                       </Switch>
                     </div>
                   </div>
