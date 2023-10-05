@@ -15,23 +15,29 @@ export default function Inventory () {
   const [loadingProducts, setLoadingProducts] = useState(true)
 
   useEffect(() => {
-    getProducts()
+    getMercadoLibreProducts()
   }, [])
 
-  async function getProducts () {
-    const response = await axios.get(
-      'https://fakestoreapi.com/products?sort=desc'
-    )
-    if (response.status === 200) {
-      setProducts(response.data)
+  async function getMercadoLibreProducts () {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/product?id=1489297309`)
+      const { data } = response
+      console.log(data)
       setLoadingProducts(false)
+      setProducts(data)
+    } catch (error) {
+      console.log(error.response)
     }
   }
+
   const items = products.map((product, key) => (
-    <>
-    { loadingProducts ? <LoadingCard /> : <ProductCard product={product} key={key} /> }
-    </>
+    <ProductCard product={product} key={key} />
   ))
+
+  const loadingItems = [1, 2, 3, 4, 5, 6, 7, 8].map((key) => (
+     <LoadingCard key={key} />
+  ))
+
   return (
     <>
       <div className='md:px-12 px-4'>
@@ -61,16 +67,13 @@ export default function Inventory () {
             style={{ display: 'flex', flexWrap: 'wrap' }}
           >
             <Masonry columnsCount={4} gutter='15px'>
-              {items}
+              { loadingProducts ? loadingItems : items }
             </Masonry>
           </section>
         </div>
         <div className='block md:hidden'>
           <section className='flex flex-wrap gap-7 pb-10'>
-            <LoadingCard />
-            {products.map((product, key) => (
-              <ProductCard product={product} key={key} />
-            ))}
+            { loadingProducts ? loadingItems : items }
           </section>
         </div>
         <section className='flex justify-center pb-5'>
