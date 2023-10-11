@@ -47,7 +47,7 @@ export default function AddProduct () {
   async function handleChildCategories () {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/categories/${selectedCategory}`)
-      console.log(response.data.data.settings.listing_allowed)
+      //console.log(response.data.data.settings.listing_allowed)
       const { children_categories } = response.data.data
       setChildCategories(children_categories)
     } catch (error) {

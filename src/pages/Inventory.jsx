@@ -22,7 +22,7 @@ export default function Inventory () {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/product?id=1489297309`)
       const { data } = response
-      console.log(data)
+      //console.log(data)
       setLoadingProducts(false)
       setProducts(data)
     } catch (error) {
@@ -81,7 +81,7 @@ export default function Inventory () {
             total={10}
             initialPage={1}
             onChange={(page) => {
-              console.log(page)
+              //console.log(page)
             }}
             color='secondary'
           />

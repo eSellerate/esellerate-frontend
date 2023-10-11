@@ -16,6 +16,7 @@ import {
 } from '@nextui-org/react'
 import PropTypes from 'prop-types'
 import error404img from '../../assets/imagen-404.webp'
+import closePublication from "../../functions/closePublication"
 
 export default function ProductCard (props) {
   ProductCard.propTypes = {
@@ -63,7 +64,7 @@ export default function ProductCard (props) {
             <p className=' text-black/80 font-bold text-secondary truncate'>
               {product.title}
             </p>
-            <Button className='font-bold' color='danger' variant='bordered'>
+            <Button className='font-bold' color='danger' variant='bordered' onPress={() => closePublication(product.id)}>
               Delete
             </Button>
           </CardFooter>
