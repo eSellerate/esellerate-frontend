@@ -3,14 +3,8 @@ import { Card, Skeleton } from "@nextui-org/react";
 
 function LoadingCard () {
 
-    const hola = () => {
-        console.log('hola')
-    }
-
-    hola()
-
     return (
-        <Card className="w-auto space-y-5 p-4" radius="2xl">
+        <Card className="w-full space-y-5 p-4 md:w-auto" radius="2xl">
             <Skeleton className="rounded-lg">
                 <div className="h-24 rounded-lg bg-default-300"></div>
             </Skeleton>
