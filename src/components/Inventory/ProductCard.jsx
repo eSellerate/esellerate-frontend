@@ -65,7 +65,7 @@ export default function ProductCard (props) {
               {product.title}
             </p>
             <Button className='font-bold' color='danger' variant='bordered' onPress={() => closePublication(product.id)}>
-              Delete
+              Delete 
             </Button>
           </CardFooter>
           {/* </CardHeader> */}
