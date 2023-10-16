@@ -59,17 +59,16 @@ export default function ProductCard (props) {
           } else {
             alertify.error(response.message)
           }
-        }
-        catch (error) {
+        } catch (error) {
           alertify.error(error.message)
         }
       },
       function () { }
     ).setting({
-      'movable': false,
-      'labels': {
-        'ok': 'Eliminar',
-        'cancel': 'Cancelar'
+      movable: false,
+      labels: {
+        ok: 'Eliminar',
+        cancel: 'Cancelar'
       }
     })
   }

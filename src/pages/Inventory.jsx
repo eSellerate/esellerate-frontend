@@ -40,7 +40,7 @@ export default function Inventory () {
   }
 
   const items = products.map((product, key) => (
-    <ProductCard product={product} key={key} reloadItems={reloadItems}/>
+    <ProductCard product={product} key={key} reloadItems={reloadItems} />
   ))
 
   const loadingItems = [1, 2, 3, 4, 5, 6, 7, 8].map((key) => (
@@ -49,7 +49,7 @@ export default function Inventory () {
 
   return (
     <>
-    {loadingProducts && <LoadingPage />}
+      {loadingProducts && <LoadingPage />}
       <div className='md:px-12 px-4'>
         <section className='py-9'>
           <h1 className='text-2xl font-bold mb-7 md:text-left text-center'>
