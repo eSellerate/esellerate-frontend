@@ -125,7 +125,7 @@ export default function AddProduct () {
                     <Input
                       isRequired
                       type='number'
-                      label='Inventario'
+                      label='Publicaciones'
                       placeholder='Existencias del producto'
                       className='max-w-xs'
                     />

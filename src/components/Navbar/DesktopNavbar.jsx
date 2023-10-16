@@ -29,10 +29,10 @@ export default function DesktopNavbar () {
             <NavLink to='/'> Inicio </NavLink>
           </NavbarItem>
           <NavbarItem isActive={currentPath === '/inventory'}>
-            <NavLink to='/inventory'> Inventario </NavLink>
+            <NavLink to='/inventory'> Publicaciones </NavLink>
           </NavbarItem>
-          <NavbarItem isActive={currentPath === '/test'}>
-            <NavLink to='/test'> Comentarios </NavLink>
+          <NavbarItem isActive={currentPath === '/questions'}>
+            <NavLink to='/questions'> Preguntas </NavLink>
           </NavbarItem>
         </NavbarContent>
       </div>
@@ -56,7 +56,7 @@ export default function DesktopNavbar () {
               <p className='font-semibold'>chad-giga@esellerate.mx</p>
             </DropdownItem>
             <DropdownItem className='block sm:hidden'>
-              <NavLink to='/test'> Test </NavLink>
+              <NavLink to='/questions'> Test </NavLink>
             </DropdownItem>
             <DropdownItem className='block sm:hidden'>
               <NavLink to='/inventory'> Inventario </NavLink>
