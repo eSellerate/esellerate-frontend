@@ -30,7 +30,7 @@ function testz () {
 
   axios(options)
     .then(function (response) {
-      //console.log(response)
+      // console.log(response)
     }).catch(function (error) {
       console.error('Error', error)
     })
