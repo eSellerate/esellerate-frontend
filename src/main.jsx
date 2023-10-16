@@ -1,14 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Routes from './routes/Routes'
+// import Routes from './routes/Routes'
 import { NextUIProvider } from '@nextui-org/react'
 import './index.css'
+import App from './App'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <NextUIProvider>
     <main className='dark text-foreground bg-background'>
       <React.StrictMode>
-        <Routes />
+        <App />
       </React.StrictMode>
     </main>
   </NextUIProvider>

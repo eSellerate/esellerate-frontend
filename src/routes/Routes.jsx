@@ -5,8 +5,9 @@ import { BrowserRouter, Route, Routes as ReactDomRoutes } from 'react-router-dom
 import DesktopNavbar from '../components/Navbar/DesktopNavbar'
 import MobileNavbar from '../components/Navbar/MobileNavbar'
 import Questions from '../components/Questions/Questions'
+// Pages
 import Inventory from '../pages/Inventory'
-import App from '../App'
+import MainPage from '../pages/MainPage'
 
 // routes definition
 const Routes = () => {
@@ -17,7 +18,7 @@ const Routes = () => {
         <DesktopNavbar />
       </>
       <ReactDomRoutes>
-        <Route path='/' element={<App />} />
+        <Route path='/' element={<MainPage />} />
         <Route path='/questions' element={<Questions />} />
         <Route path='/inventory' element={<Inventory />} />
       </ReactDomRoutes>
