@@ -1,6 +1,8 @@
 import React from 'react'
 import {
+  Button,
   Navbar,
+  Link,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
@@ -21,7 +23,7 @@ export default function DesktopNavbar () {
         <p className='font-bold text-inherit'>Esellerate</p>
       </NavbarBrand>
 
-      <div className='sm:block hidden'>
+      { user.email !== '' && <div className='sm:block hidden'>
         <NavbarContent className='sm:flex gap-4' justify='center'>
           <NavbarItem isActive={currentPath === '/'}>
             <NavLink to='/'> Inicio </NavLink>
@@ -33,10 +35,16 @@ export default function DesktopNavbar () {
             <NavLink to='/questions'> Preguntas </NavLink>
           </NavbarItem>
         </NavbarContent>
-      </div>
+      </div> }
 
       <NavbarContent as='div' justify='end'>
-        <UserDropDown user={user} />
+        {
+          user.email !== ''
+            ? <UserDropDown />
+            : <Button as={Link} color='primary' href='#' variant='flat'>
+              Sign Up
+               </Button>
+        }
       </NavbarContent>
     </Navbar>
   )

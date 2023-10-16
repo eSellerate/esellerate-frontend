@@ -8,6 +8,7 @@ import Questions from '../components/Questions/Questions'
 // Pages
 import Inventory from '../pages/Inventory'
 import MainPage from '../pages/MainPage'
+import Login from '../pages/Login'
 
 // routes definition
 const Routes = () => {
@@ -21,6 +22,7 @@ const Routes = () => {
         <Route path='/' element={<MainPage />} />
         <Route path='/questions' element={<Questions />} />
         <Route path='/inventory' element={<Inventory />} />
+        <Route path='/login' element={<Login />} />
       </ReactDomRoutes>
     </BrowserRouter>
   )

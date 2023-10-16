@@ -53,7 +53,7 @@ export default function MobileNavbar () {
         </NavbarItem>
         <NavbarItem>
           {user.email !== ''
-            ? <UserDropDown user={user}/>
+            ? <UserDropDown/>
             : (<Button as={Link} color='primary' href='#' variant='flat'>
               Sign Up
                </Button>)}

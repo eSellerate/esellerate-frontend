@@ -5,6 +5,7 @@ import Routes from './routes/Routes'
 import axios from 'axios'
 
 function App () {
+  
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -15,7 +16,6 @@ function App () {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/profile`)
       dispatch(addUser(response.data))
-      console.log(response)
     } catch (error) {
       // servidor en mantenimiento o algun error
       console.log(error.response)

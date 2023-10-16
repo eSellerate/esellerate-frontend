@@ -6,15 +6,13 @@ import {
     DropdownTrigger,
     DropdownItem,
   } from '@nextui-org/react'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
-export default function UserDropDown(props) {
-    UserDropDown.propTypes = {
-        user: PropTypes.object,
-    }
-    // destructuring of props
-    const { user } = props
+export default function UserDropDown() {
+
+    const user = useSelector((state) => state.user)
+    console.log(user)
 
     return(
         <Dropdown placement='bottom-end'>
