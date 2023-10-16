@@ -15,8 +15,11 @@ import {
   Image
 } from '@nextui-org/react'
 import PropTypes from 'prop-types'
+import alertify from 'alertifyjs'
+import 'alertifyjs/build/css/alertify.css'
 import error404img from '../../assets/imagen-404.webp'
-import closePublication from "../../functions/closePublication"
+import CardCarousel from './CardCarousel'
+import closePublication from '../../functions/closePublication'
 
 export default function ProductCard (props) {
   ProductCard.propTypes = {
@@ -42,6 +45,25 @@ export default function ProductCard (props) {
     }
   }, [])
 
+  const handleClosePublication = (title) => {
+    alertify.confirm(
+      'Eliminar producto',
+      `El producto "${title}", sera eliminado. ¿Deseea continuar?`,
+      function () {
+        closePublication(product.id)
+        .then(alertify.success('Producto eliminado'))
+        .catch(error => alertify.error(error.message))
+      },
+      function () { }
+    ).setting({
+      'movable': false,
+      'labels': {
+        'ok': 'Eliminar',
+        'cancel': 'Cancelar'
+      }
+    })
+  }
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   return (
@@ -64,8 +86,8 @@ export default function ProductCard (props) {
             <p className=' text-black/80 font-bold text-secondary truncate'>
               {product.title}
             </p>
-            <Button className='font-bold' color='danger' variant='bordered' onPress={() => closePublication(product.id)}>
-              Delete 
+            <Button className='font-bold' color='danger' variant='bordered' onPress={() => handleClosePublication(product.title)}>
+              Eliminar
             </Button>
           </CardFooter>
           {/* </CardHeader> */}
@@ -82,6 +104,7 @@ export default function ProductCard (props) {
         isOpen={isOpen}
         size='5xl'
         onOpenChange={onOpenChange}
+        scrollBehavior='inside'
         placement='top-center'
       >
         <ModalContent>
@@ -89,12 +112,9 @@ export default function ProductCard (props) {
             <>
               <ModalHeader>Editar producto</ModalHeader>
               <ModalBody>
-                <div className='p-5 flex md:flex-row flex-col gap-28 justify-center'>
-                  <div className='flex items-center  md:mx-0 mx-auto'>
-                    <Image
-                      className='md:w-64 w-60 object-contain'
-                      src={image ? image[0].url : error404img}
-                    />
+                <div className='p-5 flex md:flex-row flex-col gap-10 md:gap-28 justify-center'>
+                  <div>
+                    <CardCarousel images={image} />
                   </div>
                   <div className='md:w-96 w-80 flex flex-col gap-2'>
                     <Input

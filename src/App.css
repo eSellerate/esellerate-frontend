@@ -1,0 +1,4 @@
+/* Carousell arrow colors */
+.slick-prev::before, .slick-next::before {
+    color: black !important;
+}

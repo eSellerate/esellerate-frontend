@@ -22,7 +22,7 @@ export default function Inventory () {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/product?id=1489297309`)
       const { data } = response
-      //console.log(data)
+      // console.log(data)
       setLoadingProducts(false)
       setProducts(data)
     } catch (error) {
@@ -35,7 +35,7 @@ export default function Inventory () {
   ))
 
   const loadingItems = [1, 2, 3, 4, 5, 6, 7, 8].map((key) => (
-     <LoadingCard key={key} />
+    <LoadingCard key={key} />
   ))
 
   return (
@@ -67,13 +67,13 @@ export default function Inventory () {
             style={{ display: 'flex', flexWrap: 'wrap' }}
           >
             <Masonry columnsCount={4} gutter='15px'>
-              { loadingProducts ? loadingItems : items }
+              {loadingProducts ? loadingItems : items}
             </Masonry>
           </section>
         </div>
         <div className='block md:hidden'>
           <section className='flex flex-wrap gap-7 pb-10'>
-            { loadingProducts ? loadingItems : items }
+            {loadingProducts ? loadingItems : items}
           </section>
         </div>
         <section className='flex justify-center pb-5'>
@@ -81,7 +81,7 @@ export default function Inventory () {
             total={10}
             initialPage={1}
             onChange={(page) => {
-              //console.log(page)
+              // console.log(page)
             }}
             color='secondary'
           />
