@@ -23,11 +23,12 @@ import closePublication from '../../functions/closePublication'
 
 export default function ProductCard (props) {
   ProductCard.propTypes = {
-    product: PropTypes.object
+    product: PropTypes.object,
+    reloadItems: PropTypes.func
   }
 
   // destructuring of props
-  const { product } = props
+  const { product, reloadItems } = props
 
   // get images
   const image = product.pictures ?? null
@@ -49,10 +50,19 @@ export default function ProductCard (props) {
     alertify.confirm(
       'Eliminar producto',
       `El producto "${title}", sera eliminado. ¿Deseea continuar?`,
-      function () {
-        closePublication(product.id)
-        .then(alertify.success('Producto eliminado'))
-        .catch(error => alertify.error(error.message))
+      async function () {
+        try {
+          const response = await closePublication(product.id)
+          if (response.status === 200) {
+            alertify.success('Producto eliminado')
+            reloadItems()
+          } else {
+            alertify.error(response.message)
+          }
+        }
+        catch (error) {
+          alertify.error(error.message)
+        }
       },
       function () { }
     ).setting({

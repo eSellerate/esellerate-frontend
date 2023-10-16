@@ -9,6 +9,7 @@ import Summary from '../components/Inventory/Summary'
 import ProductCard from '../components/Inventory/ProductCard'
 import AddProductButton from '../components/Inventory/AddProductButton'
 import LoadingCard from '../components/Utilities/Loading/LoadingCard'
+import LoadingPage from '../components/Utilities/Loading/LoadingPage'
 
 export default function Inventory () {
   const [products, setProducts] = useState([])
@@ -30,8 +31,16 @@ export default function Inventory () {
     }
   }
 
+  const reloadItems = () => {
+    setLoadingProducts(true)
+    // Esperar 5 seg para que mercado libre actualice la informacion
+    setTimeout(() => {
+      getMercadoLibreProducts()
+    }, 5000)
+  }
+
   const items = products.map((product, key) => (
-    <ProductCard product={product} key={key} />
+    <ProductCard product={product} key={key} reloadItems={reloadItems}/>
   ))
 
   const loadingItems = [1, 2, 3, 4, 5, 6, 7, 8].map((key) => (
@@ -40,6 +49,7 @@ export default function Inventory () {
 
   return (
     <>
+    {loadingProducts && <LoadingPage />}
       <div className='md:px-12 px-4'>
         <section className='py-9'>
           <h1 className='text-2xl font-bold mb-7 md:text-left text-center'>
