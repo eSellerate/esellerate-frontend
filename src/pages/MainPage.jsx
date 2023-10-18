@@ -1,21 +1,9 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate } from "react-router-dom"
+import React from 'react'
 import { Button } from '@nextui-org/react'
 import '../App.css'
 import createPublicationTest from '../functions/createPublication'
 
 function MainPage () {
-  const navigate = useNavigate()
-  const user = useSelector((state) => state.user)
-
-  useEffect(() => {
-    if (user.id === 0) {
-      navigate('/login')
-    }
-  }, [])
-
-  
   return (
     <>
       <>

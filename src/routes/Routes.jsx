@@ -9,6 +9,9 @@ import Questions from '../components/Questions/Questions'
 import Inventory from '../pages/Inventory'
 import MainPage from '../pages/MainPage'
 import Login from '../pages/Login'
+import PageNotFound from '../pages/PageNotFound'
+// Guard
+import AuthGuard from '../guards/AuthGuard.guard'
 
 // routes definition
 const Routes = () => {
@@ -19,10 +22,13 @@ const Routes = () => {
         <DesktopNavbar />
       </>
       <ReactDomRoutes>
-        <Route path='/' element={<MainPage />} />
-        <Route path='/questions' element={<Questions />} />
-        <Route path='/inventory' element={<Inventory />} />
+        <Route element={<AuthGuard />}>
+          <Route path='/' element={<MainPage />} />
+          <Route path='/questions' element={<Questions />} />
+          <Route path='/inventory' element={<Inventory />} />
+        </Route>
         <Route path='/login' element={<Login />} />
+        <Route path='*' element={<PageNotFound />} />
       </ReactDomRoutes>
     </BrowserRouter>
   )

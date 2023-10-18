@@ -5,7 +5,7 @@ import {
   Link,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
+  NavbarItem
 } from '@nextui-org/react'
 import { NavLink, useLocation } from 'react-router-dom'
 import UserDropDown from './UserDropDown'
@@ -23,7 +23,7 @@ export default function DesktopNavbar () {
         <p className='font-bold text-inherit'>Esellerate</p>
       </NavbarBrand>
 
-      { user.email !== '' && <div className='sm:block hidden'>
+      {user.email !== '' && <div className='sm:block hidden'>
         <NavbarContent className='sm:flex gap-4' justify='center'>
           <NavbarItem isActive={currentPath === '/'}>
             <NavLink to='/'> Inicio </NavLink>
@@ -35,7 +35,7 @@ export default function DesktopNavbar () {
             <NavLink to='/questions'> Preguntas </NavLink>
           </NavbarItem>
         </NavbarContent>
-      </div> }
+                            </div>}
 
       <NavbarContent as='div' justify='end'>
         {
@@ -43,7 +43,7 @@ export default function DesktopNavbar () {
             ? <UserDropDown />
             : <Button as={Link} color='primary' href='#' variant='flat'>
               Sign Up
-               </Button>
+            </Button>
         }
       </NavbarContent>
     </Navbar>

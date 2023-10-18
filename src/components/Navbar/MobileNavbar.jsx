@@ -8,7 +8,7 @@ import {
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
-  Button,
+  Button
 } from '@nextui-org/react'
 import UserDropDown from './UserDropDown'
 import { useSelector } from 'react-redux'
@@ -53,7 +53,7 @@ export default function MobileNavbar () {
         </NavbarItem>
         <NavbarItem>
           {user.email !== ''
-            ? <UserDropDown/>
+            ? <UserDropDown />
             : (<Button as={Link} color='primary' href='#' variant='flat'>
               Sign Up
                </Button>)}

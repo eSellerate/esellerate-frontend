@@ -5,7 +5,6 @@ import Routes from './routes/Routes'
 import axios from 'axios'
 
 function App () {
-  
   const dispatch = useDispatch()
 
   useEffect(() => {
