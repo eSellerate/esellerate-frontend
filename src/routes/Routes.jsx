@@ -22,11 +22,9 @@ const Routes = () => {
         <DesktopNavbar />
       </>
       <ReactDomRoutes>
-        <Route element={<AuthGuard />}>
-          <Route path='/' element={<MainPage />} />
-          <Route path='/questions' element={<Questions />} />
-          <Route path='/inventory' element={<Inventory />} />
-        </Route>
+        <Route path='/' element={<MainPage />} />
+        <Route path='/questions' element={<Questions />} />
+        <Route path='/inventory' element={<Inventory />} />
         <Route path='/login' element={<Login />} />
         <Route path='*' element={<PageNotFound />} />
       </ReactDomRoutes>
