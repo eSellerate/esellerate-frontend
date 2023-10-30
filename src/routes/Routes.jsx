@@ -9,6 +9,7 @@ import Questions from '../components/Questions/Questions'
 import Inventory from '../pages/Inventory'
 import MainPage from '../pages/MainPage'
 import Login from '../pages/Login'
+import RegisterMLApp from '../pages/RegisterMLApp'
 import PageNotFound from '../pages/PageNotFound'
 // Guard
 import AuthGuard from '../guards/AuthGuard.guard'
@@ -26,6 +27,7 @@ const Routes = () => {
         <Route path='/questions' element={<Questions />} />
         <Route path='/inventory' element={<Inventory />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/register_ml_app' element={<RegisterMLApp />} />
         <Route path='*' element={<PageNotFound />} />
       </ReactDomRoutes>
     </BrowserRouter>

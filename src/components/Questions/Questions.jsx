@@ -4,20 +4,19 @@ import { Button, ButtonGroup, Input } from '@nextui-org/react'
 import { BiPaperPlane } from 'react-icons/bi'
 import axios from 'axios'
 
-function Questions() {
-
-  let [selectedChat, setSelectedChat] = useState('No one')
-  let [initialQuestions, setQuestions] = useState([])
-  let [message, setMessage] = useState('')
-  let [counter, setCounter] = useState(0)
+function Questions () {
+  const [selectedChat, setSelectedChat] = useState('No one')
+  const [initialQuestions, setQuestions] = useState([])
+  const [message, setMessage] = useState('')
+  const [counter, setCounter] = useState(0)
 
   useEffect(() => {
     getMercadoLibreQuestions().then(() => {
-      console.log(initialQuestions);
-    });
-  }, []);
+      console.log(initialQuestions)
+    })
+  }, [])
 
-  async function getMercadoLibreQuestions() {
+  async function getMercadoLibreQuestions () {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/questions`)
       const { data } = response.data
@@ -32,7 +31,7 @@ function Questions() {
   useEffect(() => {
     // Update the counter to trigger re-render when message is updated
     setCounter(counter + 1)
-    console.log(initialQuestions);
+    console.log(initialQuestions)
   }, [message])
   const selectChat = (question) => {
     setSelectedChat(question)
@@ -75,10 +74,11 @@ function Questions() {
       </div>
       <div className='w-4/5 flex flex-col'>
         <div className='bg-stone-800 flex items-center'>
-          {selectedChat.from ?
-            <span className='text-3xl font-bold p-3'>
+          {selectedChat.from
+            ? <span className='text-3xl font-bold p-3'>
               Conversacion con {selectedChat.from.id}
-            </span> : <span className='text-3xl font-bold p-3'>Seleccione una conversacion</span>}
+              </span>
+            : <span className='text-3xl font-bold p-3'>Seleccione una conversacion</span>}
         </div>
         <div className='bg-zinc-600 w-full h-full p-4'>
           <div className='flex flex-col text-3xl text-ellipsis w-full space-y-2'>
@@ -88,9 +88,10 @@ function Questions() {
               </div>
             </div>
             <div className='flex justify-end'>
-              {selectedChat.answer ?
-                <div className='p-2 bg-slate-700 w-1/2 rounded-md flex'><span className=''>{selectedChat.answer.text}</span>
-                </div> : true}
+              {selectedChat.answer
+                ? <div className='p-2 bg-slate-700 w-1/2 rounded-md flex'><span className=''>{selectedChat.answer.text}</span>
+                  </div>
+                : true}
 
             </div>
           </div>
