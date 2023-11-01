@@ -36,7 +36,7 @@ export default function Inventory () {
     // Esperar 5 seg para que mercado libre actualice la informacion
     setTimeout(() => {
       getMercadoLibreProducts()
-    }, 5000)
+    }, 20000)
   }
 
   const items = products.map((product, key) => (
