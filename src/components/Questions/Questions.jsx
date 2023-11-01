@@ -19,7 +19,7 @@ function Questions() {
 
   async function getMercadoLibreQuestions() {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/questions`)
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/questions_all`)
       const { data } = response.data
       setQuestions(data.questions)
       setSelectedChat(data.questions[0])
