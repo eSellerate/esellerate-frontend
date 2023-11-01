@@ -34,13 +34,6 @@ function Questions() {
     }
   }
 
-  useEffect(() => {
-    console.log("message printed");
-    // Update the counter to trigger re-render when the message is updated
-    setCounter(counter + 1);
-    console.log(initialQuestions);
-  }, [message]);
-
   const selectChat = (question) => {
     setSelectedChat(question);
     console.log(question);

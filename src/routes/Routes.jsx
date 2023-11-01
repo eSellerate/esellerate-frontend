@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes as ReactDomRoutes } from 'react-router-dom
 import DesktopNavbar from '../components/Navbar/DesktopNavbar'
 import MobileNavbar from '../components/Navbar/MobileNavbar'
 import Questions from '../components/Questions/Questions'
+import Questionstest from '../pages/Questionstest'
 // Pages
 import Inventory from '../pages/Inventory'
 import MainPage from '../pages/MainPage'
@@ -24,6 +25,7 @@ const Routes = () => {
       <ReactDomRoutes>
         <Route path='/' element={<MainPage />} />
         <Route path='/questions' element={<Questions />} />
+        <Route path='/questionstest' element={<Questionstest />} />
         <Route path='/inventory' element={<Inventory />} />
         <Route path='/login' element={<Login />} />
         <Route path='*' element={<PageNotFound />} />
