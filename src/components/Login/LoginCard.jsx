@@ -10,6 +10,7 @@ import {
   Button
 } from '@nextui-org/react'
 import { PiEyeLight, PiEyeClosedLight } from 'react-icons/pi'
+import axios from 'axios'
 
 export default function Login () {
   const [isVisible, setVisible] = useState(false)
@@ -18,45 +19,95 @@ export default function Login () {
     setVisible(!isVisible)
   }
 
+  const checkIfUserHasApplication = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}validate-ml-app`,
+      {
+        withCredentials: true,
+        headers: {
+          "Authorization": 'user-cookie=5690ad0d-e5c1-44d2-a904-a8b06b74b4b4'
+        }
+      }
+    )
+    console.log(response)
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const email = e.target.email_field.value
+    const password = e.target.password_field.value
+    // get data from form
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_END_POINT}login`,
+      {
+        email,
+        password
+      },
+      {
+        headers: {
+          "Content-Type": 'application/json'
+        }
+      }
+      )
+      // save cookie
+      const { sid } = response.data
+      const today = new Date(Date.now());
+      const expirationDate = new Date(today.getTime() + (6 * 60 * 60 * 1000))
+      const expirationCookie = expirationDate.toUTCString()
+      document.cookie = `session=${sid}; expires='${expirationCookie}';`
+      checkIfUserHasApplication()
+    } catch (error) {
+      // notify
+      console.log(error)
+    }
+  }
+
   return (
     <Card className='w-[420px] p-4 h-fit'>
       <CardHeader className='block mx-auto text-xl p-0 pb-3'>
         <h1 className='text-center'>Inicia sesión</h1>
       </CardHeader>
-      <CardBody className='px-3 py-0 text-small text-default-400 gap-6 h-[16rem]'>
-        <Input
-          isClearable
-          variant='faded'
-          type='email'
-          label='Correo electrónico'
-          placeholder='Ingresa tu correo electrónico'
-          className='max-w-md'
-        />
-        <div>
+      <CardBody>
+        <form onSubmit={handleSubmit} className='px-3 py-0 flex flex-col text-small text-default-400 gap-6 h-[16rem]'>
           <Input
-            label='Contraseña'
+            isClearable
             variant='faded'
-            placeholder='Ingresa tu contraseña'
-            endContent={
-              <button className='focus:outline-none' type='button' onClick={toggleVisibility}>
-                {isVisible
-                  ? (
-                    <PiEyeLight className='text-2xl text-default-400 pointer-events-none' />
-                    )
-                  : (
-                    <PiEyeClosedLight className='text-2xl text-default-400 pointer-events-none' />
-                    )}
-              </button>
-           }
-            type={isVisible ? 'text' : 'password'}
+            type='email'
+            id='email_field'
+            label='Correo electrónico'
+            placeholder='Ingresa tu correo electrónico'
             className='max-w-md'
           />
-          <div className='flex justify-between items-center text-[0.65rem] md:text-sm py-3 md:py-2'>
-            <Checkbox size='sm' color='secondary'>Recuérdame</Checkbox>
-            <em>¿Olvidaste tu contraseña?</em>
+          <div>
+            <Input
+              id='password_field'
+              label='Contraseña'
+              variant='faded'
+              placeholder='Ingresa tu contraseña'
+              endContent={
+                <button className='focus:outline-none' type='button' onClick={toggleVisibility}>
+                  {isVisible
+                    ? (
+                      <PiEyeLight className='text-2xl text-default-400 pointer-events-none' />
+                      )
+                    : (
+                      <PiEyeClosedLight className='text-2xl text-default-400 pointer-events-none' />
+                      )}
+                </button>
+            }
+              type={isVisible ? 'text' : 'password'}
+              className='max-w-md'
+            />
+            <div className='flex justify-between items-center text-[0.65rem] md:text-sm py-3 md:py-2'>
+              <Checkbox size='sm' color='secondary'>Recuérdame</Checkbox>
+              <em>¿Olvidaste tu contraseña?</em>
+            </div>
           </div>
-        </div>
-        <Button color='primary' variant='solid'>Iniciar Sesión</Button>
+          <Button type='submit' color='primary' variant='solid'>Iniciar Sesión</Button>
+        </form>
       </CardBody>
       <Divider className='my-4' />
       <CardFooter className='p-2'>
