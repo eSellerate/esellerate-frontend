@@ -2,16 +2,16 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   id: 0,
-  nickname: '',
-  registration_date: '',
-  first_name: '',
-  last_name: '',
-  gender: '',
-  country_id: '',
+  username: '',
   email: '',
-  thumbnail: {
-    picture_id: 'Sin Foto',
-    picture_url: 'https://datepsychology.com/wp-content/uploads/2022/09/gigachad.jpg'
+  firstName: '',
+  lastName: '',
+  photoUrl: null,
+  userType: {
+    id: 0,
+    role: '',
+    name: '',
+    description: ''
   }
 }
 
@@ -22,24 +22,20 @@ export const userSlice = createSlice({
     addUser: (state, action) => {
       const {
         id,
-        nickname,
-        registration_date,
+        username,
+        email,
         first_name,
         last_name,
-        gender,
-        country_id,
-        email,
-        thumbnail
+        photo_url,
+        user_type
       } = action.payload
       state.id = id
-      state.nickname = nickname
-      state.registration_date = registration_date
+      state.username = username
+      state.email = email
       state.firstName = first_name
       state.lastName = last_name
-      state.gender = gender
-      state.country_id = country_id
-      state.email = email
-      state.thumbnail = thumbnail
+      state.photoUrl = photo_url
+      state.userType = user_type
     },
     changeEmail: (state, action) => {
       state.email = action.payload

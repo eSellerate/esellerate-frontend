@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Navbar,
   NavbarBrand,
@@ -13,10 +13,16 @@ import {
 import UserDropDown from './UserDropDown'
 import { useSelector } from 'react-redux'
 import logo from '../../assets/logo.svg'
+import useUserToRedux from '../../hooks/useUserToRedux'
 
 export default function MobileNavbar () {
+  const userToRedux = useUserToRedux()
   const user = useSelector((state) => state.user)
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+
+  useEffect(() => {
+    userToRedux()
+  }, [])
 
   const menuItems = [
     {

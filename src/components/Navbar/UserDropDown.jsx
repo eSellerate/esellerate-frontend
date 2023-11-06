@@ -20,13 +20,14 @@ export default function UserDropDown () {
           as='button'
           className='transition-transform'
           color='secondary'
-          name={user.thumbnail.picture_id}
+          name={user.photoUrl}
           size='sm'
-          src={user.thumbnail.picture_url}
+          src={user.photoUrl}
         />
       </DropdownTrigger>
       <DropdownMenu aria-label='Profile Actions' variant='flat'>
         <DropdownItem key='profile' className='h-14 gap-2'>
+          <p className='font-semibold text-primary'>{ user.userType.name }</p>
           <p className='font-semibold'>{user.firstName} {user.lastName}</p>
           <p className='font-semibold'>{user.email}</p>
         </DropdownItem>

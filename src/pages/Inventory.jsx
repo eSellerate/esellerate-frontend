@@ -3,25 +3,36 @@ import { CiSearch } from 'react-icons/ci'
 import { Input, Pagination } from '@nextui-org/react'
 import axios from 'axios'
 import Masonry from 'react-responsive-masonry'
-
 // Components
 import Summary from '../components/Inventory/Summary'
 import ProductCard from '../components/Inventory/ProductCard'
 import AddProductButton from '../components/Inventory/AddProductButton'
 import LoadingCard from '../components/Utilities/Loading/LoadingCard'
 import LoadingPage from '../components/Utilities/Loading/LoadingPage'
+// Utils
+import extractCookie from '../components/Utilities/Cookies/GetCookieByName'
+// Hooks
+import useValidateSession from '../hooks/useValidateSession'
 
 export default function Inventory () {
   const [products, setProducts] = useState([])
   const [loadingProducts, setLoadingProducts] = useState(true)
+  const validateSession = useValidateSession()
 
   useEffect(() => {
+    validateSession()
     getMercadoLibreProducts()
   }, [])
 
   async function getMercadoLibreProducts () {
+    const session = extractCookie('session')
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/product?id=1489297309`)
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/product` , {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${session}`
+        }
+      })
       const { data } = response
       // console.log(data)
       setLoadingProducts(false)

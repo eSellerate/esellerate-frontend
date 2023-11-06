@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
   Card,
@@ -9,36 +10,54 @@ import {
   Button,
   Input
 } from '@nextui-org/react'
+// hooks
+import useValidateSession from '../hooks/useValidateSession'
+// utilities
+import LoadingPage from '../components/Utilities/Loading/LoadingPage'
+import GetCookieByName from '../components/Utilities/Cookies/GetCookieByName'
 
 const RegisterMLApp = () => {
   const [appIsRegistered, setAppIsRegistered] = useState(false)
   const [appID, setAppID] = useState('$APP_ID')
   const [redirectUri, setRedirectUri] = useState('$REDIRECT_URI')
+  const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
+  const validateSession = useValidateSession()
+
+  useEffect(() => {
+    validateSession()
+    .then(() => { setIsLoading(false) })
+  }, [])
 
   // Form submit handler
   const handleSubmit = async (e) => {
     e.preventDefault()
     // get all data from form
-    const app_id = e.target.app_id_field.value
+    const client_id = e.target.app_id_field.value
     const auth_code = e.target.auth_code_field.value
     const client_secret = e.target.client_secret_field ? e.target.client_secret_field.value : ''
     const redirect_uri = e.target.redirect_uri_field ? e.target.redirect_uri_field.value : ''
+    // get session cookie
+    const session = GetCookieByName('session')
     // send data to backend
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_END_POINT}register`,
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_END_POINT}add-mercadolibre-app`,
         {
-          appID: app_id,
-          authCode: auth_code,
-          clientSecret: client_secret,
-          redirectURL: redirect_uri
+          client_id,
+          client_secret,
+          redirect_uri,
+          auth_code
         },
         {
           headers: {
+            Authorization: `Bearer ${session}`,
             'Content-Type': 'application/json'
           }
         }
       )
-        console.log(response)
+      if (response.status === 200) {
+        navigate('/inventory')
+      }
     } catch (error) {
       console.log(error.response)
     }
@@ -85,6 +104,7 @@ const RegisterMLApp = () => {
 
   return (
     <section className="flex h-screen justify-center items-center p-10 bg-cover bg-[url('src/assets/images/pencil-bg.jpg')]">
+      { isLoading && <LoadingPage /> }
       <Card className='w-4/12 h-max p-7'>
         <CardHeader className='text-secondary'>
           <h4 className='text-xl font-bold'>Conecta con tu app de mercado libre</h4>

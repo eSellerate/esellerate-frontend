@@ -10,27 +10,38 @@ import {
   Button
 } from '@nextui-org/react'
 import { PiEyeLight, PiEyeClosedLight } from 'react-icons/pi'
+import GetCookieByName from '../Utilities/Cookies/GetCookieByName'
 import axios from 'axios'
+// redux
+import { useDispatch } from 'react-redux'
+import { addUser } from '../../redux/userSlice'
 
 export default function Login () {
   const [isVisible, setVisible] = useState(false)
+  const dispatch = useDispatch()
 
   const toggleVisibility = () => {
     setVisible(!isVisible)
   }
 
-  const checkIfUserHasApplication = async () => {
+  const setUserToRedux = async () => {
+    const sessionCookie = GetCookieByName('session')
+    if (!sessionCookie) {
+      return
+    }
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}validate-ml-app`,
-      {
-        withCredentials: true,
-        headers: {
-          "Authorization": 'user-cookie=5690ad0d-e5c1-44d2-a904-a8b06b74b4b4'
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}profile`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${sessionCookie}`
+          }
         }
+      )
+      if (response.status === 200) {
+        dispatch(addUser(response.data.user))
       }
-    )
-    console.log(response)
-    } catch(error) {
+    } catch (error) {
       console.log(error)
     }
   }
@@ -42,23 +53,23 @@ export default function Login () {
     // get data from form
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_END_POINT}login`,
-      {
-        email,
-        password
-      },
-      {
-        headers: {
-          "Content-Type": 'application/json'
+        {
+          email,
+          password
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      }
       )
       // save cookie
       const { sid } = response.data
-      const today = new Date(Date.now());
+      const today = new Date(Date.now())
       const expirationDate = new Date(today.getTime() + (6 * 60 * 60 * 1000))
       const expirationCookie = expirationDate.toUTCString()
       document.cookie = `session=${sid}; expires='${expirationCookie}';`
-      checkIfUserHasApplication()
+      setUserToRedux()
     } catch (error) {
       // notify
       console.log(error)
