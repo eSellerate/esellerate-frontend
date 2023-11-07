@@ -11,6 +11,8 @@ import {
 } from '@nextui-org/react'
 import { PiEyeLight, PiEyeClosedLight } from 'react-icons/pi'
 import GetCookieByName from '../Utilities/Cookies/GetCookieByName'
+// libraries
+import { NavLink } from 'react-router-dom'
 import axios from 'axios'
 // redux
 import { useDispatch } from 'react-redux'
@@ -123,8 +125,10 @@ export default function Login () {
       <Divider className='my-4' />
       <CardFooter className='p-2'>
         <p className='flex w-full justify-between text-sm'>
-          <p className='text-secondary decoration-solid'>¿Aún no tienes cuenta?</p>
-          <em>Registrate</em>
+          <p className='decoration-solid'>¿Aún no tienes cuenta?</p>
+          <NavLink to='/sign-up'>
+            <em className='text-secondary'>Registrate</em>
+          </NavLink>
         </p>
       </CardFooter>
     </Card>

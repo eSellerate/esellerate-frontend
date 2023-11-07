@@ -9,6 +9,7 @@ import Questions from '../components/Questions/Questions'
 import Inventory from '../pages/Inventory'
 import MainPage from '../pages/MainPage'
 import Login from '../pages/Login'
+import SignUp from '../pages/SignUp'
 import RegisterMLApp from '../pages/RegisterMLApp'
 import PageNotFound from '../pages/PageNotFound'
 // Guard
@@ -27,6 +28,7 @@ const Routes = () => {
         { /* Don´t need authorization */ }
         <Route path='/' element={<Login />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/sign-up' element={<SignUp />} />
         <Route path='/test' element={<MainPage />} />
         <Route path='*' element={<PageNotFound />} />
         { /* Need authorization */ }
