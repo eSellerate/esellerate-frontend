@@ -18,11 +18,11 @@ function Questions() {
 
   useEffect(() => {
     getMercadoLibreQuestions().then(() => {
-      console.log(initialQuestions);
-    });
-  }, []);
+      console.log(initialQuestions)
+    })
+  }, [])
 
-  async function getMercadoLibreQuestions() {
+  async function getMercadoLibreQuestions () {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/questions_all`)
       const { data } = response.data

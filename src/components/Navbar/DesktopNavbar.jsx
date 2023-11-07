@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Button,
   Navbar,
@@ -11,13 +11,21 @@ import { NavLink, useLocation } from 'react-router-dom'
 import UserDropDown from './UserDropDown'
 import { useSelector } from 'react-redux'
 import logo from '../../assets/logo.svg'
+import useUserToRedux from '../../hooks/useUserToRedux'
 
 export default function DesktopNavbar () {
+  const userToRedux = useUserToRedux()
+
+  useEffect(() => {
+    userToRedux()
+  }, [])
+
   const user = useSelector((state) => state.user)
+
   const location = useLocation()
   const currentPath = location.pathname
   return (
-    <Navbar isBordered className='lg:flex hidden'>
+    <Navbar isBordered className='lg:flex hidden fixed'>
       <NavbarBrand>
         <img src={logo} alt='Esellerate Logo' className='w-8 h-8' />
         <p className='font-bold text-inherit'>Esellerate</p>
