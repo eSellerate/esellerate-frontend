@@ -25,7 +25,7 @@ export default function DesktopNavbar () {
   const location = useLocation()
   const currentPath = location.pathname
   return (
-    <Navbar isBordered className='lg:flex hidden'>
+    <Navbar isBordered className='lg:flex hidden fixed'>
       <NavbarBrand>
         <img src={logo} alt='Esellerate Logo' className='w-8 h-8' />
         <p className='font-bold text-inherit'>Esellerate</p>
