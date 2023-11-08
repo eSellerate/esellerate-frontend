@@ -18,6 +18,7 @@ import {
 } from "@nextui-org/react";
 import { BiPaperPlane } from "react-icons/bi";
 import axios from "axios";
+import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 import LoadingPage from "../components/Utilities/Loading/LoadingPage";
 
 function Questionstest() {
@@ -26,9 +27,15 @@ function Questionstest() {
   const [responseTexts, setResponseTexts] = useState({});
 
   useEffect(() => {
+    const session = extractCookie("session");
     axios
       .get(
-        `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/questions_all`
+        `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/questions_all`, {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${session}`,
+          },
+        }
       )
       .then((response) => {
         const { data } = response.data;

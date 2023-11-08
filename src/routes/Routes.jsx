@@ -26,10 +26,6 @@ const Routes = () => {
         <DesktopNavbar />
       </>
       <ReactDomRoutes>
-        <Route path='/' element={<MainPage />} />
-        <Route path='/questions' element={<Questions />} />
-        <Route path='/questionstest' element={<Questionstest />} />
-        <Route path='/inventory' element={<Inventory />} />
         { /* Don´t need authorization */ }
         <Route path='/' element={<Login />} />
         <Route path='/login' element={<Login />} />
@@ -40,6 +36,7 @@ const Routes = () => {
         <Route element={<CheckSession />}>
           <Route path='/questions' element={<Questions />} />
           <Route path='/inventory' element={<Inventory />} />
+          <Route path='/questionstest' element={<Questionstest />} />
           <Route path='/register_ml_app' element={<RegisterMLApp />} />
         </Route>
       </ReactDomRoutes>
