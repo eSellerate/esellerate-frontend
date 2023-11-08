@@ -12,7 +12,7 @@ import {
 import { PiEyeLight, PiEyeClosedLight } from 'react-icons/pi'
 import GetCookieByName from '../Utilities/Cookies/GetCookieByName'
 // libraries
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 // redux
 import { useDispatch } from 'react-redux'
@@ -20,6 +20,7 @@ import { addUser } from '../../redux/userSlice'
 
 export default function Login () {
   const [isVisible, setVisible] = useState(false)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const toggleVisibility = () => {
@@ -42,6 +43,7 @@ export default function Login () {
       )
       if (response.status === 200) {
         dispatch(addUser(response.data.user))
+        navigate('/inventory')
       }
     } catch (error) {
       console.log(error)

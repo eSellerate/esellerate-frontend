@@ -34,9 +34,8 @@ const Routes = () => {
         <Route path='*' element={<PageNotFound />} />
         { /* Need authorization */ }
         <Route element={<CheckSession />}>
-          <Route path='/questions' element={<Questions />} />
+          <Route path='/questions' element={<Questionstest />} />
           <Route path='/inventory' element={<Inventory />} />
-          <Route path='/questionstest' element={<Questionstest />} />
           <Route path='/register_ml_app' element={<RegisterMLApp />} />
         </Route>
       </ReactDomRoutes>

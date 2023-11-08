@@ -63,14 +63,29 @@ function Questionstest() {
   const handleResponderClick = (questionId, inputValue) => {
     console.log("Question ID:", questionId);
     console.log("Input Value:", inputValue);
+    const session = extractCookie("session")
     const requestData = {
       question_id: questionId,
       text: inputValue,
     };
-    axios.post(
-      `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/question_answer`,
-      requestData
-    );
+    try {
+      const response = axios.post(
+        `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/question_answer`,
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${session}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      console.log(response)
+      if (response.status === 200) {
+        location.reload()
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   if (isLoading) {
@@ -129,8 +144,11 @@ function Questionstest() {
                           </p>
                         </div>
                         <div className="flex items-center">
+                          { console.log(question.answer) }
                           <Textarea
-                            placeholder="Escribe tu respuesta"
+                            className='text-2xl'
+                            isDisabled={question.answer !== null ? true : false}
+                            placeholder={ question.answer === null ? "Escribe tu respuesta": question.answer.text }
                             value={responseTexts[question.id] || ""}
                             onChange={(e) => {
                               setResponseTexts({
@@ -138,11 +156,11 @@ function Questionstest() {
                                 [question.id]: e.target.value,
                               });
                             }}
-                            className=""
                           />
                         </div>
                       </div>
-                      <div className="flex flex-col w-fit justify-end p-1">
+                      { question.answer === null ?
+                        <div className="flex flex-col w-fit justify-end p-1">
                         <Button
                           onClick={() =>
                             handleResponderClick(
@@ -154,6 +172,7 @@ function Questionstest() {
                           Responder
                         </Button>
                       </div>
+                      : false }
                     </div>
                   </AccordionItem>
                 ))}
