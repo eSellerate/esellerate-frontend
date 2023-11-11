@@ -1,7 +1,7 @@
 const extractCookie = (cookieName) => {
     const cookie = document.cookie
         .split(';')
-        .find((cookie) => cookie.startsWith(cookieName))
+        .find((cookie) => cookie.includes(cookieName))
     if (cookie) {
         return cookie.split('=')[1]
     }
