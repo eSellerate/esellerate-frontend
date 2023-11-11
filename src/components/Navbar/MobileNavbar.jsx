@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -8,61 +8,98 @@ import {
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
-  Button
-} from '@nextui-org/react'
-import UserDropDown from './UserDropDown'
-import { useSelector } from 'react-redux'
-import logo from '../../assets/logo.svg'
-import useUserToRedux from '../../hooks/useUserToRedux'
+  Button,
+} from "@nextui-org/react";
+import UserDropDown from "./UserDropDown";
+import { useSelector } from "react-redux";
+import logo from "../../assets/logo.svg";
+import useUserToRedux from "../../hooks/useUserToRedux";
+import GetCookieByName from '../Utilities/Cookies/GetCookieByName';
+import axios from 'axios'
 
-export default function MobileNavbar () {
-  const userToRedux = useUserToRedux()
-  const user = useSelector((state) => state.user)
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+
+const handleLogOut = async () => {
+  alert('Logging out')
+  // const token = GetCookieByName('session')
+  // try {
+  //   const response = await axios.post(`${import.meta.env.VITE_BACKEND_END_POINT}logout`, {}, {
+  //     withCredentaials: true,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`
+  //     }
+  //   })
+  //   if (response.status === 200) {
+  //     deleteCookie('session')
+  //     dispatch(deleteUser())
+  //     navigate('/login')
+  //   }
+  // } catch (error) {
+  //   console.log(error)
+  // }
+}
+
+export default function MobileNavbar() {
+  const userToRedux = useUserToRedux();
+  const user = useSelector((state) => state.user);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   useEffect(() => {
-    userToRedux()
-  }, [])
+    userToRedux();
+  }, []);
 
-  const menuItems = [
-    {
-      name: 'Ajustes',
-      link: ''
-    },
-    {
-      name: 'Publicaciones',
-      link: 'inventory'
-    },
-    {
-      name: 'Preguntas',
-      link: 'questions'
-    },
-    {
-      name: 'Cerrar Sesión',
-      link: '#'
-    }
-  ]
+  let menuItems = [];
+  user.email !== ""
+    ? (menuItems = [
+        {
+          name: "Ajustes",
+          link: "",
+        },
+        {
+          name: "Publicaciones",
+          link: "inventory",
+        },
+        {
+          name: "Preguntas",
+          link: "questions",
+        },
+        {
+          name: "Cerrar Sesión",
+          onClick: handleLogOut, 
+        },
+      ])
+    : (menuItems = [
+        {
+          name: "Inicia sesión",
+          link: "login",
+        },
+        {
+          name: "Registrate",
+          link: "sign-up",
+        },
+      ]);
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className='lg:hidden block'>
+    <Navbar onMenuOpenChange={setIsMenuOpen} className="lg:hidden block">
       <NavbarContent>
         <NavbarMenuToggle
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         />
         <NavbarBrand>
-          <img src={logo} alt='Esellerate Logo' className='w-8 h-8' />
-          <p className='font-bold text-inherit'>eSellerate</p>
+          <img src={logo} alt="Esellerate Logo" className="w-8 h-8" />
+          <p className="font-bold text-inherit">eSellerate</p>
         </NavbarBrand>
       </NavbarContent>
-      <NavbarContent justify='end'>
-        <NavbarItem className='hidden lg:flex'>
-          <Link href='#'>Login</Link>
+      <NavbarContent justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <Link href="#">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          {user.email !== ''
-            ? <UserDropDown />
-            : (<Button as={Link} color='primary' href='#' variant='flat'>
+          {user.email !== "" ? (
+            <UserDropDown />
+          ) : (
+            <Button as={Link} color="primary" href="#" variant="flat">
               Sign Up
-               </Button>)}
+            </Button>
+          )}
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
@@ -71,14 +108,15 @@ export default function MobileNavbar () {
             <Link
               color={
                 index === 2
-                  ? 'primary'
+                  ? "primary"
                   : index === menuItems.length - 1
-                    ? 'danger'
-                    : 'foreground'
+                  ? "danger"
+                  : "foreground"
               }
-              className='w-full'
+              className="w-full"
               href={item.link}
-              size='lg'
+              size="lg"
+              onClick={item.onClick}
             >
               {item.name}
             </Link>
@@ -86,5 +124,5 @@ export default function MobileNavbar () {
         ))}
       </NavbarMenu>
     </Navbar>
-  )
+  );
 }

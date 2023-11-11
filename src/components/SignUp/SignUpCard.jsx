@@ -49,7 +49,7 @@ export default function SignUpCard () {
     }
 
     return (
-        <Card className="w-3/6">
+        <Card className="md:w-1/3 w-5/6 h-fit m-auto">
         <CardHeader className="text-xl justify-center">
           <h1 className='text-center'>Registrate</h1>
         </CardHeader>

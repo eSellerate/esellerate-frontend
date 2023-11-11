@@ -70,7 +70,8 @@ export default function UserDropDown () {
         <DropdownItem key='team_settings'>Productos</DropdownItem>
         <DropdownItem key='analytics'>Comentarios</DropdownItem>
         <DropdownItem onClick={handleLogOut} key='logout' color='danger'>
-          Cerrar sesión
+          <a className='text-red-450'>
+          Cerrar sesión</a>
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
