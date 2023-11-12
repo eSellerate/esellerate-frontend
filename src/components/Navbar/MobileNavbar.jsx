@@ -14,34 +14,41 @@ import UserDropDown from "./UserDropDown";
 import { useSelector } from "react-redux";
 import logo from "../../assets/logo.svg";
 import useUserToRedux from "../../hooks/useUserToRedux";
-import GetCookieByName from '../Utilities/Cookies/GetCookieByName';
-import axios from 'axios'
-
-
-const handleLogOut = async () => {
-  alert('Logging out')
-  // const token = GetCookieByName('session')
-  // try {
-  //   const response = await axios.post(`${import.meta.env.VITE_BACKEND_END_POINT}logout`, {}, {
-  //     withCredentaials: true,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`
-  //     }
-  //   })
-  //   if (response.status === 200) {
-  //     deleteCookie('session')
-  //     dispatch(deleteUser())
-  //     navigate('/login')
-  //   }
-  // } catch (error) {
-  //   console.log(error)
-  // }
-}
+import GetCookieByName from "../Utilities/Cookies/GetCookieByName";
+import axios from "axios";
+import deleteCookie from "../Utilities/Cookies/DeleteCookie";
+import { useDispatch } from "react-redux";
+import { deleteUser } from "../../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function MobileNavbar() {
   const userToRedux = useUserToRedux();
   const user = useSelector((state) => state.user);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogOut = async () => {
+    const token = GetCookieByName("session");
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_END_POINT}logout`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        deleteCookie("session");
+        dispatch(deleteUser());
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     userToRedux();
@@ -50,10 +57,6 @@ export default function MobileNavbar() {
   let menuItems = [];
   user.email !== ""
     ? (menuItems = [
-        {
-          name: "Ajustes",
-          link: "",
-        },
         {
           name: "Publicaciones",
           link: "inventory",
@@ -64,7 +67,7 @@ export default function MobileNavbar() {
         },
         {
           name: "Cerrar Sesión",
-          onClick: handleLogOut, 
+          onClick: handleLogOut,
         },
       ])
     : (menuItems = [
@@ -104,10 +107,13 @@ export default function MobileNavbar() {
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item.name}-${index}`}>
+          <NavbarMenuItem
+            className="hover:cursor-pointer"
+            key={`${item.name}-${index}`}
+          >
             <Link
               color={
-                index === 2
+                index === menuItems.length - 2
                   ? "primary"
                   : index === menuItems.length - 1
                   ? "danger"

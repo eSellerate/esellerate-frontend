@@ -93,7 +93,7 @@ function Questionstest() {
   }
 
   return (
-    <div className="md:px-12 px-4 pb-1 align-middle">
+    <div className="md:px-12 px-4 pb-1 align-middle md:pt-8 pt-0">
       <section className="py-9">
         <h1 className="text-2xl font-bold mb-2 md:text-left text-center">
           Preguntas
