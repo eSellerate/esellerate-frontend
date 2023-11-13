@@ -46,7 +46,6 @@ export default function Login() {
       if (response.status === 200) {
         Swal.fire({
           title: `Bienvenido, ${email}`,
-          email,
           text: "Sesión iniciada",
           icon: "success",
           timer: 2500,

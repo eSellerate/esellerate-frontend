@@ -48,13 +48,13 @@ export default function ProductCard (props) {
 
   const handleClosePublication = (title) => {
     alertify.confirm(
-      'Eliminar producto',
-      `El producto "${title}", sera eliminado. ¿Deseea continuar?`,
+      'Eliminar publicación',
+      `La publicación "${title}", será eliminada. ¿Deseea continuar?`,
       async function () {
         try {
           const response = await closePublication(product.id)
           if (response.status === 200) {
-            alertify.success('Producto eliminado')
+            alertify.success('Publicación eliminada')
             reloadItems()
           } else {
             alertify.error(response.message)

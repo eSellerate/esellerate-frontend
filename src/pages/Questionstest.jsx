@@ -21,7 +21,7 @@ import { BiPaperPlane } from "react-icons/bi";
 import axios from "axios";
 import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 import LoadingPage from "../components/Utilities/Loading/LoadingPage";
-
+import Swal from "sweetalert2";
 function Questionstest() {
   const [isLoading, setLoading] = useState(true);
   const [questions, setQuestions] = useState([]);
@@ -49,6 +49,11 @@ function Questionstest() {
       })
       .catch((error) => {
         console.error("Error fetching questions:", error);
+        Swal.fire({
+          title: `Error con las preguntas`,
+          text: `Error encontrado: ${error}`,
+          icon: "error",
+        });
       })
       .finally(() => {
         setTimeout(() => {
@@ -96,20 +101,34 @@ function Questionstest() {
         if (status === 200) {
           setLoading(true);
           console.log("Pregunta Eliminada");
+          Swal.fire({
+            title: `Pregunta eliminada`,
+            icon: "warning",
+            timer: 1500,
+          });
           setTimeout(() => {
             fetchQuestions();
           }, 2000);
         } else {
           console.log(`Error eliminando pregunta: ${status}`);
+          Swal.fire({
+            title: `Error eliminando la pregunta ${questionId}`,
+            text: `Error encontrado: ${status}`,
+            icon: "error",
+          });
         }
       });
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        title: `Error eliminando la pregunta ${questionId}`,
+        text: `Error encontrado: ${error}`,
+        icon: "error",
+      });
     }
   };
 
   const handleResponderClick = (questionId, inputValue) => {
-    setLoading(true);
     const session = extractCookie("session");
     const requestData = {
       question_id: questionId,
@@ -134,15 +153,31 @@ function Questionstest() {
         const status = response.status;
         if (status === 200) {
           console.log("Pregunta Contestada");
+          Swal.fire({
+            title: `Pregunta resuelta`,
+            icon: "success",
+            timer: 1500,
+          });
+          setLoading(true);
           setTimeout(() => {
             fetchQuestions();
           }, 2000);
         } else {
           console.log(`Error contestando pregunta: ${status}`);
+          Swal.fire({
+            title: `Error contestando la pregunta ${questionId}`,
+            text: `Error encontrado: ${status}`,
+            icon: "error",
+          });
         }
       });
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        title: `Error eliminando la pregunta ${questionId}`,
+        text: `Error encontrado: ${error}`,
+        icon: "error",
+      });
     }
   };
 
