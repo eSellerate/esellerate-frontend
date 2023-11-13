@@ -211,7 +211,6 @@ function Questionstest() {
                             }
                             value={responseTexts[question.id] || ""}
                             onInput={(e) => {
-                              console.log(e.target.value);
                               setResponseTexts({
                                 ...responseTexts,
                                 [question.id]: e.target.value,
