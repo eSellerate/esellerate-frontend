@@ -27,6 +27,10 @@ function Questionstest() {
   const [responseTexts, setResponseTexts] = useState({});
 
   useEffect(() => {
+    fetchQuestions();
+  }, []);
+
+  const fetchQuestions = () => {
     const session = extractCookie("session");
     axios
       .get(
@@ -41,11 +45,17 @@ function Questionstest() {
       .then((response) => {
         const { data } = response.data;
         setQuestions(data.questions);
-        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching questions:", error);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
       });
-  }, []);
+  };
 
-  // Function to format the date
   const formatDateTime = (dateString) => {
     const options = {
       year: "numeric",
@@ -61,10 +71,10 @@ function Questionstest() {
     return formatter.format(date);
   };
 
-  const hanldeEliminarClick = (questionId) => {
+  const handleEliminarClick = (questionId) => {
     const session = extractCookie("session");
     const requestData = {
-      question_id: questionId
+      question_id: questionId,
     };
     try {
       const response = axios.post(
@@ -80,15 +90,25 @@ function Questionstest() {
         }
       );
       console.log(response);
-      if (response.status === 200) {
-        location.reload();
-      }
+      response.then((response) => {
+        const status = response.status;
+        if (status === 200) {
+          setLoading(true);
+          console.log("Pregunta Eliminada");
+          setTimeout(() => {
+            fetchQuestions();
+          }, 2000);
+        } else {
+          console.log(`Error eliminando pregunta: ${status}`);
+        }
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleResponderClick = (questionId, inputValue) => {
+    setLoading(true);
     const session = extractCookie("session");
     const requestData = {
       question_id: questionId,
@@ -107,10 +127,19 @@ function Questionstest() {
           },
         }
       );
+
       console.log(response);
-      if (response.status === 200) {
-        location.reload();
-      }
+      response.then((response) => {
+        const status = response.status;
+        if (status === 200) {
+          console.log("Pregunta Contestada");
+          setTimeout(() => {
+            fetchQuestions();
+          }, 2000);
+        } else {
+          console.log(`Error contestando pregunta: ${status}`);
+        }
+      });
     } catch (error) {
       console.log(error);
     }
@@ -172,17 +201,17 @@ function Questionstest() {
                           </p>
                         </div>
                         <div className="flex items-center">
-                          {console.log(question.answer)}
                           <Textarea
                             className="text-2xl"
-                            isDisabled={question.answer !== null ? true : false}
+                            isDisabled={question.answer !== null}
                             placeholder={
                               question.answer === null
                                 ? "Escribe tu respuesta"
                                 : question.answer.text
                             }
                             value={responseTexts[question.id] || ""}
-                            onChange={(e) => {
+                            onInput={(e) => {
+                              console.log(e.target.value);
                               setResponseTexts({
                                 ...responseTexts,
                                 [question.id]: e.target.value,
@@ -191,20 +220,22 @@ function Questionstest() {
                           />
                         </div>
                       </div>
-                      <div
-                        className={`flex flex-col w-fit ${
-                          question.answer === null ? "md:justify-between" : ""
-                        } space-y-3 justify-end p-1`}
-                      >
-                        <Button
-                          color="danger"
-                          onClick={() => hanldeEliminarClick(question.id)}
+                      {question.answer === null ? (
+                        <div
+                          className={`flex flex-col w-fit ${
+                            question.answer === null ? "md:justify-between" : ""
+                          } space-y-3 justify-end p-1`}
                         >
-                          Eliminar
-                        </Button>
-                        {question.answer === null ? (
+                          <Button
+                            color="danger"
+                            variant="ghost"
+                            onClick={() => handleEliminarClick(question.id)}
+                          >
+                            Eliminar
+                          </Button>
                           <Button
                             color="secondary"
+                            variant="shadow"
                             onClick={() =>
                               handleResponderClick(
                                 question.id,
@@ -214,10 +245,10 @@ function Questionstest() {
                           >
                             Responder
                           </Button>
-                        ) : (
-                          false
-                        )}
-                      </div>
+                        </div>
+                      ) : (
+                        false
+                      )}
                     </div>
                   </AccordionItem>
                 ))}
