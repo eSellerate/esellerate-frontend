@@ -15,6 +15,7 @@ import {
   Accordion,
   AccordionItem,
   Textarea,
+  Skeleton,
 } from "@nextui-org/react";
 import { BiPaperPlane } from "react-icons/bi";
 import axios from "axios";
@@ -145,9 +146,9 @@ function Questionstest() {
     }
   };
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+  // if (isLoading) {
+  //   return <LoadingPage />;
+  // }
 
   return (
     <div className="md:px-12 px-4 pb-1 align-middle md:pt-8 pt-0">
@@ -171,18 +172,22 @@ function Questionstest() {
         <div key={item_id} className="mb-10">
           <Card className="align-middle w-13/14 mx-auto">
             <CardHeader className="flex space-x-6">
-              <Image
-                alt="nextui logo"
-                className="w-14 h-12 rounded-full"
-                src="https://datepsychology.com/wp-content/uploads/2022/09/gigachad.jpg"
-              />
+              <Skeleton isLoaded={!isLoading} className="rounded-lg">
+                <Image
+                  alt="nextui logo"
+                  className="w-14 h-12 rounded-full"
+                  src="https://datepsychology.com/wp-content/uploads/2022/09/gigachad.jpg"
+                />
+              </Skeleton>
               <div className="flex flex-col">
-                <p className="text-md">{groupedQuestions[0].item_id}</p>
-                <p className="text-small text-default-500">$ 0.0</p>
+                <Skeleton isLoaded={!isLoading} className="rounded-lg">
+                  <p className="text-md">{groupedQuestions[0].item_id}</p>
+                  <p className="text-small text-default-500">$ 0.0</p>
+                </Skeleton>
               </div>
             </CardHeader>
             <Divider />
-            <CardBody>
+            <Skeleton isLoaded={!isLoading} className="rounded-lg">
               <Accordion>
                 {groupedQuestions.map((question, index) => (
                   <AccordionItem
@@ -252,10 +257,11 @@ function Questionstest() {
                   </AccordionItem>
                 ))}
               </Accordion>
-            </CardBody>
+            </Skeleton>
           </Card>
         </div>
       ))}
+      {isLoading ? <LoadingPage /> : true}
     </div>
   );
 }
