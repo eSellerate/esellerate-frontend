@@ -8,7 +8,7 @@ import {
   Input,
   Button,
 } from "@nextui-org/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { PiEyeLight, PiEyeClosedLight } from "react-icons/pi";
 import axios from "axios";
 import useToggle from "../../hooks/useToggle";
@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 export default function SignUpCard() {
   const passwordInput = useToggle();
   const confirmPasswordInput = useToggle();
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     // get all data from form
@@ -48,9 +48,9 @@ export default function SignUpCard() {
           title: `Bienvenido, ${firstName}`,
           text: "Usuario Registrado",
           icon: "success",
-          timer: 1500,
+          timer: 2500,
         });
-        // navigate("/inventory");
+        navigate("/login");
       }
     } catch (error) {
       try {
@@ -63,7 +63,6 @@ export default function SignUpCard() {
               title: `No se pudo registrar`,
               text: errorMsg,
               icon: "error",
-              timer: 1500,
             });
           });
         } else {
@@ -71,7 +70,6 @@ export default function SignUpCard() {
             title: `Error de formato inesperado`,
             text: errorResponse,
             icon: "error",
-            timer: 1500,
           });
         }
       } catch (parseError) {
@@ -80,7 +78,6 @@ export default function SignUpCard() {
           title: `Error de parsing en respuesta`,
           text: parseError,
           icon: "error",
-          timer: 1500,
         });
       }
     }

@@ -49,7 +49,7 @@ export default function Login() {
           email,
           text: "Sesión iniciada",
           icon: "success",
-          timer: 1500,
+          timer: 2500,
         });
         dispatch(addUser(response.data.user));
         navigate("/inventory");
@@ -60,7 +60,6 @@ export default function Login() {
         title: "Error",
         text: error,
         icon: "error",
-        timer: 1500,
       });
     }
   };
