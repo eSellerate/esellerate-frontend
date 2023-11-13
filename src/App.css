@@ -2,3 +2,8 @@
 .slick-prev::before, .slick-next::before {
     color: black !important;
 }
+.hide-scroll::-webkit-scrollbar {
+    display: none; /* WebKit-based browsers */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }

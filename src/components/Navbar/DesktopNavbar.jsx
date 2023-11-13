@@ -42,6 +42,9 @@ export default function DesktopNavbar () {
           <NavbarItem isActive={currentPath === '/questions'}>
             <NavLink to='/questions'> Preguntas </NavLink>
           </NavbarItem>
+          <NavbarItem isActive={currentPath === '/sales'}>
+            <NavLink to='/sales'> Ventas </NavLink>
+          </NavbarItem>
         </NavbarContent>
                             </div>}
 

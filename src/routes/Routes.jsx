@@ -9,6 +9,7 @@ import Questionstest from '../pages/Questionstest'
 // Pages
 import Inventory from '../pages/Inventory'
 import MainPage from '../pages/MainPage'
+import Sales from '../pages/Sales'
 import Login from '../pages/Login'
 import SignUp from '../pages/SignUp'
 import RegisterMLApp from '../pages/RegisterMLApp'
@@ -31,6 +32,7 @@ const Routes = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/test' element={<MainPage />} />
+        <Route path='/sales' element={<Sales />} />
         <Route path='*' element={<PageNotFound />} />
         { /* Need authorization */ }
         <Route element={<CheckSession />}>

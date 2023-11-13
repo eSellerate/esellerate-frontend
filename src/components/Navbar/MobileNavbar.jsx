@@ -66,6 +66,10 @@ export default function MobileNavbar() {
           link: "questions",
         },
         {
+          name: "Ventas",
+          link: "sales",
+        },
+        {
           name: "Cerrar Sesión",
           onClick: handleLogOut,
         },

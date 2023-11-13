@@ -72,6 +72,9 @@ export default function UserDropDown() {
         <DropdownItem key="questions">
           <NavLink to="/questions"> Preguntas </NavLink>
         </DropdownItem>
+        <DropdownItem key="sales">
+          <NavLink to="/sales"> Ventas </NavLink>
+        </DropdownItem>
         <DropdownItem onClick={handleLogOut} key="logout" color="danger">
           <a className="text-red-450">Cerrar sesión</a>
         </DropdownItem>
