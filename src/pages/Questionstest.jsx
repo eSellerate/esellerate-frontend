@@ -79,7 +79,6 @@ function Questionstest() {
           },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         location.reload();
       }
@@ -107,7 +106,6 @@ function Questionstest() {
           },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         location.reload();
       }
@@ -172,16 +170,15 @@ function Questionstest() {
                           </p>
                         </div>
                         <div className="flex items-center">
-                          {console.log(question.answer)}
                           <Textarea
                             className="text-2xl"
-                            isDisabled={question.answer !== null ? true : false}
-                            placeholder={
+                            isReadOnly={question.answer !== null ? true : false}
+                            placeholder="Escribe tu respuesta"
+                            value={
                               question.answer === null
-                                ? "Escribe tu respuesta"
+                                ? responseTexts[question.id]
                                 : question.answer.text
                             }
-                            value={responseTexts[question.id] || ""}
                             onChange={(e) => {
                               setResponseTexts({
                                 ...responseTexts,
