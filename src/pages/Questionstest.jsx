@@ -67,7 +67,7 @@ function Questionstest() {
       question_id: questionId
     };
     try {
-      const response = axios.delete(
+      const response = axios.post(
         `${
           import.meta.env.VITE_BACKEND_END_POINT
         }mercado-libre/question_delete`,
