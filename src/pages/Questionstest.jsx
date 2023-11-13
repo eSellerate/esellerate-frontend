@@ -30,7 +30,8 @@ function Questionstest() {
     const session = extractCookie("session");
     axios
       .get(
-        `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/questions_all`, {
+        `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/questions_all`,
+        {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${session}`,
@@ -60,31 +61,58 @@ function Questionstest() {
     return formatter.format(date);
   };
 
+  const hanldeEliminarClick = (questionId) => {
+    const session = extractCookie("session");
+    const requestData = {
+      question_id: questionId
+    };
+    try {
+      const response = axios.delete(
+        `${
+          import.meta.env.VITE_BACKEND_END_POINT
+        }mercado-libre/question_delete`,
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${session}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
+      if (response.status === 200) {
+        location.reload();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleResponderClick = (questionId, inputValue) => {
-    console.log("Question ID:", questionId);
-    console.log("Input Value:", inputValue);
-    const session = extractCookie("session")
+    const session = extractCookie("session");
     const requestData = {
       question_id: questionId,
       text: inputValue,
     };
     try {
       const response = axios.post(
-        `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/question_answer`,
+        `${
+          import.meta.env.VITE_BACKEND_END_POINT
+        }mercado-libre/question_answer`,
         requestData,
         {
           headers: {
             Authorization: `Bearer ${session}`,
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
-      console.log(response)
+      console.log(response);
       if (response.status === 200) {
-        location.reload()
+        location.reload();
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -144,11 +172,15 @@ function Questionstest() {
                           </p>
                         </div>
                         <div className="flex items-center">
-                          { console.log(question.answer) }
+                          {console.log(question.answer)}
                           <Textarea
-                            className='text-2xl'
+                            className="text-2xl"
                             isDisabled={question.answer !== null ? true : false}
-                            placeholder={ question.answer === null ? "Escribe tu respuesta": question.answer.text }
+                            placeholder={
+                              question.answer === null
+                                ? "Escribe tu respuesta"
+                                : question.answer.text
+                            }
                             value={responseTexts[question.id] || ""}
                             onChange={(e) => {
                               setResponseTexts({
@@ -159,20 +191,33 @@ function Questionstest() {
                           />
                         </div>
                       </div>
-                      { question.answer === null ?
-                        <div className="flex flex-col w-fit justify-end p-1">
+                      <div
+                        className={`flex flex-col w-fit ${
+                          question.answer === null ? "md:justify-between" : ""
+                        } space-y-3 justify-end p-1`}
+                      >
                         <Button
-                          onClick={() =>
-                            handleResponderClick(
-                              question.id,
-                              responseTexts[question.id] || ""
-                            )
-                          }
+                          color="danger"
+                          onClick={() => hanldeEliminarClick(question.id)}
                         >
-                          Responder
+                          Eliminar
                         </Button>
+                        {question.answer === null ? (
+                          <Button
+                            color="secondary"
+                            onClick={() =>
+                              handleResponderClick(
+                                question.id,
+                                responseTexts[question.id] || ""
+                              )
+                            }
+                          >
+                            Responder
+                          </Button>
+                        ) : (
+                          false
+                        )}
                       </div>
-                      : false }
                     </div>
                   </AccordionItem>
                 ))}
