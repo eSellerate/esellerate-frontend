@@ -32,42 +32,46 @@ export default function Sales() {
   const rows = [
     {
       key: "1",
-      name: "Tony Reichert",
-      role: "CEO",
-      status: "Active",
+      image:
+        "https://http2.mlstatic.com/D_NQ_NP_948160-MLM71926994916_092023-O.webp",
+      name: "Item De Prueba - Por Favor, No Ofertar",
+      price: "$35.00",
+      quantity: "1 unidad",
     },
     {
       key: "2",
-      name: "Zoey Lang",
-      role: "Technical Lead",
-      status: "Paused",
+      image:
+        "https://http2.mlstatic.com/D_NQ_NP_948160-MLM71926994916_092023-O.webp",
+      name: "Item De Prueba - Por Favor, No Ofertar",
+      price: "$35.00",
+      quantity: "1 unidad",
     },
     {
       key: "3",
-      name: "Jane Fisher",
-      role: "Senior Developer",
-      status: "Active",
-    },
-    {
-      key: "4",
-      name: "William Howard",
-      role: "Community Manager",
-      status: "Vacation",
+      image:
+        "https://http2.mlstatic.com/D_NQ_NP_948160-MLM71926994916_092023-O.webp",
+      name: "Item De Prueba - Por Favor, No Ofertar",
+      price: "$35.00",
+      quantity: "1 unidad",
     },
   ];
 
   const columns = [
     {
+      key: "image",
+      label: "Imagen",
+    },
+    {
       key: "name",
-      label: "NAME",
+      label: "Nombre",
     },
     {
-      key: "role",
-      label: "ROLE",
+      key: "price",
+      label: "Precio",
     },
     {
-      key: "status",
-      label: "STATUS",
+      key: "quantity",
+      label: "Cantidad",
     },
   ];
 
@@ -88,7 +92,9 @@ export default function Sales() {
               <div className="flex flex-col space-y-4">
                 <Card className="shadow-2xl">
                   <CardHeader>
-                    <h1 className="text-ellipsis overflow-hidden ...">Ventas demoradas</h1>
+                    <h1 className="text-ellipsis overflow-hidden ...">
+                      Ventas demoradas
+                    </h1>
                   </CardHeader>
                   <CardBody>
                     <p>0 ventas</p>
@@ -104,7 +110,9 @@ export default function Sales() {
                 </Card>
                 <Card className="shadow-2xl">
                   <CardHeader>
-                    <h1 className="text-ellipsis overflow-hidden ...">Acordar al comprador</h1>
+                    <h1 className="text-ellipsis overflow-hidden ...">
+                      Acordar al comprador
+                    </h1>
                   </CardHeader>
                   <CardBody>
                     <p>0 ventas</p>
@@ -119,7 +127,9 @@ export default function Sales() {
               <div className="flex flex-col space-y-4">
                 <Card className="shadow-2xl">
                   <CardHeader>
-                    <h1 className="text-ellipsis overflow-hidden ...">Mensajes no leídos</h1>
+                    <h1 className="text-ellipsis overflow-hidden ...">
+                      Mensajes no leídos
+                    </h1>
                   </CardHeader>
                   <CardBody>
                     <p>0 ventas</p>
@@ -269,7 +279,21 @@ export default function Sales() {
           {(item) => (
             <TableRow key={item.key}>
               {(columnKey) => (
-                <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                <TableCell>
+                  {columnKey === "image" ? (
+                    <Image
+                      className="object-contain m-auto w-12 h-12 rounded-xl"
+                      loading="lazy"
+                      isZoomed
+                      alt="Producto"
+                      src={getKeyValue(item, columnKey)}
+                    /> 
+                  ) : (
+                    <div className="text-clip">
+                      {getKeyValue(item, columnKey)}
+                    </div>
+                  )}
+                </TableCell>
               )}
             </TableRow>
           )}
