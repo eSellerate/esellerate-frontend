@@ -25,7 +25,6 @@ import {
   getKeyValue,
   DropdownItem,
 } from "@nextui-org/react";
-
 import {
   CiCalendar,
   CiCalendarDate,
@@ -33,6 +32,8 @@ import {
   CiMenuKebab,
   CiSearch,
 } from "react-icons/ci";
+import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
+import axios from "axios";
 export default function Sales() {
   const [selectedItem, setSelectedItem] = useState("Últimos 6 meses");
   const [searchTerm, setSearchTerm] = useState("");
@@ -112,9 +113,44 @@ export default function Sales() {
       label: "Cantidad",
     },
   ];
+
+  const [orders, setOrders] = useState([]);
+
   useEffect(() => {
     console.log(searchTerm);
+    fetchOrders();
   }, [searchTerm]);
+
+  const fetchOrders = () => {
+    const session = extractCookie("session");
+    axios
+      .get(
+        `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/orders_all`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${session}`,
+          },
+        }
+      )
+      .then((response) => {
+        const { data } = response.data;
+        setOrders(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching orders:", error);
+        Swal.fire({
+          title: `Error con las preguntas`,
+          text: `Error encontrado: ${error}`,
+          icon: "error",
+        });
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+      });
+  };
 
   const handleDownloadExcel = async () => {
     const pdf = new jsPDF("p", "pt", "letter");
@@ -313,7 +349,7 @@ export default function Sales() {
       <div className="w-full flex ">
         <div className="flex flex-grow justify-start space-x-4">
           <Checkbox onChange={handlePrintSelectedChange} color="primary">
-            Seleccionar Venta
+            Seleccionar Todas las Ventas
           </Checkbox>
           <Dropdown>
             <DropdownTrigger>
@@ -340,16 +376,28 @@ export default function Sales() {
           Descargue tabla de ventas <CiFileOn />
         </Button>
       </div>
-      <div ref={tableRef}>
-        <Table aria-label="Example table for Sales">
+      {Object.values(
+        orders.reduce((acc, order, index) => {
+          if (orders.id) {
+            if (!acc[order.id]) {
+              acc[order.id] = [order];
+            } else {
+              acc[order.id].push(order);
+            }
+          }
+          return acc;
+        }, {})
+      ).map((groupedOrders, id) => (
+      <div key={id} ref={tableRef}>
+        <Table>
           <TableHeader columns={columns}>
             {(column) => (
               <TableColumn key={column.key}>{column.label}</TableColumn>
             )}
           </TableHeader>
           <TableBody items={rows}>
-            {(item) => (
-              <TableRow key={item.key}>
+            {groupedOrders.map((order, index) => (
+              <TableRow key={index}>
                 {(columnKey) => (
                   <TableCell>
                     {columnKey === "image" ? (
@@ -358,20 +406,20 @@ export default function Sales() {
                         loading="lazy"
                         isZoomed
                         alt="Producto"
-                        src={getKeyValue(item, columnKey)}
                       />
                     ) : (
                       <div className="text-clip">
-                        {getKeyValue(item, columnKey)}
+                        order.id
                       </div>
                     )}
                   </TableCell>
                 )}
               </TableRow>
-            )}
+            ))}
           </TableBody>
         </Table>
       </div>
+      ))}
     </main>
   );
 }
