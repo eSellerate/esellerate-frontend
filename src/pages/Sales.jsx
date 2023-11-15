@@ -26,7 +26,13 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 
-import { CiCalendar, CiCalendarDate, CiFileOn, CiSearch } from "react-icons/ci";
+import {
+  CiCalendar,
+  CiCalendarDate,
+  CiFileOn,
+  CiMenuKebab,
+  CiSearch,
+} from "react-icons/ci";
 export default function Sales() {
   const [selectedItem, setSelectedItem] = useState("Últimos 6 meses");
   const [searchTerm, setSearchTerm] = useState("");
@@ -110,7 +116,7 @@ export default function Sales() {
     console.log(searchTerm);
   }, [searchTerm]);
 
-  const handleDownloadExcel =async () => {
+  const handleDownloadExcel = async () => {
     const pdf = new jsPDF("p", "pt", "letter");
     const table = tableRef.current;
     const canvas = await html2canvas(table);
@@ -125,7 +131,7 @@ export default function Sales() {
       </h1>
       <Card className="max-w-full h-fit bg-neutral-700  hide-scroll">
         <CardBody>
-          <div className="flex space-x-4 text-xl">
+          <div className="flex space-x-4 text-xl w-fit">
             <div className="flex flex-col space-y-2 w-1/4">
               <h1>En preparacion</h1>
               <p className="text-sm">0 ventas</p>
@@ -237,7 +243,7 @@ export default function Sales() {
       <div className="flex space-x-3  hide-scroll">
         <Input
           type="text"
-          label="Busca una venta"
+          label="Búsqueda"
           placeholder="Escribe para buscar..."
           className="w-1/3"
           startContent={<CiSearch />}
@@ -305,10 +311,26 @@ export default function Sales() {
         <h1 className="flex items-center flex-grow justify-end">0 ventas</h1>
       </div>
       <div className="w-full flex ">
-        <div className="flex flex-grow justify-start">
+        <div className="flex flex-grow justify-start space-x-4">
           <Checkbox onChange={handlePrintSelectedChange} color="primary">
             Seleccionar Venta
           </Checkbox>
+          <Dropdown>
+            <DropdownTrigger>
+              <div className="flex items-center cursor-pointer">
+                <CiMenuKebab />
+              </div>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Static Actions">
+              <DropdownItem key="detail">Ver detalle</DropdownItem>
+              <DropdownItem key="cancel" className="text-danger" color="danger">
+                Cancelar venta
+              </DropdownItem>
+              <DropdownItem key="quote">Adjuntar factura</DropdownItem>
+              <DropdownItem key="add">Agregar nota</DropdownItem>
+              <DropdownItem key="help">Necesito ayuda</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
         <Button
           className="flex space-x-2 justify-end"

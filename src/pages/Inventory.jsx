@@ -97,7 +97,7 @@ export default function Inventory() {
             <div className="grow flex justify-center items-center">
               <Input
                 type="text"
-                label="Busca un producto"
+                label="Búsqueda"
                 placeholder="Escribe para buscar..."
                 startContent={<CiSearch />}
                 onChange={(e) => setSearchTerm(e.target.value)}

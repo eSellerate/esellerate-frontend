@@ -17,6 +17,7 @@ import PageNotFound from '../pages/PageNotFound'
 // Guard
 import AuthGuard from '../guards/AuthGuard.guard'
 import CheckSession from '../guards/CheckSession.guard'
+import SaleDetail from '../pages/SaleDetail'
 
 // routes definition
 const Routes = () => {
@@ -39,6 +40,7 @@ const Routes = () => {
           <Route path='/questions' element={<Questionstest />} />
           <Route path='/inventory' element={<Inventory />} />
           <Route path='/register_ml_app' element={<RegisterMLApp />} />
+          <Route path='/sale_order' element={<SaleDetail />} />
         </Route>
       </ReactDomRoutes>
     </BrowserRouter>
