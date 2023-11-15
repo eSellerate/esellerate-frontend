@@ -315,7 +315,7 @@ export default function Sales() {
           isDisabled={!printSelected}
           onClick={handleDownloadExcel}
         >
-          Descargue Excel de ventas <CiFileOn />
+          Descargue tabla de ventas <CiFileOn />
         </Button>
       </div>
       <div ref={tableRef}>
