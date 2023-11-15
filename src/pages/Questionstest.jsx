@@ -45,7 +45,7 @@ function Questionstest() {
       )
       .then((response) => {
         const { data } = response.data;
-        setQuestions(data.questions);
+        setQuestions(data.questions.slice().sort((a, b) => b.id - a.id));
       })
       .catch((error) => {
         console.error("Error fetching questions:", error);
