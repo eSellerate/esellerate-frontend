@@ -1,16 +1,38 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { FileUploader } from 'react-drag-drop-files'
 import { BiSolidCamera } from 'react-icons/bi'
+import { Image } from "@nextui-org/react";
+import PropTypes from 'prop-types'
+import eSellerate from '../../../assets/eSellerate.png'
 
 const fileTypes = ['JPG', 'JPEG', 'PNG']
 
-export default function DragNDrop () {
+export default function DragNDrop (props) {
   const [file, setFile] = useState(null)
   const [nodeText, setNodeText] = useState('Selecciona o suelta tus archivos aquí')
   const [error, setError] = useState(false)
+  const [images, setImages] = useState([])
+  const enpoint = import.meta.env.VITE_BACKEND_END_POINT
 
-  const handleChange = (file) => {
+  DragNDrop.propTypes = {
+    getImages: PropTypes.func
+  }
+
+  const handleChange = async (file) => {
     setFile(file)
+    try {
+      const response = await axios.post(`${enpoint}upload-image`, file, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      setImages(response.data.images)
+      props.getImages(response.data.images)
+      console.log(response)
+    } catch(error) {
+      console.log(error)
+    }
   }
 
   const handleUpload = () => {
@@ -44,17 +66,36 @@ export default function DragNDrop () {
   }
 
   return (
-    <FileUploader
-      handleChange={handleChange}
-      label='Selecciona o suelta tus archivos aquí'
-      hoverTitle='Suelta tus archivos aquí'
-      children={node()}
-      onDrop={handleUpload}
-      onSelect={handleUpload}
-      onTypeError={handleTypeError}
-      name='file'
-      multiple
-      types={fileTypes}
-    />
+    <div>
+      <FileUploader
+        handleChange={handleChange}
+        label='Selecciona o suelta tus archivos aquí'
+        hoverTitle='Suelta tus archivos aquí'
+        children={node()}
+        onDrop={handleUpload}
+        onSelect={handleUpload}
+        onTypeError={handleTypeError}
+        name='file'
+        multiple
+        types={fileTypes}
+      />
+      {
+        images.length > 0 &&
+        <section className='pt-2 flex gap-2'>
+          {
+            images.map((image, index) => (
+              <Image
+                isZoomed
+                key={index}
+                isBlurred
+                width={120}
+                src={image}
+                fallbackSrc={eSellerate}
+              />
+            ))
+          }
+        </section>
+      }
+    </div>
   )
 }

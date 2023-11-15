@@ -26,7 +26,6 @@ import {
   getKeyValue,
   DropdownItem,
 } from "@nextui-org/react";
-
 import {
   CiCalendar,
   CiCalendarDate,
@@ -34,6 +33,8 @@ import {
   CiMenuKebab,
   CiSearch,
 } from "react-icons/ci";
+import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
+import axios from "axios";
 export default function Sales() {
   const [selectedItem, setSelectedItem] = useState("Últimos 6 meses");
   const [searchTerm, setSearchTerm] = useState("");
@@ -114,9 +115,44 @@ export default function Sales() {
       label: "Cantidad",
     },
   ];
+
+  const [orders, setOrders] = useState([]);
+
   useEffect(() => {
     console.log(searchTerm);
+    fetchOrders();
   }, [searchTerm]);
+
+  const fetchOrders = () => {
+    const session = extractCookie("session");
+    axios
+      .get(
+        `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/orders_all`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${session}`,
+          },
+        }
+      )
+      .then((response) => {
+        const { data } = response.data;
+        setOrders(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching orders:", error);
+        Swal.fire({
+          title: `Error con las preguntas`,
+          text: `Error encontrado: ${error}`,
+          icon: "error",
+        });
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+      });
+  };
 
   const handleDownloadExcel = async () => {
     const pdf = new jsPDF("p", "pt", "letter");
@@ -315,7 +351,7 @@ export default function Sales() {
       <div className="w-full flex ">
         <div className="flex flex-grow justify-start space-x-4">
           <Checkbox onChange={handlePrintSelectedChange} color="primary">
-            Seleccionar Venta
+            Seleccionar Todas las Ventas
           </Checkbox>
           <Dropdown>
             <DropdownTrigger>
