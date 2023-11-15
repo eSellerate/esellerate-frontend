@@ -376,28 +376,16 @@ export default function Sales() {
           Descargue tabla de ventas <CiFileOn />
         </Button>
       </div>
-      {Object.values(
-        orders.reduce((acc, order, index) => {
-          if (orders.id) {
-            if (!acc[order.id]) {
-              acc[order.id] = [order];
-            } else {
-              acc[order.id].push(order);
-            }
-          }
-          return acc;
-        }, {})
-      ).map((groupedOrders, id) => (
-      <div key={id} ref={tableRef}>
-        <Table>
+      <div ref={tableRef}>
+        <Table aria-label="Example table for Sales">
           <TableHeader columns={columns}>
             {(column) => (
               <TableColumn key={column.key}>{column.label}</TableColumn>
             )}
           </TableHeader>
           <TableBody items={rows}>
-            {groupedOrders.map((order, index) => (
-              <TableRow key={index}>
+            {(item) => (
+              <TableRow key={item.key}>
                 {(columnKey) => (
                   <TableCell>
                     {columnKey === "image" ? (
@@ -406,20 +394,20 @@ export default function Sales() {
                         loading="lazy"
                         isZoomed
                         alt="Producto"
+                        src={getKeyValue(item, columnKey)}
                       />
                     ) : (
                       <div className="text-clip">
-                        order.id
+                        {getKeyValue(item, columnKey)}
                       </div>
                     )}
                   </TableCell>
                 )}
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>
-      ))}
     </main>
   );
 }
