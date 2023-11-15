@@ -138,6 +138,7 @@ export default function Sales() {
       .then((response) => {
         const { data } = response.data;
         setOrders(data.results);
+        console.log(data.results)
       })
       .catch((error) => {
         console.error("Error fetching orders:", error);
@@ -383,36 +384,52 @@ export default function Sales() {
         </Button>
       </div>
       <div ref={tableRef}>
-        <Table aria-label="Example table for Sales">
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn key={column.key}>{column.label}</TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={rows}>
-            {(item) => (
-              <TableRow key={item.key}>
-                {(columnKey) => (
-                  <TableCell>
-                    {columnKey === "image" ? (
-                      <Image
-                        className="object-contain m-auto w-12 h-12 rounded-xl"
-                        loading="lazy"
-                        isZoomed
-                        alt="Producto"
-                        src={getKeyValue(item, columnKey)}
-                      />
-                    ) : (
-                      <div className="text-clip">
-                        {getKeyValue(item, columnKey)}
-                      </div>
-                    )}
-                  </TableCell>
+        {Object.values(
+          orders.reduce((acc, order, index) => {
+              if (!acc[order.pack_id]) {
+                acc[order.pack_id] = [order];
+              } else {
+                acc[order.pack_id].push(order);
+              }
+            return acc;
+          }, {})
+        ).map((groupedOrders, pack_id) => (
+          <div key={pack_id} className="mb-10">
+            <Table aria-label="Example table for Sales">
+              <TableHeader columns={columns}>
+                {(column) => (
+                  <TableColumn key={column.key}>{column.label}</TableColumn>
                 )}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              </TableHeader>
+              <TableBody>
+                {groupedOrders.map((order, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <div className="text-clip">
+                        NA
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-clip">
+                        {order.order_items[0].item.title}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-clip">
+                        {order.order_items[0].full_unit_price}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-clip">
+                        {order.order_items[0].quantity}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        ))}
       </div>
     </main>
   );
