@@ -3,6 +3,8 @@ import axios from 'axios'
 import DragNDrop from '../components/Utilities/DragNDrop/DragNDrop'
 import { Input, Select, SelectItem, Button } from "@nextui-org/react";
 import extractCookie from '../components/Utilities/Cookies/GetCookieByName'
+// Hooks
+import useValidateSession from "../hooks/useValidateSession";
 
 export default function registerProduct () {
     const [title, setTitle] = useState('')
@@ -10,9 +12,14 @@ export default function registerProduct () {
     const [selectedCategory, setSelectedCategory] = useState('')
     const [mandatoryInputs, setMandatoryInputs] = useState([])
     const [images, setImages] = useState([])
+    const validateSession = useValidateSession()
 
     const endpoint = import.meta.env.VITE_BACKEND_END_POINT
     const session = extractCookie('session')
+
+    useEffect(() => {
+        validateSession()
+    }, [])
 
     useEffect(() => {
         const timer = setTimeout(() => {
