@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -38,6 +39,7 @@ export default function Sales() {
   const [searchTerm, setSearchTerm] = useState("");
   const [printSelected, setPrintSelected] = useState(false);
   const tableRef = useRef(null);
+  const navigate = useNavigate();
   const handleDropdownSelect = (item) => {
     setSelectedItem(item);
   };
@@ -322,7 +324,11 @@ export default function Sales() {
               </div>
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions">
-              <DropdownItem key="detail">Ver detalle</DropdownItem>
+              <DropdownItem key="detail">
+                <NavLink to="/sale-detail">
+                  <em className="text-secondary">Ver detalle</em>
+                </NavLink>
+              </DropdownItem>
               <DropdownItem key="cancel" className="text-danger" color="danger">
                 Cancelar venta
               </DropdownItem>

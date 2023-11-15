@@ -1,21 +1,156 @@
 // react
 import React, { useState, useEffect } from "react";
-import { CiMenuKebab } from "react-icons/ci";
+import {
+  Card,
+  CardHeader,
+  Button,
+  CardBody,
+  CardFooter,
+  Divider,
+  Link,
+  Image,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem,
+  Accordion,
+  AccordionItem,
+} from "@nextui-org/react";
+import { CiMenuKebab, CiWarning } from "react-icons/ci";
+import { NavLink, useNavigate } from "react-router-dom";
 export default function SaleDetail() {
   return (
-    <main className="h-screen bg-black flex pt-20 px-8 pb-8">
-      <div className="w-2/3 flex flex-col">
+    <main className="h-screen bg-black flex md:pt-20 pt-4 px-8 pb-8 md:space-x-6 md:flex-row flex-col overflow-auto space-y-4">
+      <div className="md:w-2/3 flex flex-col space-y-6">
         <div className="flex flex-col">
-          <h1>Item De Prueba - Por Favor, No Ofertar</h1>
+          <h1 className="text-2xl">Item De Prueba - Por Favor, No Ofertar</h1>
           <h1>Venta #2000006884120712 13 nov. 2023 13:58hs.</h1>
         </div>
-        <div>
+        <div className="bg-zinc-900 rounded-md flex items-center text-white space-x-2 px-2 py-2">
+          <div className="w-fit flex items-center">
+            <Image
+              alt="user photo"
+              className="h-10 rounded-full"
+              src="https://datepsychology.com/wp-content/uploads/2022/09/gigachad.jpg"
+            />
+          </div>
+          <div className="w-3/5 flex flex-col flex-grow">
+            <h1>Test Test</h1>
+            <h1>TESTUSER1722269484</h1>
+          </div>
+          <div className=" flex ">
+            <NavLink to="/chat">
+              <span className="text-indigo-400">Iniciar conversación</span>
+            </NavLink>
+          </div>
         </div>
+        <Card className="p-6">
+          <CardHeader className="flex-col">
+            <h1 className="text-xl w-full flex justify-start font-bold">
+              Acuerdas la entrega
+            </h1>
+            <div className="flex space-x-2 md:flex-row flex-col space-y-3">
+              <span className="text-gray-200">
+                Contáctate con tu comprador para entregarle el producto. Si ya
+                lo hiciste, avísanos.
+              </span>
+              <div className="flex space-x-3">
+                <Button color="secondary" className="w-auto flex-grow">
+                  Entregué el producto
+                </Button>{" "}
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant="bordered">
+                      <CiMenuKebab className="text-4xl cursor-pointer" />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Static Actions">
+                    <DropdownItem
+                      key="cancel"
+                      className="text-danger"
+                      color="danger"
+                    >
+                      Cancelar venta
+                    </DropdownItem>
+                    <DropdownItem key="help">Necesito ayuda</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </div>
+          </CardHeader>
+          <CardBody className="flex flex-col">
+            <div className="bg-zinc-200 flex text-black rounded-md space-x-4">
+              <div className="bg-blue-500 w-2"></div>
+              <CiWarning className="text-4xl text-blue-500 my-auto md:block invisible" />
+              <div className="flex flex-grow py-2">
+                Usa los mensajes para contactarte con el comprador. Dentro de
+                Mercado Libre tienes todo lo necesario para gestionar la venta.
+                Cómo vender de forma segura
+              </div>
+            </div>
+          </CardBody>
+          <CardFooter>
+            <div class="border border-zinc-500 bg-transparent p-4 flex space-x-4 items-center w-full rounded-md overflow-auto">
+              <div className="flex-shrink-0">
+                <Image
+                  className="object-contain w-12 h-12 rounded-xl"
+                  loading="lazy"
+                  isZoomed
+                  alt="Producto"
+                  src="https://http2.mlstatic.com/D_NQ_NP_948160-MLM71926994916_092023-O.webp"
+                />
+              </div>
+              <span className="whitespace-nowrap">$ 35.00</span>
+              <span className="flex flex-grow whitespace-nowrap">
+                Item De Prueba - Por Favor, No Ofertar
+              </span>
+              <span className="whitespace-nowrap">1 unidad</span>
+            </div>
+          </CardFooter>
+        </Card>
       </div>
-      <div className="w-1/3  flex-col">
-        <div className="flex flex-col">
-          <h1>Cobro aprobado</h1>
+      <div className="md:w-1/3  flex-col ">
+        <div className="flex flex-col ">
+          <h1 className="text-2xl">Cobro aprobado</h1>
           <h1>#66946245064 | 13 de noviembre</h1>
+        </div>
+        <div className="bg-zinc-900 rounded-md flex flex-col p-4">
+          <Accordion>
+            <AccordionItem
+              key="1"
+              aria-label="Precio del producto"
+              title="Precio del producto"
+            >
+              <div className="w-full flex">
+                <span className="flex fle-grow space-x-2">
+                  Item De Prueba - Por Favor, No Ofertar
+                </span>
+                <span className="whitespace-nowrap">$ 35</span>
+              </div>
+            </AccordionItem>
+            <AccordionItem
+              key="2"
+              aria-label="Accordion 2"
+              title="Cargos por venta"
+            >
+              <div className="w-full flex flex-col space-y-4">
+                <div className="w-full flex">
+                  <span className="flex flex-grow">Cargo del 15%</span>
+                  <span className="whitespace-nowrap">-$ 5.25</span>
+                </div>
+                <div className="w-full flex">
+                  <span className="flex flex-grow">Costo fijo</span>
+                  <span className="whitespace-nowrap">-$ 25.00</span>
+                </div>
+              </div>
+            </AccordionItem>
+          </Accordion>
+          <Divider className="my-4" />
+          <div className="flex">
+            <span className="flex flex-grow">Total</span>{" "}
+            <span className=" whitespace-nowrap">$4.75</span>
+          </div>
         </div>
       </div>
     </main>

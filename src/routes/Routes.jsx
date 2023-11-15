@@ -38,9 +38,10 @@ const Routes = () => {
         { /* Need authorization */ }
         <Route element={<CheckSession />}>
           <Route path='/questions' element={<Questionstest />} />
+          <Route path='/chat' element={<Questions />} />
           <Route path='/inventory' element={<Inventory />} />
           <Route path='/register_ml_app' element={<RegisterMLApp />} />
-          <Route path='/sale_order' element={<SaleDetail />} />
+          <Route path='/sale-detail' element={<SaleDetail />} />
         </Route>
       </ReactDomRoutes>
     </BrowserRouter>
