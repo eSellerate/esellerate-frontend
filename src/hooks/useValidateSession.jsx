@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 // Iibraries
 import axios from 'axios'
 // Utilities
@@ -7,6 +7,7 @@ import GetCookieByName from '../components/Utilities/Cookies/GetCookieByName'
 const useValidateSession = () => {
 
     const navigate = useNavigate()
+    const location = useLocation()
 
     const validateSession = async () => {
         const sessionCookie = GetCookieByName('session')
@@ -30,7 +31,7 @@ const useValidateSession = () => {
               // get last page visited from local storage
               const page = localStorage.getItem('lastPage')
               if (!page) {
-                navigate('/inventory')
+                navigate(location.pathname)
               } else {
                 navigate(`/${page}`)
               }
