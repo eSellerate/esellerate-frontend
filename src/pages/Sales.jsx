@@ -24,6 +24,8 @@ import {
   DropdownMenu,
   getKeyValue,
   DropdownItem,
+  Accordion,
+  AccordionItem,
 } from "@nextui-org/react";
 import {
   CiCalendar,
@@ -34,6 +36,7 @@ import {
 } from "react-icons/ci";
 import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 import axios from "axios";
+import Swal from "sweetalert2";
 export default function Sales() {
   const [selectedItem, setSelectedItem] = useState("Últimos 6 meses");
   const [searchTerm, setSearchTerm] = useState("");
@@ -45,56 +48,6 @@ export default function Sales() {
   const handlePrintSelectedChange = () => {
     setPrintSelected(!printSelected);
   };
-  const rows = [
-    {
-      key: "1",
-      image:
-        "https://http2.mlstatic.com/D_NQ_NP_948160-MLM71926994916_092023-O.webp",
-      name: "Item De Prueba - Por Favor, No Ofertar",
-      price: "$35.00",
-      quantity: "1 unidad",
-    },
-    {
-      key: "2",
-      image:
-        "https://http2.mlstatic.com/D_NQ_NP_948160-MLM71926994916_092023-O.webp",
-      name: "Item De Prueba - Por Favor, No Ofertar",
-      price: "$35.00",
-      quantity: "1 unidad",
-    },
-    {
-      key: "3",
-      image:
-        "https://http2.mlstatic.com/D_NQ_NP_948160-MLM71926994916_092023-O.webp",
-      name: "Item De Prueba - Por Favor, No Ofertar",
-      price: "$35.00",
-      quantity: "1 unidad",
-    },
-    {
-      key: "4",
-      image:
-        "https://http2.mlstatic.com/D_NQ_NP_948160-MLM71926994916_092023-O.webp",
-      name: "Item De Prueba - Por Favor, No Ofertar",
-      price: "$35.00",
-      quantity: "1 unidad",
-    },
-    {
-      key: "5",
-      image:
-        "https://http2.mlstatic.com/D_NQ_NP_948160-MLM71926994916_092023-O.webp",
-      name: "Item De Prueba - Por Favor, No Ofertar",
-      price: "$35.00",
-      quantity: "1 unidad",
-    },
-    {
-      key: "6",
-      image:
-        "https://http2.mlstatic.com/D_NQ_NP_948160-MLM71926994916_092023-O.webp",
-      name: "Item De Prueba - Por Favor, No Ofertar",
-      price: "$35.00",
-      quantity: "1 unidad",
-    },
-  ];
   const columns = [
     {
       key: "image",
@@ -121,7 +74,7 @@ export default function Sales() {
     fetchOrders();
   }, [searchTerm]);
 
-  const fetchOrders = () => {
+  var fetchOrders = () => {
     const session = extractCookie("session");
     axios
       .get(
@@ -136,7 +89,6 @@ export default function Sales() {
       .then((response) => {
         const { data } = response.data;
         setOrders(data.results);
-        console.log(data.results)
       })
       .catch((error) => {
         console.error("Error fetching orders:", error);
@@ -146,11 +98,6 @@ export default function Sales() {
           icon: "error",
         });
       })
-      .finally(() => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-      });
   };
 
   const handleDownloadExcel = async () => {
@@ -167,114 +114,133 @@ export default function Sales() {
         Ventas
       </h1>
       <Card className="max-w-full h-fit bg-neutral-700  hide-scroll">
+
         <CardBody>
-          <div className="flex space-x-4 text-xl w-fit">
-            <div className="flex flex-col space-y-2 w-1/4">
-              <h1>En preparacion</h1>
-              <p className="text-sm">0 ventas</p>
-              <div className="flex flex-col space-y-4">
-                <Card className="shadow-2xl">
-                  <CardHeader>
-                    <h1 className="text-ellipsis overflow-hidden ...">
-                      Ventas demoradas
-                    </h1>
-                  </CardHeader>
-                  <CardBody>
-                    <p>0 ventas</p>
-                  </CardBody>
-                </Card>
-                <Card className="shadow-2xl">
-                  <CardHeader>
-                    <h1>Para enviar</h1>
-                  </CardHeader>
-                  <CardBody>
-                    <p>0 ventas</p>
-                  </CardBody>
-                </Card>
-                <Card className="shadow-2xl">
-                  <CardHeader>
-                    <h1 className="text-ellipsis overflow-hidden ...">
-                      Acordar al comprador
-                    </h1>
-                  </CardHeader>
-                  <CardBody>
-                    <p>0 ventas</p>
-                  </CardBody>
-                </Card>
+          <Accordion
+            showDivider={false}
+            className="p-2 flex flex-col gap-1 w-full max-w-[300px]"
+            variant="shadow"
+          >
+            <AccordionItem
+              key="1"
+              aria-label="Connected devices"
+              startContent={
+                <div className="flex">
+                  <h1>En preparacion</h1>
+                  <p className="text-sm">0 ventas</p>
+                </div>
+              }
+            >
+              <div className="flex space-x-4 text-xl w-fit">
+                <div className="flex flex-col space-y-2 w-1/4">
+                  <h1>En preparacion</h1>
+                  <p className="text-sm">0 ventas</p>
+                  <div className="flex flex-col space-y-4">
+                    <Card className="shadow-2xl">
+                      <CardHeader>
+                        <h1 className="text-ellipsis overflow-hidden ...">
+                          Ventas demoradas
+                        </h1>
+                      </CardHeader>
+                      <CardBody>
+                        <p>0 ventas</p>
+                      </CardBody>
+                    </Card>
+                    <Card className="shadow-2xl">
+                      <CardHeader>
+                        <h1>Para enviar</h1>
+                      </CardHeader>
+                      <CardBody>
+                        <p>0 ventas</p>
+                      </CardBody>
+                    </Card>
+                    <Card className="shadow-2xl">
+                      <CardHeader>
+                        <h1 className="text-ellipsis overflow-hidden ...">
+                          Acordar al comprador
+                        </h1>
+                      </CardHeader>
+                      <CardBody>
+                        <p>0 ventas</p>
+                      </CardBody>
+                    </Card>
+                  </div>
+                </div>
+                <Divider orientation="vertical" />
+                <div className="flex flex-col space-y-2 w-1/4">
+                  <h1>Listas para enviar</h1>
+                  <p className="text-sm">0 ventas</p>
+                  <div className="flex flex-col space-y-4">
+                    <Card className="shadow-2xl">
+                      <CardHeader>
+                        <h1 className="text-ellipsis overflow-hidden ...">
+                          Mensajes no leídos
+                        </h1>
+                      </CardHeader>
+                      <CardBody>
+                        <p>0 ventas</p>
+                      </CardBody>
+                    </Card>
+                    <Card className="shadow-2xl">
+                      <CardHeader>
+                        <h1>Para enviar</h1>
+                      </CardHeader>
+                      <CardBody>
+                        <p>0 ventas</p>
+                      </CardBody>
+                    </Card>
+                  </div>
+                </div>
+                <Divider orientation="vertical" />
+                <div className="flex flex-col space-y-2 w-1/4">
+                  <h1>En tránsito</h1>
+                  <p className="text-sm">0 ventas</p>
+                  <div className="flex flex-col space-y-4">
+                    <Card className="shadow-2xl">
+                      <CardHeader>
+                        <h1>En camino</h1>
+                      </CardHeader>
+                      <CardBody>
+                        <p>0 ventas</p>
+                      </CardBody>
+                    </Card>
+                  </div>
+                </div>
+                <Divider orientation="vertical" />
+                <div className="flex flex-col space-y-2 w-1/4">
+                  <h1>Finalizadas</h1>
+                  <p className="text-sm">0 ventas</p>
+                  <div className="flex flex-col space-y-4">
+                    <Card className="shadow-2xl">
+                      <CardHeader>
+                        <h1>Reclamos abiertos</h1>
+                      </CardHeader>
+                      <CardBody>
+                        <p>0 ventas</p>
+                      </CardBody>
+                    </Card>
+                    <Card className="shadow-2xl">
+                      <CardHeader>
+                        <h1>Ventas concretadas</h1>
+                      </CardHeader>
+                      <CardBody>
+                        <p>0 ventas</p>
+                      </CardBody>
+                    </Card>
+                    <Card className="shadow-2xl">
+                      <CardHeader>
+                        <h1>Ventas NO concretadas</h1>
+                      </CardHeader>
+                      <CardBody>
+                        <p>0 ventas</p>
+                      </CardBody>
+                    </Card>
+                  </div>
+                </div>
               </div>
-            </div>
-            <Divider orientation="vertical" />
-            <div className="flex flex-col space-y-2 w-1/4">
-              <h1>Listas para enviar</h1>
-              <p className="text-sm">0 ventas</p>
-              <div className="flex flex-col space-y-4">
-                <Card className="shadow-2xl">
-                  <CardHeader>
-                    <h1 className="text-ellipsis overflow-hidden ...">
-                      Mensajes no leídos
-                    </h1>
-                  </CardHeader>
-                  <CardBody>
-                    <p>0 ventas</p>
-                  </CardBody>
-                </Card>
-                <Card className="shadow-2xl">
-                  <CardHeader>
-                    <h1>Para enviar</h1>
-                  </CardHeader>
-                  <CardBody>
-                    <p>0 ventas</p>
-                  </CardBody>
-                </Card>
-              </div>
-            </div>
-            <Divider orientation="vertical" />
-            <div className="flex flex-col space-y-2 w-1/4">
-              <h1>En tránsito</h1>
-              <p className="text-sm">0 ventas</p>
-              <div className="flex flex-col space-y-4">
-                <Card className="shadow-2xl">
-                  <CardHeader>
-                    <h1>En camino</h1>
-                  </CardHeader>
-                  <CardBody>
-                    <p>0 ventas</p>
-                  </CardBody>
-                </Card>
-              </div>
-            </div>
-            <Divider orientation="vertical" />
-            <div className="flex flex-col space-y-2 w-1/4">
-              <h1>Finalizadas</h1>
-              <p className="text-sm">0 ventas</p>
-              <div className="flex flex-col space-y-4">
-                <Card className="shadow-2xl">
-                  <CardHeader>
-                    <h1>Reclamos abiertos</h1>
-                  </CardHeader>
-                  <CardBody>
-                    <p>0 ventas</p>
-                  </CardBody>
-                </Card>
-                <Card className="shadow-2xl">
-                  <CardHeader>
-                    <h1>Ventas concretadas</h1>
-                  </CardHeader>
-                  <CardBody>
-                    <p>0 ventas</p>
-                  </CardBody>
-                </Card>
-                <Card className="shadow-2xl">
-                  <CardHeader>
-                    <h1>Ventas NO concretadas</h1>
-                  </CardHeader>
-                  <CardBody>
-                    <p>0 ventas</p>
-                  </CardBody>
-                </Card>
-              </div>
-            </div>
-          </div>
+            </AccordionItem>
+          </Accordion>
+
         </CardBody>
       </Card>
       <div className="flex space-x-3  hide-scroll">
@@ -380,16 +346,16 @@ export default function Sales() {
       <div ref={tableRef}>
         {Object.values(
           orders.reduce((acc, order, index) => {
-              if (!acc[order.pack_id]) {
-                acc[order.pack_id] = [order];
-              } else {
-                acc[order.pack_id].push(order);
-              }
+            if (!acc[order.pack_id]) {
+              acc[order.pack_id] = [order];
+            } else {
+              acc[order.pack_id].push(order);
+            }
             return acc;
           }, {})
         ).map((groupedOrders, pack_id) => (
           <div key={pack_id} className="mb-10">
-            <Table aria-label="Example table for Sales">
+            <Table selectionMode="multiple" >
               <TableHeader columns={columns}>
                 {(column) => (
                   <TableColumn key={column.key}>{column.label}</TableColumn>
@@ -399,9 +365,13 @@ export default function Sales() {
                 {groupedOrders.map((order, index) => (
                   <TableRow key={index}>
                     <TableCell>
-                      <div className="text-clip">
-                        NA
-                      </div>
+                      <Image
+                        className="object-contain m-auto w-12 h-12 rounded-xl"
+                        loading="lazy"
+                        isZoomed
+                        alt="Producto"
+                        src={order.order_items[0].item.image}
+                      />
                     </TableCell>
                     <TableCell>
                       <div className="text-clip">
