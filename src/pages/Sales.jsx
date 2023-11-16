@@ -1,6 +1,7 @@
 // react
 import React, { useState, useEffect, useRef } from "react";
 import jsPDF from "jspdf";
+import { saveAs } from 'file-saver'
 import html2canvas from "html2canvas";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -135,18 +136,21 @@ export default function Sales() {
         `${import.meta.env.VITE_BACKEND_END_POINT}generate-order`,
         orderscopy,
         {
+          responseType: 'arraybuffer',
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${session}`,
+            "Content-Type": "application/json",
+            "Accept": 'application/pdf',
+            Authorization: `Bearer ${session}`
           },
         }
       )
       .then((response) => {
-        const { data } = response.data;
-        setOrders(data.results);
+        const { data } = response;
+        const blob = new Blob([data], { type: 'application/pdf' })
+        saveAs(blob, `Recibo-${new Date().toLocaleDateString()}.pdf`)
       })
       .catch((error) => {
-        console.error("Error generating report:", error);
         Swal.fire({
           title: `Error con las preguntas`,
           text: `Error encontrado: ${error}`,
