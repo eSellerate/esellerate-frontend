@@ -95,12 +95,10 @@ function Questionstest() {
           },
         }
       );
-      console.log(response);
       response.then((response) => {
         const status = response.status;
         if (status === 200) {
           setLoading(true);
-          console.log("Pregunta Eliminada");
           Swal.fire({
             title: `Pregunta eliminada`,
             icon: "warning",
@@ -147,12 +145,9 @@ function Questionstest() {
           },
         }
       );
-
-      console.log(response);
       response.then((response) => {
         const status = response.status;
         if (status === 200) {
-          console.log("Pregunta Contestada");
           Swal.fire({
             title: `Pregunta resuelta`,
             icon: "success",

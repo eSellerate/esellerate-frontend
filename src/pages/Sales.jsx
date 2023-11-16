@@ -130,7 +130,6 @@ export default function Sales() {
         orderscopy.splice(i, 1)
       }
     }
-    console.log(orderscopy)
     axios
       .post(
         `${import.meta.env.VITE_BACKEND_END_POINT}generate-order`,

@@ -2,7 +2,6 @@ import React from 'react'
 import { AccordionItem, Button } from '@nextui-org/react'
 
 export default function Question(props) {
-    console.log(props)
     return(
         <AccordionItem
                 key={index}
@@ -20,7 +19,6 @@ export default function Question(props) {
                         </p>
                     </div>
                     <div className="flex items-center">
-                        { console.log(question.answer) }
                         <Textarea
                         placeholder="Escribe tu respuesta"
                         value={responseTexts[question.id] || ""}

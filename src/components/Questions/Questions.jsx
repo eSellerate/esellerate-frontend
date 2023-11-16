@@ -18,9 +18,7 @@ function Questions() {
   const [counter, setCounter] = useState(0);
 
   useEffect(() => {
-    getMercadoLibreQuestions().then(() => {
-      console.log(initialQuestions);
-    });
+    getMercadoLibreQuestions()
   }, []);
 
   async function getMercadoLibreQuestions() {
@@ -31,7 +29,6 @@ function Questions() {
       const { data } = response.data;
       setQuestions(data.questions);
       setSelectedChat(data.questions[0]);
-      console.log(data.questions[0]);
     } catch (error) {
       console.log(error.response);
     }
@@ -39,8 +36,6 @@ function Questions() {
 
   const selectChat = (question) => {
     setSelectedChat(question);
-    console.log(question);
-    console.log(selectedChat);
   };
 
   const handleSendMessage = () => {

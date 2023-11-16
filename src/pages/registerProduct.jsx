@@ -95,7 +95,6 @@ export default function registerProduct () {
             }
             data.attributes.push({id: key, value_name: value})
         }
-        console.log(data)
         try {
             const response = await axios.post(`${endpoint}mercado-libre/publish`, data, {
                 headers: {
@@ -103,7 +102,6 @@ export default function registerProduct () {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log(response)
         } catch(error) {
             console.log(error)
         }

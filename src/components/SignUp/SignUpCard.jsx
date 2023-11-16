@@ -42,7 +42,6 @@ export default function SignUpCard() {
           },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         Swal.fire({
           title: `Bienvenido, ${firstName}`,

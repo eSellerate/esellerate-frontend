@@ -29,7 +29,6 @@ export default function DragNDrop (props) {
       })
       setImages(response.data.images)
       props.getImages(response.data.images)
-      console.log(response)
     } catch(error) {
       console.log(error)
     }
