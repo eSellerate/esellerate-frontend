@@ -46,15 +46,16 @@ export default function Sales() {
   const tableRef = useRef(null);
   const navigate = useNavigate();
   const handleDropdownSelect = (item, date) => {
-    date.setHours(0,0,0,0);
-    setSelectedItem(item);6
+    date.setHours(0, 0, 0, 0);
+    setSelectedItem(item); 6
     orders.forEach((order) => {
       var order_date = new Date(order.date_created.substring(0, order.date_created.indexOf("T")))
-      order_date.setHours(0,0,0,0);
+      order_date.setHours(0, 0, 0, 0);
       if (order_date < date) {
         order.enabled = false
       }
-      else order.enabled = true    })
+      else order.enabled = true
+    })
   };
   const handlePrintSelectedChange = () => {
     setPrintSelected(!printSelected);
@@ -113,12 +114,46 @@ export default function Sales() {
   };
 
   const handleDownloadExcel = async () => {
+    /*
     const pdf = new jsPDF("p", "pt", "letter");
     const table = tableRef.current;
     const canvas = await html2canvas(table);
     const imgData = canvas.toDataURL("image/png");
     pdf.addImage(imgData, "PNG", 10, 10, 600, 750);
     pdf.save("Venta.pdf");
+    */
+    const session = extractCookie("session");
+    var orderscopy = JSON.parse(JSON.stringify(orders))
+    let nodes = Object.keys(orderscopy);
+    for (let i = 0; i < nodes.length; i++) {
+      if (!orderscopy[i].enabled) {
+        orderscopy.splice(i, 1)
+      }
+    }
+    console.log(orderscopy)
+    axios
+      .post(
+        `${import.meta.env.VITE_BACKEND_END_POINT}generate-order`,
+        orderscopy,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${session}`,
+          },
+        }
+      )
+      .then((response) => {
+        const { data } = response.data;
+        setOrders(data.results);
+      })
+      .catch((error) => {
+        console.error("Error generating report:", error);
+        Swal.fire({
+          title: `Error con las preguntas`,
+          text: `Error encontrado: ${error}`,
+          icon: "error",
+        });
+      })
   };
   return (
     <main className="w-full h-fit flex flex-col space-y-4 md:px-12 px-4 md:pt-20 md:pb-8 pt-0">
