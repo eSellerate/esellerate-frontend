@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -12,90 +12,107 @@ import {
   Switch,
   Card,
   CardFooter,
-  Image
-} from '@nextui-org/react'
-import PropTypes from 'prop-types'
-import alertify from 'alertifyjs'
-import 'alertifyjs/build/css/alertify.css'
-import error404img from '../../assets/imagen-404.webp'
-import CardCarousel from './CardCarousel'
-import closePublication from '../../functions/closePublication'
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem,
+  Image,
+} from "@nextui-org/react";
+import PropTypes from "prop-types";
+import alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.css";
+import error404img from "../../assets/imagen-404.webp";
+import CardCarousel from "./CardCarousel";
+import closePublication from "../../functions/closePublication";
 
-export default function ProductCard (props) {
+export default function ProductCard(props) {
   ProductCard.propTypes = {
     product: PropTypes.object,
-    reloadItems: PropTypes.func
-  }
+    reloadItems: PropTypes.func,
+  };
 
   // destructuring of props
-  const { product, reloadItems } = props
+  const { product, reloadItems } = props;
 
   // get images
-  const image = product.pictures ?? null
+  const image = product.pictures ?? null;
 
   // state
-  const [title, setTitle] = useState(product.title)
-  const [description, setDescription] = useState(product.description)
-  const [price, setPrice] = useState(product.price)
+  const [title, setTitle] = useState(product.title);
+  const [description, setDescription] = useState(product.description);
+  const [price, setPrice] = useState(product.price);
   // UI state
-  const [enabled, setEnabled] = useState(true)
+  const [enabled, setEnabled] = useState(true);
+  const [custom, setCustom] = useState(true);
+  const [selectedCustom, setSelectedCustom] = useState("Personalizado 1");
 
+  const handleDropdownSelect = (item) => {
+    setSelectedCustom(item);
+  };
   useEffect(() => {
-    if (product.status !== 'active') {
-      setEnabled(false)
+    if (product.status !== "active") {
+      setEnabled(false);
     }
-  }, [])
+  }, []);
 
   const handleClosePublication = (title) => {
-    alertify.confirm(
-      'Eliminar publicación',
-      `La publicación "${title}", será eliminada. ¿Deseea continuar?`,
-      async function () {
-        try {
-          const response = await closePublication(product.id)
-          if (response.status === 200) {
-            alertify.success('Publicación eliminada')
-            reloadItems()
-          } else {
-            alertify.error(response.message)
+    alertify
+      .confirm(
+        "Eliminar publicación",
+        `La publicación "${title}", será eliminada. ¿Deseea continuar?`,
+        async function () {
+          try {
+            const response = await closePublication(product.id);
+            if (response.status === 200) {
+              alertify.success("Publicación eliminada");
+              reloadItems();
+            } else {
+              alertify.error(response.message);
+            }
+          } catch (error) {
+            alertify.error(error.message);
           }
-        } catch (error) {
-          alertify.error(error.message)
-        }
-      },
-      function () { }
-    ).setting({
-      movable: false,
-      labels: {
-        ok: 'Eliminar',
-        cancel: 'Cancelar'
-      }
-    })
-  }
+        },
+        function () {}
+      )
+      .setting({
+        movable: false,
+        labels: {
+          ok: "Eliminar",
+          cancel: "Cancelar",
+        },
+      });
+  };
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
-      <div onClick={onOpen} className='md:w-auto w-full'>
+      <div onClick={onOpen} className="md:w-auto w-full">
         <Card
           isFooterBlurred
-          radius='lg'
-          className='flex bg-white h-fit hover:cursor-pointer hover:shadow md:mx-0 mx-auto border-none md:p-1 px-4 w-auto'
+          radius="lg"
+          className="flex bg-white h-fit hover:cursor-pointer hover:shadow md:mx-0 mx-auto border-none md:p-1 px-4 w-auto"
         >
           {/* <CardHeader className="flex gap-3 justify-center"> */}
           <Image
-            className='object-contain p-4 m-auto'
-            loading='lazy'
+            className="object-contain p-4 m-auto"
+            loading="lazy"
             isZoomed
             alt={product.title}
             src={image ? image[0].url : error404img}
           />
-          <CardFooter className='justify-between space-x-1 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small z-10'>
-            <p className=' text-black/80 font-bold text-secondary truncate'>
+          <CardFooter className="justify-between space-x-1 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small z-10">
+            <p className=" text-black/80 font-bold text-secondary truncate">
               {product.title}
             </p>
-            <Button className='font-bold' color='danger' variant='bordered' onPress={() => handleClosePublication(product.title)}>
+            <Button
+              className="font-bold"
+              color="danger"
+              variant="bordered"
+              onPress={() => handleClosePublication(product.title)}
+            >
               Eliminar
             </Button>
           </CardFooter>
@@ -109,80 +126,146 @@ export default function ProductCard (props) {
         </Card>
       </div>
       <Modal
-        backdrop='blur'
+        backdrop="blur"
         isOpen={isOpen}
-        size='5xl'
+        size="5xl"
         onOpenChange={onOpenChange}
-        scrollBehavior='inside'
-        placement='top-center'
+        scrollBehavior="inside"
+        placement="top-center"
       >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader>Editar producto</ModalHeader>
               <ModalBody>
-                <div className='p-5 flex md:flex-row flex-col gap-10 md:gap-28 justify-center'>
+                <div className="p-5 flex md:flex-row flex-col gap-10 md:gap-28 justify-center">
                   <div>
                     <CardCarousel images={image} />
                   </div>
-                  <div className='md:w-96 w-80 flex flex-col gap-2'>
+                  <div className="md:w-96 w-80 flex flex-col gap-2">
                     <Input
                       autoFocus
-                      label='SKU'
+                      label="SKU"
                       disabled
                       value={product.id}
-                      placeholder='Sku del producto'
-                      variant='bordered'
+                      placeholder="Sku del producto"
+                      variant="bordered"
                     />
                     <Input
-                      label='Nombre'
+                      label="Nombre"
                       value={title}
                       onChange={(e) => {
-                        setTitle(e.target.value)
+                        setTitle(e.target.value);
                       }}
-                      placeholder='Nombre del producto'
-                      type='text'
-                      variant='bordered'
+                      placeholder="Nombre del producto"
+                      type="text"
+                      variant="bordered"
                     />
                     <Textarea
-                      label='Descripción'
+                      label="Descripción"
                       value={description}
                       onChange={(e) => {
-                        setDescription(e.target.value)
+                        setDescription(e.target.value);
                       }}
-                      placeholder='Descripcion del producto'
+                      placeholder="Descripcion del producto"
                       multiple
-                      type='text'
-                      variant='bordered'
+                      type="text"
+                      variant="bordered"
                     />
                     <Input
-                      label='Precio'
+                      label="Precio"
                       onChange={(e) => {
-                        setPrice(e.target.value)
+                        setPrice(e.target.value);
                       }}
                       value={price}
-                      placeholder='Precio del producto'
-                      type='number'
-                      variant='bordered'
-                      startContent='$'
+                      placeholder="Precio del producto"
+                      type="number"
+                      variant="bordered"
+                      startContent="$"
                       endContent={product.currency_id}
                     />
                     <div>
-                      <p className='text-secondary mb-2'>Estado del producto</p>
+                      <p className="text-secondary mb-2">Estado del producto</p>
                       <Switch
                         isSelected={enabled}
                         onValueChange={() => {
-                          setEnabled(!enabled)
+                          setEnabled(!enabled);
                         }}
                       >
-                        {enabled ? 'Habilitado 🥵👌' : 'Deshabilitado 😣🚫'}
+                        {enabled ? "Habilitado 🥵👌" : "Deshabilitado 😣🚫"}
                       </Switch>
+                    </div>
+                    <div className="flex flex-col space-y-4">
+                      <p className="text-secondary mb-2">
+                        Diseño Personalizado
+                      </p>
+                      <Switch
+                        isSelected={custom}
+                        onValueChange={() => {
+                          setCustom(!custom);
+                        }}
+                      >
+                        {custom
+                          ? "Diseño personalizado 😎👌"
+                          : "Sin personalizar 😒🤢"}
+                      </Switch>
+                      {custom ? (
+                        <Dropdown className="w-fit">
+                          <DropdownTrigger>
+                            <Button variant="bordered">{selectedCustom}</Button>
+                          </DropdownTrigger>
+                          <DropdownMenu aria-label="Static Actions">
+                            <DropdownItem
+                              key="custom1"
+                              onClick={() =>
+                                handleDropdownSelect("Personalizado 1")
+                              }
+                            >
+                              Personalizado 1
+                            </DropdownItem>
+                            <DropdownItem
+                              key="custom2"
+                              onClick={() =>
+                                handleDropdownSelect("Personalizado 2")
+                              }
+                            >
+                              Personalizado 2
+                            </DropdownItem>
+                            <DropdownItem
+                              key="custom3"
+                              onClick={() =>
+                                handleDropdownSelect("Personalizado 3")
+                              }
+                            >
+                              Personalizado 3
+                            </DropdownItem>
+                            <DropdownItem
+                              key="custom4"
+                              onClick={() =>
+                                handleDropdownSelect("Personalizado 4")
+                              }
+                            >
+                              Personalizado 4
+                            </DropdownItem>
+                            <DropdownItem
+                              key="custom5"
+                              onClick={() =>
+                                handleDropdownSelect("Personalizado 5")
+                              }
+                            >
+                              Personalizado 5
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
+                      ) : (
+                        true
+                      )}
                     </div>
                   </div>
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color='primary' variant='flat' onPress={onClose}>
+                <Button color="primary" variant="flat" onPress={onClose}>
                   Editar
                 </Button>
               </ModalFooter>
@@ -191,5 +274,5 @@ export default function ProductCard (props) {
         </ModalContent>
       </Modal>
     </>
-  )
+  );
 }

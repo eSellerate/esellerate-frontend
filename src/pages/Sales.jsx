@@ -1,7 +1,7 @@
 // react
 import React, { useState, useEffect, useRef } from "react";
 import jsPDF from "jspdf";
-import { saveAs } from 'file-saver'
+import { saveAs } from "file-saver";
 import html2canvas from "html2canvas";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -48,15 +48,17 @@ export default function Sales() {
   const navigate = useNavigate();
   const handleDropdownSelect = (item, date) => {
     date.setHours(0, 0, 0, 0);
-    setSelectedItem(item); 6
+    setSelectedItem(item);
+    6;
     orders.forEach((order) => {
-      var order_date = new Date(order.date_created.substring(0, order.date_created.indexOf("T")))
+      var order_date = new Date(
+        order.date_created.substring(0, order.date_created.indexOf("T"))
+      );
       order_date.setHours(0, 0, 0, 0);
       if (order_date < date) {
-        order.enabled = false
-      }
-      else order.enabled = true
-    })
+        order.enabled = false;
+      } else order.enabled = true;
+    });
   };
   const handlePrintSelectedChange = () => {
     setPrintSelected(!printSelected);
@@ -111,7 +113,7 @@ export default function Sales() {
           text: `Error encontrado: ${error}`,
           icon: "error",
         });
-      })
+      });
   };
 
   const handleDownloadExcel = async () => {
@@ -124,11 +126,11 @@ export default function Sales() {
     pdf.save("Venta.pdf");
     */
     const session = extractCookie("session");
-    var orderscopy = JSON.parse(JSON.stringify(orders))
+    var orderscopy = JSON.parse(JSON.stringify(orders));
     let nodes = Object.keys(orderscopy);
     for (let i = 0; i < nodes.length; i++) {
       if (!orderscopy[i].enabled) {
-        orderscopy.splice(i, 1)
+        orderscopy.splice(i, 1);
       }
     }
     axios
@@ -136,19 +138,19 @@ export default function Sales() {
         `${import.meta.env.VITE_BACKEND_END_POINT}generate-order`,
         orderscopy,
         {
-          responseType: 'arraybuffer',
+          responseType: "arraybuffer",
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-            "Accept": 'application/pdf',
-            Authorization: `Bearer ${session}`
+            Accept: "application/pdf",
+            Authorization: `Bearer ${session}`,
           },
         }
       )
       .then((response) => {
         const { data } = response;
-        const blob = new Blob([data], { type: 'application/pdf' })
-        saveAs(blob, `Recibo-${new Date().toLocaleDateString()}.pdf`)
+        const blob = new Blob([data], { type: "application/pdf" });
+        saveAs(blob, `Recibo-${new Date().toLocaleDateString()}.pdf`);
       })
       .catch((error) => {
         Swal.fire({
@@ -156,41 +158,39 @@ export default function Sales() {
           text: `Error encontrado: ${error}`,
           icon: "error",
         });
-      })
+      });
   };
   return (
-    <main className="w-full h-fit flex flex-col space-y-4 md:px-12 px-4 md:pt-20 md:pb-8 pt-0">
+    <main className="md:w-full h-fit flex flex-col space-y-4 md:px-12 px-4 md:pt-20 md:pb-8 pt-0">
       <h1 className="text-2xl font-bold mb-7 md:text-left text-center">
         Ventas
       </h1>
       <Card className="max-w-full h-fit bg-neutral-700  hide-scroll">
-
         <CardBody>
           <Accordion
             showDivider={false}
-            className="   w-full"
+            className="w-fit md:w-full"
             variant="shadow"
           >
             <AccordionItem
               key="1"
-              aria-label="Connected devices"
               className="w-fit md:w-full"
               title={
-                <div className="flex space-x-4 text-xl w-fit md:w-full">
+                <div className="flex space-x-6 text-xl">
                   <div className="flex flex-col space-y-2 w-1/4">
-                    <h1>En preparacion</h1>
+                    <h1 className="whitespace-nowrap">En preparación</h1>
                     <p className="text-sm">0 ventas</p>
                   </div>
                   <div className="flex flex-col space-y-2 w-1/4">
-                    <h1>Listas para enviar</h1>
+                    <h1 className="whitespace-nowrap">Listas para enviar</h1>
                     <p className="text-sm">0 ventas</p>
                   </div>
                   <div className="flex flex-col space-y-2 w-1/4">
-                    <h1>En tránsito</h1>
+                    <h1 className="whitespace-nowrap">En tránsito</h1>
                     <p className="text-sm">0 ventas</p>
                   </div>
                   <div className="flex flex-col space-y-2 w-1/4">
-                    <h1>Finalizadas</h1>
+                    <h1 className="whitespace-nowrap">Finalizadas</h1>
                     <p className="text-sm">0 ventas</p>
                   </div>
                 </div>
@@ -297,7 +297,6 @@ export default function Sales() {
               </div>
             </AccordionItem>
           </Accordion>
-
         </CardBody>
       </Card>
       <div className="flex space-x-3  hide-scroll">
@@ -323,40 +322,60 @@ export default function Sales() {
             <DropdownItem
               key="day"
               startContent={<CiCalendarDate />}
-              onClick={() => handleDropdownSelect("Últimas 24 horas",
-                new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000))}
+              onClick={() =>
+                handleDropdownSelect(
+                  "Últimas 24 horas",
+                  new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000)
+                )
+              }
             >
               Últimas 24 horas
             </DropdownItem>
             <DropdownItem
               key="week"
               startContent={<CiCalendarDate />}
-              onClick={() => handleDropdownSelect("Última semana",
-                new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000))}
+              onClick={() =>
+                handleDropdownSelect(
+                  "Última semana",
+                  new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+                )
+              }
             >
               Última semana
             </DropdownItem>
             <DropdownItem
               key="month"
               startContent={<CiCalendarDate />}
-              onClick={() => handleDropdownSelect("Último mes",
-                new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000))}
+              onClick={() =>
+                handleDropdownSelect(
+                  "Último mes",
+                  new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000)
+                )
+              }
             >
               Último mes
             </DropdownItem>
             <DropdownItem
               key="monththree"
               startContent={<CiCalendarDate />}
-              onClick={() => handleDropdownSelect("Últimos 3 meses",
-                new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000))}
+              onClick={() =>
+                handleDropdownSelect(
+                  "Últimos 3 meses",
+                  new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000)
+                )
+              }
             >
               Últimos 3 meses
             </DropdownItem>
             <DropdownItem
               key="monthsix"
               startContent={<CiCalendarDate />}
-              onClick={() => handleDropdownSelect("Últimos 6 meses",
-                new Date(new Date().getTime() - 180 * 24 * 60 * 60 * 1000))}
+              onClick={() =>
+                handleDropdownSelect(
+                  "Últimos 6 meses",
+                  new Date(new Date().getTime() - 180 * 24 * 60 * 60 * 1000)
+                )
+              }
             >
               Últimos 6 meses
             </DropdownItem>
@@ -413,7 +432,7 @@ export default function Sales() {
           }, {})
         ).map((groupedOrders, pack_id) => (
           <div key={pack_id} className="mb-10">
-            <Table selectionMode="multiple" >
+            <Table selectionMode="multiple">
               <TableHeader columns={columns}>
                 {(column) => (
                   <TableColumn key={column.key}>{column.label}</TableColumn>
