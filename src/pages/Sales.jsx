@@ -42,10 +42,19 @@ export default function Sales() {
   const [selectedItem, setSelectedItem] = useState("Últimos 6 meses");
   const [searchTerm, setSearchTerm] = useState("");
   const [printSelected, setPrintSelected] = useState(false);
+  const [orders, setOrders] = useState([]);
   const tableRef = useRef(null);
   const navigate = useNavigate();
-  const handleDropdownSelect = (item) => {
-    setSelectedItem(item);
+  const handleDropdownSelect = (item, date) => {
+    date.setHours(0,0,0,0);
+    setSelectedItem(item);6
+    orders.forEach((order) => {
+      var order_date = new Date(order.date_created.substring(0, order.date_created.indexOf("T")))
+      order_date.setHours(0,0,0,0);
+      if (order_date < date) {
+        order.enabled = false
+      }
+      else order.enabled = true    })
   };
   const handlePrintSelectedChange = () => {
     setPrintSelected(!printSelected);
@@ -69,12 +78,13 @@ export default function Sales() {
     },
   ];
 
-  const [orders, setOrders] = useState([]);
-
   useEffect(() => {
     console.log(searchTerm);
-    fetchOrders();
   }, [searchTerm]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
   var fetchOrders = () => {
     const session = extractCookie("session");
@@ -120,23 +130,36 @@ export default function Sales() {
         <CardBody>
           <Accordion
             showDivider={false}
-            className="p-2 flex flex-col gap-1 w-full max-w-[300px]"
+            className="   w-full"
             variant="shadow"
           >
             <AccordionItem
               key="1"
               aria-label="Connected devices"
-              startContent={
-                <div className="flex">
-                  <h1>En preparacion</h1>
-                  <p className="text-sm">0 ventas</p>
+              className="w-fit md:w-full"
+              title={
+                <div className="flex space-x-4 text-xl w-fit md:w-full">
+                  <div className="flex flex-col space-y-2 w-1/4">
+                    <h1>En preparacion</h1>
+                    <p className="text-sm">0 ventas</p>
+                  </div>
+                  <div className="flex flex-col space-y-2 w-1/4">
+                    <h1>Listas para enviar</h1>
+                    <p className="text-sm">0 ventas</p>
+                  </div>
+                  <div className="flex flex-col space-y-2 w-1/4">
+                    <h1>En tránsito</h1>
+                    <p className="text-sm">0 ventas</p>
+                  </div>
+                  <div className="flex flex-col space-y-2 w-1/4">
+                    <h1>Finalizadas</h1>
+                    <p className="text-sm">0 ventas</p>
+                  </div>
                 </div>
               }
             >
-              <div className="flex space-x-4 text-xl w-fit">
+              <div className="flex space-x-4 text-xl w-fit md:w-full">
                 <div className="flex flex-col space-y-2 w-1/4">
-                  <h1>En preparacion</h1>
-                  <p className="text-sm">0 ventas</p>
                   <div className="flex flex-col space-y-4">
                     <Card className="shadow-2xl">
                       <CardHeader>
@@ -170,8 +193,6 @@ export default function Sales() {
                 </div>
                 <Divider orientation="vertical" />
                 <div className="flex flex-col space-y-2 w-1/4">
-                  <h1>Listas para enviar</h1>
-                  <p className="text-sm">0 ventas</p>
                   <div className="flex flex-col space-y-4">
                     <Card className="shadow-2xl">
                       <CardHeader>
@@ -195,8 +216,6 @@ export default function Sales() {
                 </div>
                 <Divider orientation="vertical" />
                 <div className="flex flex-col space-y-2 w-1/4">
-                  <h1>En tránsito</h1>
-                  <p className="text-sm">0 ventas</p>
                   <div className="flex flex-col space-y-4">
                     <Card className="shadow-2xl">
                       <CardHeader>
@@ -210,8 +229,6 @@ export default function Sales() {
                 </div>
                 <Divider orientation="vertical" />
                 <div className="flex flex-col space-y-2 w-1/4">
-                  <h1>Finalizadas</h1>
-                  <p className="text-sm">0 ventas</p>
                   <div className="flex flex-col space-y-4">
                     <Card className="shadow-2xl">
                       <CardHeader>
@@ -266,47 +283,42 @@ export default function Sales() {
             aria-label="Dropdown menu with description"
           >
             <DropdownItem
-              key="new"
-              description="Create a new file"
+              key="day"
               startContent={<CiCalendarDate />}
-              onClick={() => handleDropdownSelect("Últimas 24 horas")}
+              onClick={() => handleDropdownSelect("Últimas 24 horas",
+                new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000))}
             >
               Últimas 24 horas
             </DropdownItem>
             <DropdownItem
-              key="copy"
-              description="Copy the file link"
+              key="week"
               startContent={<CiCalendarDate />}
-              onClick={() => handleDropdownSelect("Última semana")}
+              onClick={() => handleDropdownSelect("Última semana",
+                new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000))}
             >
               Última semana
             </DropdownItem>
             <DropdownItem
-              key="edit"
-              showDivider
-              description="Allows you to edit the file"
+              key="month"
               startContent={<CiCalendarDate />}
-              onClick={() => handleDropdownSelect("Último mes")}
+              onClick={() => handleDropdownSelect("Último mes",
+                new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000))}
             >
               Último mes
             </DropdownItem>
             <DropdownItem
-              key="delete"
-              className="text-danger"
-              color="danger"
-              description="Permanently delete the file"
+              key="monththree"
               startContent={<CiCalendarDate />}
-              onClick={() => handleDropdownSelect("Últimos 3 meses")}
+              onClick={() => handleDropdownSelect("Últimos 3 meses",
+                new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000))}
             >
               Últimos 3 meses
             </DropdownItem>
             <DropdownItem
-              key="delete2"
-              className="text-danger"
-              color="danger"
-              description="Permanently delete the file"
+              key="monthsix"
               startContent={<CiCalendarDate />}
-              onClick={() => handleDropdownSelect("Últimos 6 meses")}
+              onClick={() => handleDropdownSelect("Últimos 6 meses",
+                new Date(new Date().getTime() - 180 * 24 * 60 * 60 * 1000))}
             >
               Últimos 6 meses
             </DropdownItem>
@@ -352,10 +364,12 @@ export default function Sales() {
       <div ref={tableRef}>
         {Object.values(
           orders.reduce((acc, order, index) => {
-            if (!acc[order.pack_id]) {
-              acc[order.pack_id] = [order];
-            } else {
-              acc[order.pack_id].push(order);
+            if (order.enabled) {
+              if (!acc[order.pack_id]) {
+                acc[order.pack_id] = [order];
+              } else {
+                acc[order.pack_id].push(order);
+              }
             }
             return acc;
           }, {})
@@ -372,7 +386,7 @@ export default function Sales() {
                   <TableRow key={index}>
                     <TableCell>
                       <Image
-                        className="object-contain m-auto w-12 h-12 rounded-xl"
+                        className="object-contain m-auto w-12 h-12 rounded-xl shrink-0"
                         loading="lazy"
                         isZoomed
                         alt="Producto"
