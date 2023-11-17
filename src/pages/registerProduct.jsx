@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2"
 import axios from "axios";
 import DragNDrop from "../components/Utilities/DragNDrop/DragNDrop";
 import {
@@ -122,6 +123,7 @@ export default function registerProduct() {
       data.attributes.push({ id: key, value_name: value });
     }
     try {
+      console.log(data)
       const response = await axios.post(
         `${endpoint}mercado-libre/publish`,
         data,
@@ -131,9 +133,64 @@ export default function registerProduct() {
             "Content-Type": "application/json",
           },
         }
-      );
+      )
+      Swal.fire({
+        title: 'Publicado',
+        text: `Producto ${data.title} publicado.`,
+        icon: "success",
+    })
     } catch (error) {
       console.log(error);
+        // initial data (default)
+        let data = {
+            currency_id: "MXN",
+            buying_mode: "buy_it_now",
+            condition: "new",
+            listing_type_id: "gold_special",
+            sale_terms: [
+                {
+                   id: "WARRANTY_TYPE",
+                   value_name: "Garantía del vendedor"
+                },
+                {
+                   id: "WARRANTY_TIME",
+                   value_name: "90 días"
+                }
+             ],
+             pictures,
+            attributes: []
+        }
+        for (let [key, value] of formData.entries()) {
+            if (key === 'file') continue
+            if (key === 'title' || key === 'price' || key === 'category_id' || key === 'available_quantity') {
+                data[key] = value;
+                continue
+            }
+            if (key === 'DATA_STORAGE_CAPACITY') {
+                data.attributes.push({id: key, value_name: `${value}GB`})
+                continue
+            }
+            data.attributes.push({id: key, value_name: value})
+        }
+        try {
+            const response = await axios.post(`${endpoint}mercado-libre/publish`, data, {
+                headers: {
+                    'Authorization': `Bearer ${session}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            Swal.fire({
+                title: 'Publicado',
+                text: `Producto ${data.title} publicado.`,
+                icon: "success",
+            })
+        } catch(error) {
+            Swal.fire({
+                title: "No se pudo publicar el producto",
+                text: error.response.data.message,
+                icon: "error",
+            })
+        }
     }
   };
 
