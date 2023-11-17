@@ -51,6 +51,7 @@ function Questions() {
 
   return (
     <div className="w-full h-screen flex overflow-hidden chat-selector pt-20">
+      {/*
       <div className="w-1/5 hidden bg-zinc-900 p-4  flex-col chat-display md:flex">
         {initialQuestions.map((question, index) => (
           <div
@@ -71,6 +72,7 @@ function Questions() {
           </div>
         ))}
       </div>
+      */}
       <div className="md:w-4/5 w-full flex flex-col">
         <div> </div>
         <div className="bg-stone-800 flex items-center w-full">
