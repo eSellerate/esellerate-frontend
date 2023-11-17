@@ -33,13 +33,16 @@ const useValidateSession = () => {
               if (!page) {
                 navigate(location.pathname)
               } else {
+                if(page === "login")
+                  navigate(`/inventory`)
                 navigate(`/${page}`)
               }
               return
             }
         } catch (error) {
-            navigate('/login')
-            return
+          console.log(error)
+          navigate('/login')
+          return
         }
     }
 
