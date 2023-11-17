@@ -123,6 +123,7 @@ export default function registerProduct() {
       data.attributes.push({ id: key, value_name: value });
     }
     try {
+      console.log(data)
       const response = await axios.post(
         `${endpoint}mercado-libre/publish`,
         data,
@@ -174,7 +175,7 @@ export default function registerProduct() {
                 }
             })
             Swal.fire({
-                title: response.data.statusText,
+                title: 'Publicado',
                 text: `Producto ${data.title} publicado.`,
                 icon: "success",
             })
