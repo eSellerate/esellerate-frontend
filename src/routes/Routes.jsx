@@ -29,22 +29,25 @@ const Routes = () => {
         <DesktopNavbar />
       </>
       <ReactDomRoutes>
-        { /* Don´t need authorization */ }
-        <Route path='/' element={<Login />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/test' element={<MainPage />} />
-        <Route path='/sales' element={<Sales />} />
-        <Route path='*' element={<PageNotFound />} />
-        { /* Need authorization */ }
+        { /* Need authorization */}
         <Route element={<CheckSession />}>
+          <Route path='/' element={<Inventory />} />
+          <Route path='/login' element={<Inventory />} />
+          <Route path='/sign-up' element={<Inventory />} />
           <Route path='/questions' element={<Questionstest />} />
+          <Route path='/test' element={<MainPage />} />
+          <Route path='/sales' element={<Sales />} />
           <Route path='/chat' element={<Questions />} />
           <Route path='/inventory' element={<Inventory />} />
           <Route path='/register_ml_app' element={<RegisterMLApp />} />
           <Route path='/sale-detail' element={<SaleDetail />} />
           <Route path='/register-product' element={<RegisterProduct />} />
         </Route>
+        { /* Don´t need authorization */}
+        <Route path='/' element={<Login />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/sign-up' element={<SignUp />} />
+        <Route path='*' element={<PageNotFound />} />
       </ReactDomRoutes>
     </BrowserRouter>
   )

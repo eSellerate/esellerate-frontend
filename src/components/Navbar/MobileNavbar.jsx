@@ -58,7 +58,7 @@ export default function MobileNavbar() {
   user.email !== ""
     ? (menuItems = [
         {
-          name: "Publicaciones",
+          name: "Inicio",
           link: "inventory",
         },
         {
@@ -117,9 +117,7 @@ export default function MobileNavbar() {
           >
             <Link
               color={
-                index === menuItems.length - 2
-                  ? "primary"
-                  : index === menuItems.length - 1
+                item.name === "Cerrar Sesión"
                   ? "danger"
                   : "foreground"
               }

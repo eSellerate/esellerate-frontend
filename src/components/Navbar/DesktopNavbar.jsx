@@ -34,10 +34,7 @@ export default function DesktopNavbar () {
       {user.email !== '' && <div className='sm:block hidden'>
         <NavbarContent className='sm:flex gap-4' justify='center'>
           <NavbarItem isActive={currentPath === '/'}>
-            <NavLink to='/'> Inicio </NavLink>
-          </NavbarItem>
-          <NavbarItem isActive={currentPath === '/inventory'}>
-            <NavLink to='/inventory'> Publicaciones </NavLink>
+            <NavLink to='/inventory'> Inicio </NavLink>
           </NavbarItem>
           <NavbarItem isActive={currentPath === '/questions'}>
             <NavLink to='/questions'> Preguntas </NavLink>
