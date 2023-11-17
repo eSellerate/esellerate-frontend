@@ -133,7 +133,12 @@ export default function registerProduct() {
             "Content-Type": "application/json",
           },
         }
-      );
+      )
+      Swal.fire({
+        title: 'Publicado',
+        text: `Producto ${data.title} publicado.`,
+        icon: "success",
+    })
     } catch (error) {
       console.log(error);
         // initial data (default)
