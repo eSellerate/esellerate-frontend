@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2"
 import axios from "axios";
 import DragNDrop from "../components/Utilities/DragNDrop/DragNDrop";
 import {
@@ -172,7 +173,6 @@ export default function registerProduct() {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log(response)
             Swal.fire({
                 title: response.data.statusText,
                 text: `Producto ${data.title} publicado.`,
