@@ -176,13 +176,13 @@ export default function registerProduct() {
             Swal.fire({
                 title: response.data.statusText,
                 text: `Producto ${data.title} publicado.`,
-                icon: "error",
+                icon: "success",
             })
         } catch(error) {
             Swal.fire({
                 title: "No se pudo publicar el producto",
                 text: error.response.data.message,
-                icon: "success",
+                icon: "error",
             })
         }
     }
