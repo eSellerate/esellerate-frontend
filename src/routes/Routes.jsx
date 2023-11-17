@@ -33,8 +33,6 @@ const Routes = () => {
         <Route path='/' element={<Login />} />
         <Route path='/login' element={<Login />} />
         <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/test' element={<MainPage />} />
-        <Route path='/sales' element={<Sales />} />
         <Route path='*' element={<PageNotFound />} />
         { /* Need authorization */ }
         <Route element={<CheckSession />}>
@@ -44,6 +42,8 @@ const Routes = () => {
           <Route path='/register_ml_app' element={<RegisterMLApp />} />
           <Route path='/sale-detail' element={<SaleDetail />} />
           <Route path='/register-product' element={<RegisterProduct />} />
+          <Route path='/test' element={<MainPage />} />
+          <Route path='/sales' element={<Sales />} />
         </Route>
       </ReactDomRoutes>
     </BrowserRouter>
