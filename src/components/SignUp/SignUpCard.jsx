@@ -85,7 +85,7 @@ export default function SignUpCard() {
   return (
     <Card className="md:w-1/3 w-5/6 h-fit m-auto">
       <CardHeader className="text-xl justify-center">
-        <h1 className="text-center">Registrate</h1>
+        <h1 className="text-center">Únete a eSellerate</h1>
       </CardHeader>
       <Divider />
       <CardBody>

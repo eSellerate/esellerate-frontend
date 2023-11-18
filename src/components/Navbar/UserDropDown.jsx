@@ -56,30 +56,56 @@ export default function UserDropDown() {
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
-        <DropdownItem key="profile" className="h-14 gap-2">
-          <p className="font-semibold text-primary">{user.userType.name}</p>
-          <p className="font-semibold">
+        <DropdownItem key="profile" className="h-14 gap-2" textValue="profile info">
+          {/* Assuming user.userType.name is the text value for accessibility */}
+          <p
+            className="font-semibold text-primary"
+            textValue={user.userType.name}
+          >
+            {user.userType.name}
+          </p>
+          <p
+            className="font-semibold"
+            textValue={`${user.firstName} ${user.lastName}`}
+          >
             {user.firstName} {user.lastName}
           </p>
-          <p className="font-semibold">{user.email}</p>
+          <p className="font-semibold" textValue={user.email}>
+            {user.email}
+          </p>
         </DropdownItem>
-        <DropdownItem key="home">
-          <NavLink to="/"> Inicio </NavLink>
+        <DropdownItem key="home" textValue="Home">
+          <NavLink to="/" className="text-black">
+            Inicio
+          </NavLink>
         </DropdownItem>
-        <DropdownItem key="posts">
-          <NavLink to="/inventory"> Publicaciones </NavLink>
+        <DropdownItem key="posts" textValue="Publicaciones">
+          <NavLink to="/inventory" className="text-black">
+            Publicaciones
+          </NavLink>
         </DropdownItem>
-        <DropdownItem key="addPost">
-          <NavLink to="/register-product"> Crear publicación </NavLink>
+        <DropdownItem key="addPost" textValue="Crear publicación">
+          <NavLink to="/register-product" className="text-black">
+            Crear publicación
+          </NavLink>
         </DropdownItem>
-        <DropdownItem key="questions">
-          <NavLink to="/questions"> Preguntas </NavLink>
+        <DropdownItem key="questions" textValue="Preguntas">
+          <NavLink to="/questions" className="text-black">
+            Preguntas
+          </NavLink>
         </DropdownItem>
-        <DropdownItem key="sales">
-          <NavLink to="/sales"> Ventas </NavLink>
+        <DropdownItem key="sales" textValue="Ventas">
+          <NavLink to="/sales" className="text-black">
+            Ventas
+          </NavLink>
         </DropdownItem>
-        <DropdownItem onClick={handleLogOut} key="logout" color="danger">
-          <a className="text-red-450">Cerrar sesión</a>
+        <DropdownItem
+          onClick={handleLogOut}
+          key="logout"
+          color="danger"
+          textValue="Cerrar sesión"
+        >
+          <a className="text-red-500">Cerrar sesión</a>
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
