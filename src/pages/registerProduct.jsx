@@ -297,7 +297,7 @@ export default function registerProduct() {
         onSubmit={handleSubmit}
         className="border rounded-lg border-secondary secondary p-4 flex flex-col space-y-4"
       >
-        <h2 className="pb-4 text-xl">Publicación nueva</h2>
+        <h2 className="pb-8 text-xl font-bold flex justify-center">Publicación nueva</h2>
         <Input
           isRequired
           type="text"

@@ -92,8 +92,10 @@ export default function MobileNavbar() {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         />
         <NavbarBrand>
-          <img src={logo} alt="Esellerate Logo" className="w-8 h-8" />
-          <p className="font-bold text-inherit">eSellerate</p>
+          <NavLink to="/inventory" className="flex flex-row space-x-1 items-center">
+            <img src={logo} alt="Esellerate Logo" className="w-8 h-8" />
+            <p className="font-bold text-inherit">eSellerate</p>
+          </NavLink>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent justify="end">
