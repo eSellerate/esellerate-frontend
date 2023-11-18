@@ -311,97 +311,107 @@ export default function Sales() {
               </Accordion>
             </CardBody>
           </Card>
-          <div className="flex space-x-3  hide-scroll">
-            <Input
-              type="text"
-              label="Búsqueda"
-              placeholder="Escribe para buscar..."
-              className="w-1/3"
-              startContent={<CiSearch />}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Divider orientation="vertical" />
-            <Dropdown>
-              <DropdownTrigger>
-                <Button variant="bordered">
-                  <CiCalendarDate /> {selectedItem}
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                variant="faded"
-                aria-label="Dropdown menu with description"
-              >
-                <DropdownItem
-                  key="day"
-                  textValue="day"
-                  startContent={<CiCalendarDate />}
-                  onClick={() =>
-                    handleDropdownSelect(
-                      "Últimas 24 horas",
-                      new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000)
-                    )
-                  }
+          <div className="flex space-x-3 items-center hide-scroll md:flex-row flex-col space-y-4">
+            <div 
+                className="md:w-1/3 w-full">
+              <Input
+                type="text"
+                label="Búsqueda"
+                placeholder="Escribe para buscar..."
+                startContent={<CiSearch />}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="flex md:space-x-5 w-full">
+              <Divider orientation="vertical" className="block md:hidden" />
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button variant="bordered">
+                    <CiCalendarDate /> {selectedItem}
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  variant="faded"
+                  aria-label="Dropdown menu with description"
                 >
-                  Últimas 24 horas
-                </DropdownItem>
-                <DropdownItem
-                  key="week"
-                  textValue="week"
-                  startContent={<CiCalendarDate />}
-                  onClick={() =>
-                    handleDropdownSelect(
-                      "Última semana",
-                      new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
-                    )
-                  }
-                >
-                  Última semana
-                </DropdownItem>
-                <DropdownItem
-                  key="month"
-                  textValue="month"
-                  startContent={<CiCalendarDate />}
-                  onClick={() =>
-                    handleDropdownSelect(
-                      "Último mes",
-                      new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000)
-                    )
-                  }
-                >
-                  Último mes
-                </DropdownItem>
-                <DropdownItem
-                  key="monththree"
-                  textValue="monththree"
-                  startContent={<CiCalendarDate />}
-                  onClick={() =>
-                    handleDropdownSelect(
-                      "Últimos 3 meses",
-                      new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000)
-                    )
-                  }
-                >
-                  Últimos 3 meses
-                </DropdownItem>
-                <DropdownItem
-                  key="monthsix"
-                  textValue="monthsix"
-                  startContent={<CiCalendarDate />}
-                  onClick={() =>
-                    handleDropdownSelect(
-                      "Últimos 6 meses",
-                      new Date(new Date().getTime() - 180 * 24 * 60 * 60 * 1000)
-                    )
-                  }
-                >
-                  Últimos 6 meses
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <Divider orientation="vertical" />
-            <h1 className="flex items-center flex-grow justify-end">
-              0 ventas
-            </h1>
+                  <DropdownItem
+                    key="day"
+                    textValue="day"
+                    startContent={<CiCalendarDate />}
+                    onClick={() =>
+                      handleDropdownSelect(
+                        "Últimas 24 horas",
+                        new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000)
+                      )
+                    }
+                  >
+                    Últimas 24 horas
+                  </DropdownItem>
+                  <DropdownItem
+                    key="week"
+                    textValue="week"
+                    startContent={<CiCalendarDate />}
+                    onClick={() =>
+                      handleDropdownSelect(
+                        "Última semana",
+                        new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+                      )
+                    }
+                  >
+                    Última semana
+                  </DropdownItem>
+                  <DropdownItem
+                    key="month"
+                    textValue="month"
+                    startContent={<CiCalendarDate />}
+                    onClick={() =>
+                      handleDropdownSelect(
+                        "Último mes",
+                        new Date(
+                          new Date().getTime() - 30 * 24 * 60 * 60 * 1000
+                        )
+                      )
+                    }
+                  >
+                    Último mes
+                  </DropdownItem>
+                  <DropdownItem
+                    key="monththree"
+                    textValue="monththree"
+                    startContent={<CiCalendarDate />}
+                    onClick={() =>
+                      handleDropdownSelect(
+                        "Últimos 3 meses",
+                        new Date(
+                          new Date().getTime() - 90 * 24 * 60 * 60 * 1000
+                        )
+                      )
+                    }
+                  >
+                    Últimos 3 meses
+                  </DropdownItem>
+                  <DropdownItem
+                    key="monthsix"
+                    textValue="monthsix"
+                    startContent={<CiCalendarDate />}
+                    onClick={() =>
+                      handleDropdownSelect(
+                        "Últimos 6 meses",
+                        new Date(
+                          new Date().getTime() - 180 * 24 * 60 * 60 * 1000
+                        )
+                      )
+                    }
+                  >
+                    Últimos 6 meses
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+              <Divider orientation="vertical" className="block md:hidden" />
+              <h1 className="flex items-center flex-grow justify-center whitespace-nowrap">
+                0 ventas
+              </h1>
+            </div>
           </div>
           <div className="w-full flex md:flex-row flex-col space-y-3">
             <div className="flex md:flex-grow justify-start space-x-4">
