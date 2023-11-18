@@ -10,7 +10,7 @@ import {
   NavbarMenuItem,
   Button,
 } from "@nextui-org/react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import UserDropDown from "./UserDropDown";
 import { useSelector } from "react-redux";
 import logo from "../../assets/logo.svg";
@@ -50,11 +50,12 @@ export default function MobileNavbar() {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    console.log(isMenuOpen);
+  }, [isMenuOpen]);
   useEffect(() => {
     userToRedux();
   }, []);
-
   let menuItems = [];
   user.email !== ""
     ? (menuItems = [
@@ -86,13 +87,16 @@ export default function MobileNavbar() {
         },
       ]);
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className="lg:hidden block">
+    <Navbar className="lg:hidden block">
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         />
         <NavbarBrand>
-          <NavLink to="/inventory" className="flex flex-row space-x-1 items-center">
+          <NavLink
+            to="/inventory"
+            className="flex flex-row space-x-1 items-center"
+          >
             <img src={logo} alt="Esellerate Logo" className="w-8 h-8" />
             <p className="font-bold text-inherit">eSellerate</p>
           </NavLink>
@@ -119,16 +123,21 @@ export default function MobileNavbar() {
           <NavbarMenuItem
             className="hover:cursor-pointer"
             key={`${item.name}-${index}`}
+            onClick={() => {
+              item.onClick && item.onClick();
+              setIsMenuOpen(false);
+            }}
           >
-            <Link
-              color={item.name === "Cerrar Sesión" ? "danger" : "foreground"}
-              className="w-full"
-              href={item.link}
-              size="lg"
-              onClick={item.onClick}
+            <NavLink
+              to={item.link}
             >
-              {item.name}
-            </Link>
+              <Link
+                color={item.name === "Cerrar Sesión" ? "danger" : "foreground"}
+                className="font-bold text-xl py-2"
+              >
+                {item.name}
+              </Link>
+            </NavLink>
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
