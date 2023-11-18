@@ -111,12 +111,13 @@ export default function Sales() {
       .catch((error) => {
         console.error("Error fetching orders:", error);
         Swal.fire({
-          title: `Error con las preguntas`,
+          title: `Error obteniendo las ventas`,
           text: `Error encontrado: ${error}`,
           icon: "error",
         });
-      }).finally(() => {
-        setLoading(false)
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -158,7 +159,7 @@ export default function Sales() {
       })
       .catch((error) => {
         Swal.fire({
-          title: `Error con las preguntas`,
+          title: `Error descargando reporte de ventas`,
           text: `Error encontrado: ${error}`,
           icon: "error",
         });
@@ -166,7 +167,9 @@ export default function Sales() {
   };
   return (
     <main className="bg-black md:w-full min-h-screen flex flex-col space-y-4 md:px-12 px-4 md:pt-20 md:pb-8 pt-0">
-      {loading ? <LoadingPage /> :
+      {loading ? (
+        <LoadingPage />
+      ) : (
         <>
           <h1 className="text-2xl font-bold mb-7 md:text-left text-center">
             Ventas
@@ -181,6 +184,7 @@ export default function Sales() {
                 <AccordionItem
                   key="1"
                   className="w-fit md:w-full"
+                  textValue="orderoverall"
                   title={
                     <div className="flex space-x-6 text-xl">
                       <div className="flex flex-col space-y-2 w-1/4">
@@ -188,7 +192,9 @@ export default function Sales() {
                         <p className="text-sm">0 ventas</p>
                       </div>
                       <div className="flex flex-col space-y-2 w-1/4">
-                        <h1 className="whitespace-nowrap">Listas para enviar</h1>
+                        <h1 className="whitespace-nowrap">
+                          Listas para enviar
+                        </h1>
                         <p className="text-sm">0 ventas</p>
                       </div>
                       <div className="flex flex-col space-y-2 w-1/4">
@@ -327,6 +333,7 @@ export default function Sales() {
               >
                 <DropdownItem
                   key="day"
+                  textValue="day"
                   startContent={<CiCalendarDate />}
                   onClick={() =>
                     handleDropdownSelect(
@@ -339,6 +346,7 @@ export default function Sales() {
                 </DropdownItem>
                 <DropdownItem
                   key="week"
+                  textValue="week"
                   startContent={<CiCalendarDate />}
                   onClick={() =>
                     handleDropdownSelect(
@@ -351,6 +359,7 @@ export default function Sales() {
                 </DropdownItem>
                 <DropdownItem
                   key="month"
+                  textValue="month"
                   startContent={<CiCalendarDate />}
                   onClick={() =>
                     handleDropdownSelect(
@@ -363,6 +372,7 @@ export default function Sales() {
                 </DropdownItem>
                 <DropdownItem
                   key="monththree"
+                  textValue="monththree"
                   startContent={<CiCalendarDate />}
                   onClick={() =>
                     handleDropdownSelect(
@@ -375,6 +385,7 @@ export default function Sales() {
                 </DropdownItem>
                 <DropdownItem
                   key="monthsix"
+                  textValue="monthsix"
                   startContent={<CiCalendarDate />}
                   onClick={() =>
                     handleDropdownSelect(
@@ -388,49 +399,63 @@ export default function Sales() {
               </DropdownMenu>
             </Dropdown>
             <Divider orientation="vertical" />
-            <h1 className="flex items-center flex-grow justify-end">0 ventas</h1>
+            <h1 className="flex items-center flex-grow justify-end">
+              0 ventas
+            </h1>
           </div>
-          <div className="w-full flex ">
-            <div className="flex flex-grow justify-start space-x-4">
+          <div className="w-full flex md:flex-row flex-col space-y-3">
+            <div className="flex md:flex-grow justify-start space-x-4">
               <Checkbox onChange={handlePrintSelectedChange} color="primary">
                 Seleccionar Todas las Ventas
               </Checkbox>
               <Dropdown>
                 <DropdownTrigger>
-                  <div className="flex items-center cursor-pointer">
+                  <div className="flex items-center justify-end  flex-grow cursor-pointer">
                     <CiMenuKebab />
                   </div>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
-                  <DropdownItem key="detail">
+                  <DropdownItem key="detail" textValue="detail">
                     <NavLink to="/sale-detail">
                       <em className="text-secondary">Ver detalle</em>
                     </NavLink>
                   </DropdownItem>
-                  <DropdownItem key="cancel" className="text-danger" color="danger">
+                  <DropdownItem
+                    key="cancel"
+                    className="text-danger"
+                    color="danger"
+                    textValue="cancel"
+                  >
                     Cancelar venta
                   </DropdownItem>
-                  <DropdownItem key="quote">Adjuntar factura</DropdownItem>
-                  <DropdownItem key="add">Agregar nota</DropdownItem>
-                  <DropdownItem key="help">Necesito ayuda</DropdownItem>
+                  <DropdownItem key="quote" textValue="quote">
+                    Adjuntar factura
+                  </DropdownItem>
+                  <DropdownItem key="add" textValue="add">
+                    Agregar nota
+                  </DropdownItem>
+                  <DropdownItem key="help" textValue="help">
+                    Necesito ayuda
+                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
             <Button
-              className="flex space-x-2 justify-end"
+              className="flex space-x-1 justify-center"
               isDisabled={!printSelected}
               onClick={handleDownloadExcel}
             >
-              Descargue tabla de ventas <CiFileOn />
+              <CiFileOn />
+              Reporte de Ventas
             </Button>
           </div>
           <div ref={tableRef}>
             {Object.values(
               orders.reduce((acc, order, index) => {
                 if (order.enabled) {
-                  let id = order.pack_id
-                  if(id === undefined || id === null){
-                    id = order.id
+                  let id = order.pack_id;
+                  if (id === undefined || id === null) {
+                    id = order.id;
                   }
                   if (!acc[id]) {
                     acc[id] = [order];
@@ -443,21 +468,29 @@ export default function Sales() {
             ).map((groupedOrders, pack_id) => (
               <div key={pack_id} className="mb-10">
                 <Card>
-                  <CardHeader onClick={() => {
-                    groupedOrders[0].pack_id === null
-                      ? navigate("/sale-detail?id=" + groupedOrders[0].id)
-                      : navigate("/sale-detail?id=" + groupedOrders[0].pack_id)
-                  }}>
+                  <CardHeader
+                    onClick={() => {
+                      groupedOrders[0].pack_id === null
+                        ? navigate("/sale-detail?id=" + groupedOrders[0].id)
+                        : navigate(
+                            "/sale-detail?id=" + groupedOrders[0].pack_id
+                          );
+                    }}
+                  >
                     <Checkbox />
-                    <p>#{groupedOrders[0].pack_id === null
-                      ? groupedOrders[0].id
-                      : groupedOrders[0].pack_id
-                    }</p>
+                    <p>
+                      #
+                      {groupedOrders[0].pack_id === null
+                        ? groupedOrders[0].id
+                        : groupedOrders[0].pack_id}
+                    </p>
                   </CardHeader>
-                  <Table>
-                    <TableHeader columns={columns}>
+                  <Table aria-label="table">
+                    <TableHeader columns={columns} aria-label="table-header">
                       {(column) => (
-                        <TableColumn key={column.key}>{column.label}</TableColumn>
+                        <TableColumn key={column.key} aria-label="table-column">
+                          {column.label}
+                        </TableColumn>
                       )}
                     </TableHeader>
                     <TableBody>
@@ -495,7 +528,8 @@ export default function Sales() {
               </div>
             ))}
           </div>
-        </>}
+        </>
+      )}
     </main>
   );
 }
