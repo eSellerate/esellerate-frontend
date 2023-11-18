@@ -124,7 +124,7 @@ const RegisterMLApp = () => {
   };
 
   return (
-    <section className="flex h-screen justify-center items-center p-10 bg-cover bg-[url('src/assets/images/pencil-bg.jpg')] m-auto">
+    <section className="flex h-screen justify-center items-center p-10 bg-cover bg-[url('/src/assets/images/pencil-bg.jpg')] m-auto">
       {isLoading && <LoadingPage />}
       <Card className="md:w-1/3 w-5/6 h-max p-4">
         <CardHeader className="text-secondary">
