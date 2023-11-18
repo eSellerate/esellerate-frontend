@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
 import axios from "axios";
 import DragNDrop from "../components/Utilities/DragNDrop/DragNDrop";
 import {
@@ -39,13 +39,13 @@ export default function registerProduct() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      getRecomendedCategories();
+      title !== "" ? getRecomendedCategories() : false;
     }, 500);
     return () => clearTimeout(timer);
   }, [title]);
 
   useEffect(() => {
-    getMandatoryAttributes();
+    selectedCategory !== "" ? getMandatoryAttributes() : false;
   }, [selectedCategory]);
 
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function registerProduct() {
       data.attributes.push({ id: key, value_name: value });
     }
     try {
-      console.log(data)
+      console.log(data);
       const response = await axios.post(
         `${endpoint}mercado-libre/publish`,
         data,
@@ -133,64 +133,73 @@ export default function registerProduct() {
             "Content-Type": "application/json",
           },
         }
-      )
+      );
       Swal.fire({
-        title: 'Publicado',
+        title: "Publicado",
         text: `Producto ${data.title} publicado.`,
         icon: "success",
-    })
+      });
     } catch (error) {
       console.log(error);
-        // initial data (default)
-        let data = {
-            currency_id: "MXN",
-            buying_mode: "buy_it_now",
-            condition: "new",
-            listing_type_id: "gold_special",
-            sale_terms: [
-                {
-                   id: "WARRANTY_TYPE",
-                   value_name: "Garantía del vendedor"
-                },
-                {
-                   id: "WARRANTY_TIME",
-                   value_name: "90 días"
-                }
-             ],
-             pictures,
-            attributes: []
+      // initial data (default)
+      let data = {
+        currency_id: "MXN",
+        buying_mode: "buy_it_now",
+        condition: "new",
+        listing_type_id: "gold_special",
+        sale_terms: [
+          {
+            id: "WARRANTY_TYPE",
+            value_name: "Garantía del vendedor",
+          },
+          {
+            id: "WARRANTY_TIME",
+            value_name: "90 días",
+          },
+        ],
+        pictures,
+        attributes: [],
+      };
+      for (let [key, value] of formData.entries()) {
+        if (key === "file") continue;
+        if (
+          key === "title" ||
+          key === "price" ||
+          key === "category_id" ||
+          key === "available_quantity"
+        ) {
+          data[key] = value;
+          continue;
         }
-        for (let [key, value] of formData.entries()) {
-            if (key === 'file') continue
-            if (key === 'title' || key === 'price' || key === 'category_id' || key === 'available_quantity') {
-                data[key] = value;
-                continue
-            }
-            if (key === 'DATA_STORAGE_CAPACITY') {
-                data.attributes.push({id: key, value_name: `${value}GB`})
-                continue
-            }
-            data.attributes.push({id: key, value_name: value})
+        if (key === "DATA_STORAGE_CAPACITY") {
+          data.attributes.push({ id: key, value_name: `${value}GB` });
+          continue;
         }
-        try {
-            const response = await axios.post(`${endpoint}mercado-libre/publish`, data, {
-                headers: {
-                    'Authorization': `Bearer ${session}`,
-                    'Content-Type': 'application/json'
-                }
-            })
-            Swal.fire({
-                title: 'Publicado',
-                text: `Producto ${data.title} publicado.`,
-                icon: "success",
-            })
-        } catch(error) {
-            Swal.fire({
-                title: "No se pudo publicar el producto",
-                text: error.response.data.message,
-                icon: "error",
-            })
-        }
+        data.attributes.push({ id: key, value_name: value });
+      }
+      try {
+        const response = await axios.post(
+          `${endpoint}mercado-libre/publish`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${session}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        Swal.fire({
+          title: "Publicado",
+          text: `Producto ${data.title} publicado.`,
+          icon: "success",
+        });
+      } catch (error) {
+        Swal.fire({
+          title: "No se pudo publicar el producto",
+          text: error.response.data.message,
+          icon: "error",
+        });
+      }
     }
   };
 
@@ -283,12 +292,12 @@ export default function registerProduct() {
   };
 
   return (
-    <section className="py-28 px-8 md:py-48 md:px-12 lg:py-56 lg:px-32 xl:px-80 flex flex-col gap-2 h-full">
+    <section className="flex flex-col gap-2 h-full items-center py-4">
       <form
         onSubmit={handleSubmit}
-        className="border rounded-lg border-secondary secondary p-4"
+        className="border rounded-lg border-secondary secondary p-4 flex flex-col space-y-4"
       >
-        <h2 className="pb-4 text-xl">Registro de producto</h2>
+        <h2 className="pb-8 text-xl font-bold flex justify-center">Publicación nueva</h2>
         <Input
           isRequired
           type="text"
@@ -306,6 +315,7 @@ export default function registerProduct() {
           placeholder="Escribe una descripción del producto"
           labelPlacement="outside"
           radius="none"
+          className="pt-5"
         />
         {categories.length > 0 && (
           <Select
@@ -355,61 +365,58 @@ export default function registerProduct() {
             labelPlacement="outside"
             radius="none"
           />
-
-          <div className="flex flex-col space-y-4">
-            <p className="text-secondary mb-2">Diseño Personalizado</p>
-            <Switch
-              isSelected={custom}
-              onValueChange={() => {
-                setCustom(!custom);
-              }}
-            >
-              {custom
-                ? "Diseño personalizado 😎👌"
-                : "Sin personalizar 😒🤢"}
-            </Switch>
-            {custom ? (
-              <Dropdown className="w-fit">
-                <DropdownTrigger>
-                  <Button variant="bordered">{selectedCustom}</Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions">
-                  <DropdownItem
-                    key="custom1"
-                    onClick={() => handleDropdownSelect("Personalizado 1")}
-                  >
-                    Personalizado 1
-                  </DropdownItem>
-                  <DropdownItem
-                    key="custom2"
-                    onClick={() => handleDropdownSelect("Personalizado 2")}
-                  >
-                    Personalizado 2
-                  </DropdownItem>
-                  <DropdownItem
-                    key="custom3"
-                    onClick={() => handleDropdownSelect("Personalizado 3")}
-                  >
-                    Personalizado 3
-                  </DropdownItem>
-                  <DropdownItem
-                    key="custom4"
-                    onClick={() => handleDropdownSelect("Personalizado 4")}
-                  >
-                    Personalizado 4
-                  </DropdownItem>
-                  <DropdownItem
-                    key="custom5"
-                    onClick={() => handleDropdownSelect("Personalizado 5")}
-                  >
-                    Personalizado 5
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            ) : (
-              true
-            )}
-          </div>
+        </div>
+        <div className="flex flex-col space-y-4 w-fit">
+          <p className="text-secondary mb-2">Diseño Personalizado</p>
+          <Switch
+            isSelected={custom}
+            onValueChange={() => {
+              setCustom(!custom);
+            }}
+          >
+            {custom ? "Diseño personalizado 😎👌" : "Sin personalizar 😒🤢"}
+          </Switch>
+          {custom ? (
+            <Dropdown className="w-fit">
+              <DropdownTrigger>
+                <Button variant="bordered">{selectedCustom}</Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem
+                  key="custom1"
+                  onClick={() => handleDropdownSelect("Personalizado 1")}
+                >
+                  Personalizado 1
+                </DropdownItem>
+                <DropdownItem
+                  key="custom2"
+                  onClick={() => handleDropdownSelect("Personalizado 2")}
+                >
+                  Personalizado 2
+                </DropdownItem>
+                <DropdownItem
+                  key="custom3"
+                  onClick={() => handleDropdownSelect("Personalizado 3")}
+                >
+                  Personalizado 3
+                </DropdownItem>
+                <DropdownItem
+                  key="custom4"
+                  onClick={() => handleDropdownSelect("Personalizado 4")}
+                >
+                  Personalizado 4
+                </DropdownItem>
+                <DropdownItem
+                  key="custom5"
+                  onClick={() => handleDropdownSelect("Personalizado 5")}
+                >
+                  Personalizado 5
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          ) : (
+            true
+          )}
         </div>
         <label htmlFor="Images">Imagenes</label>
         <DragNDrop getImages={getImagesFromDragNDrop} />

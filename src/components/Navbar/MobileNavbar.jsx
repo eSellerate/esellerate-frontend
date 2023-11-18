@@ -10,6 +10,7 @@ import {
   NavbarMenuItem,
   Button,
 } from "@nextui-org/react";
+import { NavLink, useLocation } from "react-router-dom";
 import UserDropDown from "./UserDropDown";
 import { useSelector } from "react-redux";
 import logo from "../../assets/logo.svg";
@@ -91,8 +92,10 @@ export default function MobileNavbar() {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         />
         <NavbarBrand>
-          <img src={logo} alt="Esellerate Logo" className="w-8 h-8" />
-          <p className="font-bold text-inherit">eSellerate</p>
+          <NavLink to="/inventory" className="flex flex-row space-x-1 items-center">
+            <img src={logo} alt="Esellerate Logo" className="w-8 h-8" />
+            <p className="font-bold text-inherit">eSellerate</p>
+          </NavLink>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent justify="end">
@@ -103,8 +106,10 @@ export default function MobileNavbar() {
           {user.email !== "" ? (
             <UserDropDown />
           ) : (
-            <Button as={Link} color="primary" href="#" variant="flat">
-              Sign Up
+            <Button color="primary" variant="flat">
+              <NavLink to="sign-up" className=" h-full flex items-center">
+                Regístrate
+              </NavLink>
             </Button>
           )}
         </NavbarItem>
@@ -116,11 +121,7 @@ export default function MobileNavbar() {
             key={`${item.name}-${index}`}
           >
             <Link
-              color={
-                item.name === "Cerrar Sesión"
-                  ? "danger"
-                  : "foreground"
-              }
+              color={item.name === "Cerrar Sesión" ? "danger" : "foreground"}
               className="w-full"
               href={item.link}
               size="lg"

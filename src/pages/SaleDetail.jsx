@@ -54,7 +54,7 @@ export default function SaleDetail() {
       .catch((error) => {
         console.error("Error fetching orders:", error);
         Swal.fire({
-          title: `Error con las preguntas`,
+          title: `Error obteniendo las ventas`,
           text: `Error encontrado: ${error}`,
           icon: "error",
         });
@@ -111,9 +111,6 @@ export default function SaleDetail() {
                     lo hiciste, avísanos.
                   </span>
                   <div className="flex space-x-3">
-                    <Button color="secondary" className="w-auto flex-grow">
-                      Entregué el producto
-                    </Button>{" "}
                     <Dropdown>
                       <DropdownTrigger>
                         <Button variant="bordered">

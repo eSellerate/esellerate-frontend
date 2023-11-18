@@ -110,7 +110,7 @@ export default function Login() {
       <CardBody>
         <form
           onSubmit={handleSubmit}
-          className="px-3 py-0 flex flex-col text-small text-default-400 gap-6 h-[16rem]"
+          className="px-3 py-0 flex flex-col text-small text-default-400 gap-6 h-fit"
         >
           <Input
             isClearable
@@ -143,12 +143,12 @@ export default function Login() {
               type={isVisible ? "text" : "password"}
               className="max-w-md"
             />
-            <div className="flex justify-between items-center text-[0.65rem] md:text-sm py-3 md:py-2">
+            {/* <div className="flex justify-between items-center text-[0.65rem] md:text-sm py-3 md:py-2">
               <Checkbox size="sm" color="secondary">
                 Recuérdame
               </Checkbox>
               <em>¿Olvidaste tu contraseña?</em>
-            </div>
+            </div> */}
           </div>
           <Button type="submit" color="primary" variant="solid">
             Iniciar Sesión
