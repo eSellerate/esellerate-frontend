@@ -166,7 +166,7 @@ export default function Sales() {
       });
   };
   return (
-    <main className="bg-black md:w-full min-h-screen flex flex-col space-y-4 md:px-12 px-4 md:pt-20 md:pb-8 pt-0">
+    <main className="bg-black md:w-full min-h-screen flex flex-col space-y-4 p-4">
       {loading ? (
         <LoadingPage />
       ) : (
