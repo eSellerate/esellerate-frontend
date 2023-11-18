@@ -428,10 +428,14 @@ export default function Sales() {
             {Object.values(
               orders.reduce((acc, order, index) => {
                 if (order.enabled) {
-                  if (!acc[order.pack_id]) {
-                    acc[order.pack_id] = [order];
+                  let id = order.pack_id
+                  if(id === undefined || id === null){
+                    id = order.id
+                  }
+                  if (!acc[id]) {
+                    acc[id] = [order];
                   } else {
-                    acc[order.pack_id].push(order);
+                    acc[id].push(order);
                   }
                 }
                 return acc;
