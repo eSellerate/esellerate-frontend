@@ -157,12 +157,12 @@ export default function Login() {
       </CardBody>
       <Divider className="my-4" />
       <CardFooter className="p-2">
-        <p className="flex w-full justify-between text-sm">
+        <div className="flex w-full justify-between text-sm">
           <p className="decoration-solid">¿Aún no tienes cuenta?</p>
           <NavLink to="/sign-up">
             <em className="text-secondary">Registrate</em>
           </NavLink>
-        </p>
+        </div>
       </CardFooter>
     </Card>
   );

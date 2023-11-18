@@ -60,17 +60,15 @@ export default function UserDropDown() {
           {/* Assuming user.userType.name is the text value for accessibility */}
           <p
             className="font-semibold text-primary"
-            textValue={user.userType.name}
           >
             {user.userType.name}
           </p>
           <p
             className="font-semibold"
-            textValue={`${user.firstName} ${user.lastName}`}
           >
             {user.firstName} {user.lastName}
           </p>
-          <p className="font-semibold" textValue={user.email}>
+          <p className="font-semibold">
             {user.email}
           </p>
         </DropdownItem>
