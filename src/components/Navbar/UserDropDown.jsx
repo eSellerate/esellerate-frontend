@@ -75,7 +75,7 @@ export default function UserDropDown() {
           </p>
         </DropdownItem>
         <DropdownItem key="home" textValue="Home">
-          <NavLink to="/" className="text-black">
+          <NavLink to="/inventory" className="text-black">
             Inicio
           </NavLink>
         </DropdownItem>
