@@ -69,7 +69,7 @@ export default function UserDropDown() {
         <DropdownItem key="posts">
           <NavLink to="/inventory"> Publicaciones </NavLink>
         </DropdownItem>
-        <DropdownItem key="posts">
+        <DropdownItem key="addPost">
           <NavLink to="/register-product"> Crear publicación </NavLink>
         </DropdownItem>
         <DropdownItem key="questions">
