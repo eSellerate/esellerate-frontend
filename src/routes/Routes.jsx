@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes as ReactDomRoutes } from 'react-router-dom'
+import { HashRouter, Route, Routes as ReactDomRoutes } from 'react-router-dom'
 
 // Components
 import DesktopNavbar from '../components/Navbar/DesktopNavbar'
@@ -23,7 +23,7 @@ import SaleDetail from '../pages/SaleDetail'
 // routes definition
 const Routes = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <>
         <MobileNavbar />
         <DesktopNavbar />
@@ -46,7 +46,7 @@ const Routes = () => {
           <Route path='/sales' element={<Sales />} />
         </Route>
       </ReactDomRoutes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
