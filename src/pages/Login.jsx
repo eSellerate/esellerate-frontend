@@ -18,7 +18,7 @@ export default function Login() {
 
   return (
     <main className="h-screen bg-cover bg-center
-    md:bg-[url('/src/assets/images/background-products.jpg')]"
+    bg-[url('/src/assets/images/background-products.jpg')]"
     >
       <section className="h-full items-center p-8 md:p-32 flex justify-center">
         {loading ? <LoadingPage /> : <LoginCard />}
