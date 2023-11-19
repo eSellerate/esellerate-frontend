@@ -81,9 +81,9 @@ export default function UserDropDown() {
         <DropdownItem key="inventory" textValue="Home">
           Inicio
         </DropdownItem>
-        <DropdownItem key="register-product" textValue="Crear publicación">
+        {/* <DropdownItem key="register-product" textValue="Crear publicación">
           Crear publicación
-        </DropdownItem>
+        </DropdownItem> */}
         <DropdownItem key="questions" textValue="Preguntas">
           Preguntas
         </DropdownItem>

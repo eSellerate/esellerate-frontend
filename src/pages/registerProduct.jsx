@@ -141,10 +141,9 @@ export default function registerProduct() {
         text: `Producto ${data.title} publicado.`,
         icon: "success",
       });
-      navigate("/inventory");
+      window.location.reload();
     } catch (error) {
       console.log(error);
-      // initial data (default)
       let data = {
         currency_id: "MXN",
         buying_mode: "buy_it_now",
@@ -267,8 +266,7 @@ export default function registerProduct() {
               key={input.label}
             >
               {input.label === "Marca" && (
-                <SelectItem key="Genérica" value="Genérica"
-                className="py-6">
+                <SelectItem key="Genérica" value="Genérica" className="py-6">
                   Marca genérica
                 </SelectItem>
               )}
@@ -297,12 +295,14 @@ export default function registerProduct() {
   };
 
   return (
-    <section className="flex flex-col gap-2 h-full items-center md:pt-20 md:pb-4 py-4">
+    <section className="flex flex-col gap-2 h-full items-center py-4">
       <form
         onSubmit={handleSubmit}
         className="border rounded-lg border-secondary secondary p-4 flex flex-col space-y-4"
       >
-        <h2 className="pb-8 text-xl font-bold flex justify-center">Publicación nueva</h2>
+        <h2 className="pb-8 text-xl font-bold flex justify-center">
+          Publicación nueva
+        </h2>
         <Input
           isRequired
           type="text"
@@ -429,9 +429,9 @@ export default function registerProduct() {
         <div className="flex justify-end mt-4">
           <Button
             type="submit"
-            className="w-40"
+            className="w-40 rounded-lg"
             color="secondary"
-            variant="solid"
+            variant="flat"
             radius="none"
           >
             Publicar

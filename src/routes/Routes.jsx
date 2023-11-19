@@ -14,7 +14,7 @@ import Login from '../pages/Login'
 import SignUp from '../pages/SignUp'
 import RegisterMLApp from '../pages/RegisterMLApp'
 import PageNotFound from '../pages/PageNotFound'
-import RegisterProduct from '../pages/registerProduct'
+// import RegisterProduct from '../pages/registerProduct'
 // Guard
 import AuthGuard from '../guards/AuthGuard.guard'
 import CheckSession from '../guards/CheckSession.guard'
@@ -41,7 +41,7 @@ const Routes = () => {
           <Route path='/inventory' element={<Inventory />} />
           <Route path='/register_ml_app' element={<RegisterMLApp />} />
           <Route path='/sale-detail' element={<SaleDetail />} />
-          <Route path='/register-product' element={<RegisterProduct />} />
+          {/* <Route path='/register-product' element={<RegisterProduct />} /> */}
           <Route path='/test' element={<MainPage />} />
           <Route path='/sales' element={<Sales />} />
         </Route>

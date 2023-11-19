@@ -15,7 +15,7 @@ import {
 } from '@nextui-org/react'
 import DragNDrop from '../Utilities/DragNDrop/DragNDrop'
 import { BiPlus } from 'react-icons/bi'
-
+import RegisterProduct from '../../pages/registerProduct'
 export default function AddProduct () {
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('')
@@ -84,11 +84,11 @@ export default function AddProduct () {
   return (
     <>
       <Card className='p-4 hover:cursor-pointer md:mx-0 mx-auto'>
-        <div onClick={onOpen} className='flex items-center gap-4'>
+        <div onClick={onOpen} className='flex items-center'>
           <BiPlus size={50} />
           <div className='flex flex-col'>
             <p className='text-tiny uppercase font-bold my-auto'>Crear una publicación</p>
-            <small className='text-default-500 hover:duration-300 hover:text-primary'>
+            <small className='text-default-500 hover:duration-300 hover:text-secondary'>
               Publica un nuevo producto
             </small>
           </div>
@@ -105,8 +105,8 @@ export default function AddProduct () {
           {(onClose) => (
             <>
               <ModalHeader>Registrar nuevo producto</ModalHeader>
-              <ModalBody>
-                <form className='flex md:flex-row flex-col md:gap-8 gap-3 mx-auto'>
+              <ModalBody className='overflow-auto'>
+                {/* <form className='flex md:flex-row flex-col md:gap-8 gap-3 mx-auto'>
                   <div className='flex flex-col gap-3 min-w-[230px]'>
                     <Input
                       isRequired
@@ -210,11 +210,12 @@ export default function AddProduct () {
                     <label htmlFor='Images' className='text-xs'>Imágenes</label>
                     <DragNDrop />
                   </div>
-                </form>
+                </form> */}
+                <RegisterProduct/>
               </ModalBody>
               <ModalFooter>
-                <Button color='primary' variant='flat' onPress={onClose}>
-                  Agregar
+                <Button color='danger' variant='flat' onPress={onClose}>
+                  Cancelar
                 </Button>
               </ModalFooter>
             </>
