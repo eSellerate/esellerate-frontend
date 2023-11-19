@@ -57,7 +57,7 @@ export default function Inventory() {
       console.log(arrayLength);
       setTotalPost(`${arrayLength}`);
       setTotalPrice(`${totalArrayPrice}`);
-      console.log(totalPrice)
+      console.log(totalPrice);
     } catch (error) {
       console.log(error.response);
     }
@@ -92,15 +92,18 @@ export default function Inventory() {
     <>
       {loadingProducts && <LoadingPage />}
       <div
+        // className="md:px-12 px-4 h-full"
         className={
-          items.length < 4 ? "md:px-12 px-4 h-screen" : "md:px-12 px-4 h-fit"
+          items.length < 5
+            ? "md:px-12 px-4 md:h-screen"
+            : "md:px-12 px-4 h-full"
         }
       >
         <section className="py-9">
           <h1 className="text-2xl font-bold mb-7 md:text-left text-center">
             Resumen de Inventario
           </h1>
-          <div className="flex gap-14 place-content-center md:flex-row flex-col  md:px-0">
+          <div className="flex space-y-4 md:space-x-14 place-content-center md:flex-row flex-col  md:px-0">
             <Summary name="Productos" value={totalPost} />
             <Summary name="Valor" value={totalPrice} />
             <AddProductButton />

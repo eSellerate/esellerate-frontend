@@ -297,7 +297,7 @@ export default function registerProduct() {
   };
 
   return (
-    <section className="flex flex-col gap-2 h-full items-center py-4">
+    <section className="flex flex-col gap-2 h-full items-center md:pt-20 md:pb-4 py-4">
       <form
         onSubmit={handleSubmit}
         className="border rounded-lg border-secondary secondary p-4 flex flex-col space-y-4"
