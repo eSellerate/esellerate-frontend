@@ -71,9 +71,6 @@ const RegisterMLApp = () => {
         navigate("/inventory");
       }
     } catch (error) {
-      // Entra a este a pesar de entrar a status 200 o 204 y si conectar la app
-      console.log(error)
-      console.log(error.response);
       Swal.fire({
         title: "Error registrando la app",
         text: error.response?.data?.message,
