@@ -20,6 +20,8 @@ export default function Inventory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
   const validateSession = useValidateSession();
+  const [totalPrice, setTotalPrice] = useState("0");
+  const [totalPost, setTotalPost] = useState("0");
   useEffect(() => {
     validateSession();
     getMercadoLibreProducts();
@@ -43,9 +45,19 @@ export default function Inventory() {
         }
       );
       const { data } = response;
-      // console.log(data)
+      console.log(data);
       setLoadingProducts(false);
       setProducts(data);
+      const arrayLength = data.length;
+      const totalArrayPrice = data.reduce(
+        (sum, item) => (item.price ? sum + item.price : sum),
+        0
+      );
+      console.log(totalPrice);
+      console.log(arrayLength);
+      setTotalPost(`${arrayLength}`);
+      setTotalPrice(`${totalArrayPrice}`);
+      console.log(totalPrice)
     } catch (error) {
       console.log(error.response);
     }
@@ -53,7 +65,7 @@ export default function Inventory() {
 
   const reloadItems = () => {
     setLoadingProducts(true);
-    // Esperar 5 seg para que mercado libre actualice la informacion
+    // Esperar 20 seg para que mercado libre actualice la informacion
     setTimeout(() => {
       getMercadoLibreProducts();
     }, 20000);
@@ -81,9 +93,7 @@ export default function Inventory() {
       {loadingProducts && <LoadingPage />}
       <div
         className={
-          items.length <4
-            ? "md:px-12 px-4 h-screen"
-            : "md:px-12 px-4 h-fit"
+          items.length < 4 ? "md:px-12 px-4 h-screen" : "md:px-12 px-4 h-fit"
         }
       >
         <section className="py-9">
@@ -91,8 +101,8 @@ export default function Inventory() {
             Resumen de Inventario
           </h1>
           <div className="flex gap-14 place-content-center md:flex-row flex-col  md:px-0">
-            <Summary name="Productos" value="150" />
-            <Summary name="Valor" value="23000" />
+            <Summary name="Productos" value={totalPost} />
+            <Summary name="Valor" value={totalPrice} />
             <AddProductButton />
             <div className="grow flex justify-center items-center">
               <Input

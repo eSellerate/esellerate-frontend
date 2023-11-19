@@ -13,11 +13,13 @@ import {
   Switch,
   DropdownItem,
 } from "@nextui-org/react";
+import { NavLink, useNavigate } from "react-router-dom";
 import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 // Hooks
 import useValidateSession from "../hooks/useValidateSession";
 
 export default function registerProduct() {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -139,6 +141,7 @@ export default function registerProduct() {
         text: `Producto ${data.title} publicado.`,
         icon: "success",
       });
+      navigate("/inventory");
     } catch (error) {
       console.log(error);
       // initial data (default)
@@ -260,10 +263,12 @@ export default function registerProduct() {
               labelPlacement="outside"
               placeholder={input.ui_config.hint ?? input.label}
               radius="none"
+              className="flex flex-row space-y-5"
               key={input.label}
             >
               {input.label === "Marca" && (
-                <SelectItem key="Genérica" value="Genérica">
+                <SelectItem key="Genérica" value="Genérica"
+                className="py-6">
                   Marca genérica
                 </SelectItem>
               )}
@@ -325,6 +330,7 @@ export default function registerProduct() {
             labelPlacement="outside"
             placeholder="Selecciona la categoria"
             radius="none"
+            className="pt-6"
           >
             {categories.map((category) => (
               <SelectItem
