@@ -51,7 +51,7 @@ export default function MobileNavbar() {
     }
   };
   useEffect(() => {
-    console.log(isMenuOpen);
+    true
   }, [isMenuOpen]);
   useEffect(() => {
     userToRedux();

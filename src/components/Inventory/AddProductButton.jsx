@@ -87,7 +87,7 @@ export default function AddProduct () {
         <div onClick={onOpen} className='flex items-center gap-4'>
           <BiPlus size={50} />
           <div className='flex flex-col'>
-            <p className='text-tiny uppercase font-bold my-auto'>Crear un Post</p>
+            <p className='text-tiny uppercase font-bold my-auto'>Crear una publicación</p>
             <small className='text-default-500 hover:duration-300 hover:text-primary'>
               Publica un nuevo producto
             </small>
