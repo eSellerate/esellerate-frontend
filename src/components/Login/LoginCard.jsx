@@ -113,7 +113,6 @@ export default function Login() {
           className="px-3 py-0 flex flex-col text-small text-default-400 gap-6 h-fit"
         >
           <Input
-            isClearable
             variant="faded"
             type="email"
             id="email_field"
@@ -129,6 +128,7 @@ export default function Login() {
               placeholder="Ingresa tu contraseña"
               endContent={
                 <button
+                  tabindex="-1"
                   className="focus:outline-none"
                   type="button"
                   onClick={toggleVisibility}
