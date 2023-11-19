@@ -45,7 +45,6 @@ export default function Inventory() {
         }
       );
       const { data } = response;
-      console.log(data);
       setLoadingProducts(false);
       setProducts(data);
       const arrayLength = data.length;
@@ -53,11 +52,8 @@ export default function Inventory() {
         (sum, item) => (item.price ? sum + item.price : sum),
         0
       );
-      console.log(totalPrice);
-      console.log(arrayLength);
       setTotalPost(`${arrayLength}`);
       setTotalPrice(`${totalArrayPrice}`);
-      console.log(products)
     } catch (error) {
       console.log(error.response);
     }

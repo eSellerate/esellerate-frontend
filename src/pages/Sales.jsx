@@ -46,6 +46,7 @@ export default function Sales() {
   const [printSelected, setPrintSelected] = useState(false);
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
+  const [selectedOrders, setSelectedOrders] = useState([]);
   const tableRef = useRef(null);
   const navigate = useNavigate();
   const handleDropdownSelect = (item, date) => {
@@ -138,32 +139,33 @@ export default function Sales() {
         orderscopy.splice(i, 1);
       }
     }
-    axios
-      .post(
-        `${import.meta.env.VITE_BACKEND_END_POINT}generate-order`,
-        orderscopy,
-        {
-          responseType: "arraybuffer",
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/pdf",
-            Authorization: `Bearer ${session}`,
-          },
-        }
-      )
-      .then((response) => {
-        const { data } = response;
-        const blob = new Blob([data], { type: "application/pdf" });
-        saveAs(blob, `Recibo-${new Date().toLocaleDateString()}.pdf`);
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: `Error descargando reporte de ventas`,
-          text: `Error encontrado: ${error}`,
-          icon: "error",
-        });
-      });
+    console.log(orderscopy)
+    // axios
+    //   .post(
+    //     `${import.meta.env.VITE_BACKEND_END_POINT}generate-order`,
+    //     orderscopy,
+    //     {
+    //       responseType: "arraybuffer",
+    //       withCredentials: true,
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Accept: "application/pdf",
+    //         Authorization: `Bearer ${session}`,
+    //       },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     const { data } = response;
+    //     const blob = new Blob([data], { type: "application/pdf" });
+    //     saveAs(blob, `Recibo-${new Date().toLocaleDateString()}.pdf`);
+    //   })
+    //   .catch((error) => {
+    //     Swal.fire({
+    //       title: `Error descargando reporte de ventas`,
+    //       text: `Error encontrado: ${error}`,
+    //       icon: "error",
+    //     });
+    //   });
   };
   return (
     <main className="bg-black md:w-full min-h-screen flex flex-col space-y-4 p-4">
@@ -415,10 +417,10 @@ export default function Sales() {
           </div>
           <div className="w-full flex md:flex-row flex-col space-y-3">
             <div className="flex md:flex-grow justify-start space-x-4">
-              <Checkbox onChange={handlePrintSelectedChange} color="primary">
+              <Checkbox onChange={handlePrintSelectedChange} color="secondary">
                 Seleccionar Todas las Ventas
               </Checkbox>
-              <Dropdown>
+              {/* <Dropdown>
                 <DropdownTrigger>
                   <div className="flex items-center justify-end  flex-grow cursor-pointer">
                     <CiMenuKebab />
@@ -448,7 +450,7 @@ export default function Sales() {
                     Necesito ayuda
                   </DropdownItem>
                 </DropdownMenu>
-              </Dropdown>
+              </Dropdown> */}
             </div>
             <Button
               className="flex space-x-1 justify-center"
@@ -487,7 +489,7 @@ export default function Sales() {
                           );
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox color="secondary"/>
                     <p>
                       #
                       {groupedOrders[0].pack_id === null
