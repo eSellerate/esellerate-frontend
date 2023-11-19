@@ -18,15 +18,16 @@ import {
   AccordionItem,
 } from "@nextui-org/react";
 import { CiMenuKebab, CiWarning } from "react-icons/ci";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 import axios from "axios";
 import Swal from "sweetalert2";
 import LoadingPage from "../components/Utilities/Loading/LoadingPage";
 
 export default function SaleDetail() {
-  const queryParameters = new URLSearchParams(window.location.search)
-  const id = queryParameters.get("id")
+  const location = useLocation();
+  var queryParameters = location.search.split('=')
+  const id = queryParameters[1]
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
