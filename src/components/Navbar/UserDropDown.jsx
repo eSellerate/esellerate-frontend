@@ -55,7 +55,13 @@ export default function UserDropDown() {
           src={user.photoUrl}
         />
       </DropdownTrigger>
-      <DropdownMenu aria-label="Profile Actions" variant="flat">
+      <DropdownMenu aria-label="Profile Actions" variant="flat" className="text-black"
+        onAction={(item) => {
+          item === "logout"
+            ? handleLogOut()
+            : navigate("/" + item);
+        }}
+      >
         <DropdownItem key="profile" className="h-14 gap-2" textValue="profile info">
           {/* Assuming user.userType.name is the text value for accessibility */}
           <p
@@ -72,33 +78,19 @@ export default function UserDropDown() {
             {user.email}
           </p>
         </DropdownItem>
-        <DropdownItem key="home" textValue="Home">
-          <NavLink to="/inventory" className="text-black">
-            Inicio
-          </NavLink>
+        <DropdownItem key="inventory" textValue="Home">
+          Inicio
         </DropdownItem>
-        <DropdownItem key="posts" textValue="Publicaciones">
-          <NavLink to="/inventory" className="text-black">
-            Publicaciones
-          </NavLink>
-        </DropdownItem>
-        <DropdownItem key="addPost" textValue="Crear publicación">
-          <NavLink to="/register-product" className="text-black">
-            Crear publicación
-          </NavLink>
+        <DropdownItem key="register-product" textValue="Crear publicación">
+          Crear publicación
         </DropdownItem>
         <DropdownItem key="questions" textValue="Preguntas">
-          <NavLink to="/questions" className="text-black">
-            Preguntas
-          </NavLink>
+          Preguntas
         </DropdownItem>
         <DropdownItem key="sales" textValue="Ventas">
-          <NavLink to="/sales" className="text-black">
-            Ventas
-          </NavLink>
+          Ventas
         </DropdownItem>
         <DropdownItem
-          onClick={handleLogOut}
           key="logout"
           color="danger"
           textValue="Cerrar sesión"
