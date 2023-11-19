@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -24,6 +24,14 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let email = "";
+
+  useEffect(() => {
+    const sessionCookie = GetCookieByName("session");
+    if (sessionCookie) {
+      navigate("/inventory");
+    }
+  }, []);
+
   const toggleVisibility = () => {
     setVisible(!isVisible);
   };
@@ -128,7 +136,7 @@ export default function Login() {
               placeholder="Ingresa tu contraseña"
               endContent={
                 <button
-                  tabindex="-1"
+                  tabIndex="-1"
                   className="focus:outline-none"
                   type="button"
                   onClick={toggleVisibility}
