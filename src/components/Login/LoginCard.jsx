@@ -99,14 +99,15 @@ export default function Login() {
     } catch (error) {
       // notify
       const errorText = error.response.data.message;
+      const multipleErrors = error.response.data.errors;
+      const errorMessage = `${errorText}\n${multipleErrors
+        .map((error) => error.msg)
+        .join("<br>")}`;
       Swal.fire({
         title: "Error",
-        text: errorText,
+        html: errorMessage,
         icon: "error",
-        timer: 1500,
       });
-      console.log(error);
-      console.log(errorText);
     }
   };
 
