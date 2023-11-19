@@ -103,7 +103,7 @@ export default function Inventory() {
           <h1 className="text-2xl font-bold mb-7 md:text-left text-center">
             Resumen de Inventario
           </h1>
-          <div className="flex md:space-x-5 md:flex-row flex-col  md:px-0 items-center">
+          <div className="flex space-y-5 md:space-x-5 md:space-y-0 md:flex-row flex-col  md:px-0 items-center">
             <Summary name="Productos" value={totalPost} />
             <Summary name="Valor" value={totalPrice} />
             <AddProductButton />
