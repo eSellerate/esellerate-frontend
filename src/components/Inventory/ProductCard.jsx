@@ -46,6 +46,8 @@ export default function ProductCard(props) {
   const [enabled, setEnabled] = useState(true);
   const [custom, setCustom] = useState(true);
   const [selectedCustom, setSelectedCustom] = useState("Personalizado 1");
+  const pendingImage =
+    "http://http2.mlstatic.com/resources/frontend/statics/processing-image/1.0.0/O-ES.jpg";
 
   const handleDropdownSelect = (item) => {
     setSelectedCustom(item);
@@ -101,7 +103,11 @@ export default function ProductCard(props) {
             loading="lazy"
             isZoomed
             alt={product.title}
-            src={image ? image[0].url : error404img}
+            src={
+              image && image[0]?.url !== pendingImage
+                ? image[0].url
+                : error404img
+            }
           />
           <CardFooter className="justify-between space-x-1 before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small z-10">
             <p className=" text-black/80 font-bold text-secondary truncate">

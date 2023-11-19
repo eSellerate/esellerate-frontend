@@ -65,7 +65,6 @@ const RegisterMLApp = () => {
       if (response.status === 200 || response.status === 204) {
         Swal.fire({
           title: `Aplicación Registrada`,
-          email,
           icon: "success",
           timer: 2000,
         });
@@ -73,6 +72,7 @@ const RegisterMLApp = () => {
       }
     } catch (error) {
       // Entra a este a pesar de entrar a status 200 o 204 y si conectar la app
+      console.log(error)
       console.log(error.response);
       Swal.fire({
         title: "Error registrando la app",

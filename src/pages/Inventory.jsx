@@ -57,7 +57,7 @@ export default function Inventory() {
       console.log(arrayLength);
       setTotalPost(`${arrayLength}`);
       setTotalPrice(`${totalArrayPrice}`);
-      console.log(totalPrice);
+      console.log(products)
     } catch (error) {
       console.log(error.response);
     }
@@ -136,14 +136,14 @@ export default function Inventory() {
           </section>
         </div>
         <section className="flex justify-center pb-5">
-          <Pagination
+          {/* <Pagination
             total={10}
             initialPage={1}
             onChange={(page) => {
               // console.log(page)
             }}
             color="secondary"
-          />
+          /> */}
         </section>
       </div>
     </>
