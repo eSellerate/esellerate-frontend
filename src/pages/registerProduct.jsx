@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   Switch,
   DropdownItem,
+  Textarea,
 } from "@nextui-org/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
@@ -27,10 +28,21 @@ export default function registerProduct() {
   const [images, setImages] = useState([]);
   const validateSession = useValidateSession();
 
-  const [custom, setCustom] = useState(true);
+  const [custom, setCustom] = useState(false);
   const [selectedCustom, setSelectedCustom] = useState("Personalizado 1");
   const endpoint = import.meta.env.VITE_BACKEND_END_POINT;
   const session = extractCookie("session");
+
+  const defaultMessages = [{ text: "" }]
+  const [messages, setMessages] = useState([defaultMessages]);
+  const [customMessages, setCustomMessages] = useState(false);
+
+  const defaultAutomaticDesigns = [{ id: 0, description: "Hueso" }, { id: 1, description: "Otro" }]
+  const [automaticDesigns, setAutomaticDesigns] = useState(defaultAutomaticDesigns);
+
+  const defaultMessageRules = [{ id: 0, description: "Al recibir venta" }, { id: 1, description: "Diseño" }]
+  const [messageRules, setMessageRules] = useState(defaultMessageRules);
+
   const handleDropdownSelect = (item) => {
     setSelectedCustom(item);
   };
@@ -125,7 +137,7 @@ export default function registerProduct() {
       data.attributes.push({ id: key, value_name: value });
     }
     try {
-      console.log(data);
+      //console.log(data);
       const response = await axios.post(
         `${endpoint}mercado-libre/publish`,
         data,
@@ -382,15 +394,22 @@ export default function registerProduct() {
             min={0} 
           />
         </div>
+        <Switch
+          isSelected={customMessages}
+          onValueChange={() => {
+            setCustomMessages(!customMessages);
+          }}
+        >
+          Mensajes automaticos
+        </Switch>
         <div className="flex flex-col space-y-4 w-fit">
-          <p className="text-secondary mb-2">Diseño Personalizado</p>
           <Switch
             isSelected={custom}
             onValueChange={() => {
               setCustom(!custom);
             }}
           >
-            {custom ? "Diseño personalizado 😎👌" : "Sin personalizar 😒🤢"}
+            Diseño personalizado
           </Switch>
           {custom ? (
             <Dropdown className="w-fit">
@@ -434,6 +453,60 @@ export default function registerProduct() {
             true
           )}
         </div>
+        {customMessages ? (
+          <>
+            <div id="customMessages" className="flex flex-col gap-2 h-full">
+              {
+                Object.values(messages).map((message, index) => (
+                  <div key={index}>
+                    <p>{`Mensaje ` + (index + 1)}</p>
+                    <Dropdown className="w-fit">
+                      <DropdownTrigger>
+                        <Button variant="bordered">{messageRules[0].description}</Button>
+                      </DropdownTrigger>
+                      <DropdownMenu aria-label="rules">
+                        {
+                          messageRules.map((rule) => (
+                            <DropdownItem
+                              key={rule.id}
+                            >
+                              {rule.description}
+                            </DropdownItem>
+                          ))
+                        }
+                      </DropdownMenu>
+                    </Dropdown>
+                    <Textarea
+                      fullWidth
+                      placeholder=""
+                      value={
+                        message.text
+                      }
+                      onChange={(e) => {
+                        let newArr = [...messages];
+                        newArr[index].text = e.target.value;
+                        setMessages(newArr);
+                        /*setMessages(messages => ({
+                          ...messages,
+                          [index]: e.target.value,
+                        }));*/
+                      }}
+                    />
+                  </div>
+                ))
+              }
+            </div>
+            <Button onPress={() => {
+              let newArr = [...messages];
+              newArr.push({ text: "" })
+              setMessages(newArr)
+            }}>
+              Añadir mensaje
+            </Button>
+          </>
+        )
+          : (true)
+        }
         <label htmlFor="Images">Imagenes</label>
         <DragNDrop getImages={getImagesFromDragNDrop} />
         <div className="flex justify-end mt-4">
