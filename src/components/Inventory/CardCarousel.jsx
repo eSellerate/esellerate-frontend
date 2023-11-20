@@ -20,6 +20,7 @@ const CardCarousel = (props) => {
 
   const loadCards = () => {
     const images = props.images
+    console.log(images)
     return (
       images
         ? images.map((image, key) => (<Image
