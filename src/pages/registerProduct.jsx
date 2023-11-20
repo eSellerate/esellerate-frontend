@@ -196,9 +196,17 @@ export default function registerProduct() {
           icon: "success",
         });
       } catch (error) {
+        const errorText = error.response.data.message;
+        const multipleErrors = error.response.data.cause;
+        console.log(error);
+        console.log(errorText);
+        console.log(multipleErrors);
+        const errorMessage = `${errorText}<br>${multipleErrors
+          .map((error) => error.message)
+          .join("<br>")}`;
         Swal.fire({
-          title: "No se pudo publicar el producto",
-          text: error.response.data.message,
+          title: "Error creando publicación",
+          html: errorMessage,
           icon: "error",
         });
       }

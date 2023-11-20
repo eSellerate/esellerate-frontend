@@ -334,7 +334,7 @@ export default function Sales() {
             </CardBody>
           </Card>
           <div className="flex space-x-3 items-center hide-scroll md:flex-row flex-col space-y-4">
-            <div className="md:w-1/3 w-full">
+            {/* <div className="md:w-1/3 w-full">
               <Input
                 type="text"
                 label="Búsqueda"
@@ -342,7 +342,7 @@ export default function Sales() {
                 startContent={<CiSearch />}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-            </div>
+            </div> */}
             <div className="flex md:space-x-5 w-full">
               <Divider orientation="vertical" className="block md:hidden" />
               <Dropdown>
@@ -506,18 +506,20 @@ export default function Sales() {
                             "/sale-detail?id=" + groupedOrders[0].pack_id
                           );
                     }}
+                    className="cursor-pointer"
                   >
                     <Checkbox
                       color="secondary"
                       onChange={() => handleCheckboxChange(groupedOrders)}
                       checked={printSelected}
-                    />
-                    <p>
-                      #
-                      {groupedOrders[0].pack_id === null
-                        ? groupedOrders[0].id
-                        : groupedOrders[0].pack_id}
-                    </p>
+                    >
+                      <p>
+                        #
+                        {groupedOrders[0].pack_id === null
+                          ? groupedOrders[0].id
+                          : groupedOrders[0].pack_id}
+                      </p>
+                    </Checkbox>
                   </CardHeader>
                   <Table aria-label="table">
                     <TableHeader columns={columns} aria-label="table-header">
