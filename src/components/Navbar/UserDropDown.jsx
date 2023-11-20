@@ -10,12 +10,14 @@ import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteUser } from "../../redux/userSlice";
+import { deleteUser as deleteMercadoLibreUser } from "../../redux/mercadolibreUserSlice";
 import axios from "axios";
 import GetCookieByName from "../Utilities/Cookies/GetCookieByName";
 import deleteCookie from "../Utilities/Cookies/DeleteCookie";
 
 export default function UserDropDown() {
   const user = useSelector((state) => state.user);
+  const mercadolibreUser = useSelector((state) => state.mlUser)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -35,6 +37,7 @@ export default function UserDropDown() {
       if (response.status === 200) {
         deleteCookie("session");
         dispatch(deleteUser());
+        dispatch(deleteMercadoLibreUser());
         navigate("/login");
       }
     } catch (error) {
@@ -50,9 +53,9 @@ export default function UserDropDown() {
           as="button"
           className="transition-transform"
           color="secondary"
-          name={user.photoUrl}
+          name={mercadolibreUser.thumbnail.picture_id}
           size="sm"
-          src={user.photoUrl}
+          src={mercadolibreUser.thumbnail.picture_url}
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat" className="text-black"
@@ -72,7 +75,7 @@ export default function UserDropDown() {
           <p
             className="font-semibold"
           >
-            {user.firstName} {user.lastName}
+            {mercadolibreUser.first_name} {mercadolibreUser.last_name}
           </p>
           <p className="font-semibold">
             {user.email}

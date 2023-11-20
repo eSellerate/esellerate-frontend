@@ -43,9 +43,21 @@ function Questionstest() {
           },
         }
       )
-      .then((response) => {
+      .then(async (response) => {
         const { data } = response.data;
-        setQuestions(data.questions.slice().sort((a, b) => b.id - a.id));
+        let sortedQuestions = data.questions.slice().sort((a, b) => b.id - a.id)
+
+        // Agregar imagen tremenda basura de metodo pero por el cagadero del componente no se me ocurrio más
+        let items = sortedQuestions.map(question => (question.item_id))
+        items = [...new Set(items)];
+        const maping = await getImageMapping(items)
+        sortedQuestions.forEach(question => {
+          const item = question.item_id
+          question.image = maping[item].picture
+          question.price = maping[item].price
+          question.title = maping[item].title
+        })
+        setQuestions(sortedQuestions)
       })
       .catch((error) => {
         console.error("Error fetching questions:", error);
@@ -61,6 +73,15 @@ function Questionstest() {
         }, 2000);
       });
   };
+
+  const getImageMapping = async (items) => {
+    const mapObj = {}
+    for (let item of items) {
+      const image = await getProductImage(item)
+      mapObj[item] = image
+    }
+    return mapObj
+  }
 
   const formatDateTime = (dateString) => {
     const options = {
@@ -180,6 +201,19 @@ function Questionstest() {
   //   return <LoadingPage />;
   // }
 
+  const getProductImage = async (productId) => {
+    try {
+      const response = await axios.get(`https://api.mercadolibre.com/items/${productId}`)
+      const picture = response.data.pictures[0].secure_url
+      const price = response.data.price
+      const title = response.data.title
+      return {picture, price, title}
+    } catch(error) {
+      console.log(error)
+      return null
+    }
+  }
+
   return (
     <div className="min-h-screen md:px-12 px-4 pb-1 align-middle md:pt-8 pt-0">
       <section className="py-9">
@@ -206,13 +240,13 @@ function Questionstest() {
                 <Image
                   alt="nextui logo"
                   className="w-14 h-12 rounded-full"
-                  src="https://datepsychology.com/wp-content/uploads/2022/09/gigachad.jpg"
+                  src={groupedQuestions[0].image}
                 />
               </Skeleton>
               <div className="flex flex-col">
                 <Skeleton isLoaded={!isLoading} className="rounded-lg">
-                  <p className="text-md">{groupedQuestions[0].item_id}</p>
-                  <p className="text-small text-default-500">$ 0.0</p>
+                  <p className="text-md">{groupedQuestions[0].title} ({groupedQuestions[0].item_id})</p>
+                  <p className="text-small text-default-500">$ {groupedQuestions[0].price} MXN</p>
                 </Skeleton>
               </div>
             </CardHeader>

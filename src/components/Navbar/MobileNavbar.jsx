@@ -15,6 +15,7 @@ import UserDropDown from "./UserDropDown";
 import { useSelector } from "react-redux";
 import logo from "../../assets/logo.svg";
 import useUserToRedux from "../../hooks/useUserToRedux";
+import useMercadoLibreUser from "../../hooks/useMercadoLibreUser"
 import GetCookieByName from "../Utilities/Cookies/GetCookieByName";
 import axios from "axios";
 import deleteCookie from "../Utilities/Cookies/DeleteCookie";
@@ -24,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function MobileNavbar() {
   const userToRedux = useUserToRedux();
+  const mercadolibreUser = useMercadoLibreUser();
   const user = useSelector((state) => state.user);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -55,6 +57,7 @@ export default function MobileNavbar() {
   }, [isMenuOpen]);
   useEffect(() => {
     userToRedux();
+    mercadolibreUser();
   }, []);
   let menuItems = [];
   user.email !== ""

@@ -12,12 +12,15 @@ import UserDropDown from "./UserDropDown";
 import { useSelector } from "react-redux";
 import logo from "../../assets/logo.svg";
 import useUserToRedux from "../../hooks/useUserToRedux";
+import useMercadoLibreUser from "../../hooks/useMercadoLibreUser";
 
 export default function DesktopNavbar() {
   const userToRedux = useUserToRedux();
+  const mercadolibreUser = useMercadoLibreUser()
 
   useEffect(() => {
     userToRedux();
+    mercadolibreUser();
   }, []);
 
   const user = useSelector((state) => state.user);
