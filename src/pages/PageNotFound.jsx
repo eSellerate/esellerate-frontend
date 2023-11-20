@@ -12,7 +12,7 @@ export default function PageNotFound () {
           <h1 className='text-black text-lg md:text-2xl'>Página no encontrada.</h1>
           <p className='py-2 text-secondary text-xs md:text-sm'>El recurso solicitado no existe.</p>
           <LinkUI className='hover:cursor-pointer underline text-xs md:text-sm'>
-            <Link to='/'>Volver a página principal</Link>
+            <Link to='/inventory'>Volver a página principal</Link>
           </LinkUI>
         </div>
       </section>
