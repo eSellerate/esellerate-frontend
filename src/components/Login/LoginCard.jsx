@@ -100,9 +100,15 @@ export default function Login() {
       // notify
       const errorText = error.response.data.message;
       const multipleErrors = error.response.data.errors;
-      const errorMessage = `${errorText}<br>${multipleErrors
-        .map((error) => error.msg)
-        .join("<br>")}`;
+      let errorMessage = "";
+      if (multipleErrors) {
+        errorMessage = `${errorText}<br>${multipleErrors
+          .map((error) => error.msg)
+          .join("<br>")}`;
+      }
+      if (!multipleErrors) {
+        errorMessage = errorText;
+      }
       Swal.fire({
         title: "Error",
         html: errorMessage,
