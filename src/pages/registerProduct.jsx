@@ -168,8 +168,7 @@ export default function registerProduct() {
           key === "title" ||
           key === "price" ||
           key === "category_id" ||
-          key === "available_quantity" ||
-          key === "availability"
+          key === "available_quantity"
         ) {
           data[key] = value;
           continue;
@@ -378,16 +377,6 @@ export default function registerProduct() {
             name="available_quantity"
             label="Cantidad"
             placeholder="Cuantos productos tienes en stock"
-            labelPlacement="outside"
-            radius="none"
-            min={0} 
-          />
-          <Input
-            isRequired
-            type="number"
-            name="availability"
-            label="Días"
-            placeholder="Días necesarios de preparacion del producto"
             labelPlacement="outside"
             radius="none"
             min={0} 
