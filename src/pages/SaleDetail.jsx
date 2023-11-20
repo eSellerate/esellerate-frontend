@@ -144,7 +144,7 @@ export default function SaleDetail() {
                 </div>
               </CardBody>
               <CardFooter>
-                <div class="border border-zinc-500 bg-transparent p-4 flex space-x-4 items-center w-full rounded-md overflow-auto">
+                <div className="border border-zinc-500 bg-transparent p-4 flex space-x-4 items-center w-full rounded-md overflow-auto">
                   <div className="flex-shrink-0">
                     <Image
                       className="object-contain w-12 h-12 rounded-xl"

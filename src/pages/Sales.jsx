@@ -38,8 +38,8 @@ import {
 } from "react-icons/ci";
 import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 import axios from "axios";
-import Swal from "sweetalert2";
 import LoadingPage from "../components/Utilities/Loading/LoadingPage";
+import Swal from "sweetalert2";
 export default function Sales() {
   const [selectedItem, setSelectedItem] = useState("Últimos 6 meses");
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,9 +62,6 @@ export default function Sales() {
         order.enabled = false;
       } else order.enabled = true;
     });
-  };
-  const handlePrintSelectedChange = () => {
-    setPrintSelected(!printSelected);
   };
   const columns = [
     {
@@ -131,42 +128,82 @@ export default function Sales() {
     pdf.addImage(imgData, "PNG", 10, 10, 600, 750);
     pdf.save("Venta.pdf");
     */
-    const session = extractCookie("session");
-    var orderscopy = JSON.parse(JSON.stringify(orders));
-    let nodes = Object.keys(orderscopy);
-    for (let i = 0; i < nodes.length; i++) {
-      if (!orderscopy[i].enabled) {
-        orderscopy.splice(i, 1);
+    if (selectedOrders.length === 0) {
+      Swal.fire({
+        title: `Error imprimiendo ventas`,
+        text: `Seleccione una venta a imprimir`,
+        icon: "error",
+      });
+    } else {
+      const session = extractCookie("session");
+      var orderscopy = JSON.parse(JSON.stringify(selectedOrders));
+      let nodes = Object.keys(orderscopy);
+      for (let i = 0; i < nodes.length; i++) {
+        if (!orderscopy[i].enabled) {
+          orderscopy.splice(i, 1);
+        }
       }
+
+      // console.log(selectedOrders);
+      // console.log(orderscopy);
+      axios
+        .post(
+          `${import.meta.env.VITE_BACKEND_END_POINT}generate-order`,
+          orderscopy,
+          {
+            responseType: "arraybuffer",
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/pdf",
+              Authorization: `Bearer ${session}`,
+            },
+          }
+        )
+        .then((response) => {
+          const { data } = response;
+          const blob = new Blob([data], { type: "application/pdf" });
+          saveAs(blob, `Recibo-${new Date().toLocaleDateString()}.pdf`);
+        })
+        .catch((error) => {
+          Swal.fire({
+            title: `Error descargando reporte de ventas`,
+            text: `Error encontrado: ${error}`,
+            icon: "error",
+          });
+        });
     }
-    console.log(orderscopy)
-    // axios
-    //   .post(
-    //     `${import.meta.env.VITE_BACKEND_END_POINT}generate-order`,
-    //     orderscopy,
-    //     {
-    //       responseType: "arraybuffer",
-    //       withCredentials: true,
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Accept: "application/pdf",
-    //         Authorization: `Bearer ${session}`,
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     const { data } = response;
-    //     const blob = new Blob([data], { type: "application/pdf" });
-    //     saveAs(blob, `Recibo-${new Date().toLocaleDateString()}.pdf`);
-    //   })
-    //   .catch((error) => {
-    //     Swal.fire({
-    //       title: `Error descargando reporte de ventas`,
-    //       text: `Error encontrado: ${error}`,
-    //       icon: "error",
-    //     });
-    //   });
   };
+  const handleCheckboxChange = (orders) => {
+    setSelectedOrders((prevSelectedOrders) => {
+      const updatedOrders = [...prevSelectedOrders];
+      orders.forEach((order) => {
+        const existingIndex = updatedOrders.findIndex(
+          (existingOrder) => existingOrder.id === order.id
+        );
+        if (existingIndex !== -1) {
+          updatedOrders.splice(existingIndex, 1);
+        } else {
+          updatedOrders.push(order);
+        }
+      });
+      return updatedOrders;
+    });
+  };
+  // const handlePrintSelectedChange = () => {
+  //   setPrintSelected(!printSelected);
+  //   if (!printSelected) {
+  //     setSelectedOrders(orders);
+  //   }
+  //   if (printSelected) {
+  //     if(selectedOrders==[]){
+  //     setSelectedOrders([selectedOrders]);
+  //     }else{
+  //       setSelectedOrders([]);
+  //     }
+  //   }
+  //   console.log(selectedOrders);
+  // };
   return (
     <main className="bg-black md:w-full min-h-screen flex flex-col space-y-4 p-4">
       {loading ? (
@@ -314,8 +351,7 @@ export default function Sales() {
             </CardBody>
           </Card>
           <div className="flex space-x-3 items-center hide-scroll md:flex-row flex-col space-y-4">
-            <div 
-                className="md:w-1/3 w-full">
+            <div className="md:w-1/3 w-full">
               <Input
                 type="text"
                 label="Búsqueda"
@@ -417,9 +453,9 @@ export default function Sales() {
           </div>
           <div className="w-full flex md:flex-row flex-col space-y-3">
             <div className="flex md:flex-grow justify-start space-x-4">
-              <Checkbox onChange={handlePrintSelectedChange} color="secondary">
+              {/* <Checkbox onChange={handlePrintSelectedChange} color="secondary">
                 Seleccionar Todas las Ventas
-              </Checkbox>
+              </Checkbox> */}
               {/* <Dropdown>
                 <DropdownTrigger>
                   <div className="flex items-center justify-end  flex-grow cursor-pointer">
@@ -454,11 +490,10 @@ export default function Sales() {
             </div>
             <Button
               className="flex space-x-1 justify-center"
-              isDisabled={!printSelected}
               onClick={handleDownloadExcel}
             >
               <CiFileOn />
-              Reporte de Ventas
+              Imprimir ventas
             </Button>
           </div>
           <div ref={tableRef}>
@@ -489,7 +524,12 @@ export default function Sales() {
                           );
                     }}
                   >
-                    <Checkbox color="secondary"/>
+                    <Checkbox
+                      color="secondary"
+                      onChange={() => handleCheckboxChange(groupedOrders)}
+                      // checked={selectedOrders.includes(groupedOrders)}
+                      checked={printSelected}
+                    />
                     <p>
                       #
                       {groupedOrders[0].pack_id === null
