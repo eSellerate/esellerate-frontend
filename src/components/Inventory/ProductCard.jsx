@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 import {
   Modal,
   ModalContent,
@@ -25,6 +27,7 @@ import "alertifyjs/build/css/alertify.css";
 import error404img from "../../assets/imagen-404.webp";
 import CardCarousel from "./CardCarousel";
 import closePublication from "../../functions/closePublication";
+import GetCookieByName from "../Utilities/Cookies/GetCookieByName";
 
 export default function ProductCard(props) {
   ProductCard.propTypes = {
@@ -42,21 +45,37 @@ export default function ProductCard(props) {
   const [title, setTitle] = useState(product.title);
   const [description, setDescription] = useState(product.description);
   const [price, setPrice] = useState(product.price);
+  const [stock, setStock] = useState(0)
   // UI state
   const [enabled, setEnabled] = useState(true);
   const [custom, setCustom] = useState(true);
   const [selectedCustom, setSelectedCustom] = useState("Personalizado 1");
   const pendingImage =
     "http://http2.mlstatic.com/resources/frontend/statics/processing-image/1.0.0/O-ES.jpg";
+  const base_URL = import.meta.env.VITE_BACKEND_END_POINT
 
   const handleDropdownSelect = (item) => {
     setSelectedCustom(item);
   };
   useEffect(() => {
+    if (product.initial_quantity) setStock(product.initial_quantity)
+    getProductDescription()
     if (product.status !== "active") {
       setEnabled(false);
     }
   }, []);
+
+  const getProductDescription = async () => {
+    try {
+      const response = await axios.get(`https://api.mercadolibre.com/items/${product.id}/description`)
+      if (response.status === 200) {
+        const { plain_text } = response.data
+        setDescription(plain_text)
+      }
+    } catch(error) {
+
+    }
+  } 
 
   const handleClosePublication = (title) => {
     alertify
@@ -86,6 +105,46 @@ export default function ProductCard(props) {
         },
       });
   };
+
+  const editProduct = async () => {
+    const session = GetCookieByName('session')
+    try {
+      await axios.put(`${base_URL}/mercado-libre/modifyProduct?product_id=${product.id}`,
+       {
+        description,
+        title,
+        price,
+        available_quantity: stock
+       },
+       {
+        headers: {
+          Authorization: `Bearer ${session}`,
+          'Content-Type': 'application/json'
+        }
+       }
+      )
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `Se modifico el producto: ${product.id}`,
+        showConfirmButton: false,
+        timer: 2500
+      })
+    } catch(error){
+      console.log(error)
+      const errors = error.response.data.cause
+      if (errors) {
+        let errStr = errors.map(err => (err.message))
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: errStr.toString(),
+          showConfirmButton: false,
+          timer: 2500
+        })
+      }
+    }
+  }
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -190,6 +249,17 @@ export default function ProductCard(props) {
                       startContent="$"
                       endContent={product.currency_id}
                     />
+                    <Input
+                      label="Existencias"
+                      onChange={(e) => {
+                        setStock(e.target.value);
+                      }}
+                      value={stock}
+                      placeholder="Existencias del producto"
+                      type="number"
+                      variant="bordered"
+                      endContent='pz(as)'
+                    />
                     <div>
                       <p className="text-secondary mb-2">Estado del producto</p>
                       <Switch
@@ -271,7 +341,7 @@ export default function ProductCard(props) {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" variant="flat" onPress={onClose}>
+                <Button color="primary" variant="flat" onPress={editProduct}>
                   Editar
                 </Button>
               </ModalFooter>
