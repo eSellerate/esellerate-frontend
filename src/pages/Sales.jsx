@@ -143,9 +143,6 @@ export default function Sales() {
           orderscopy.splice(i, 1);
         }
       }
-
-      // console.log(selectedOrders);
-      // console.log(orderscopy);
       axios
         .post(
           `${import.meta.env.VITE_BACKEND_END_POINT}generate-order`,
@@ -190,20 +187,6 @@ export default function Sales() {
       return updatedOrders;
     });
   };
-  // const handlePrintSelectedChange = () => {
-  //   setPrintSelected(!printSelected);
-  //   if (!printSelected) {
-  //     setSelectedOrders(orders);
-  //   }
-  //   if (printSelected) {
-  //     if(selectedOrders==[]){
-  //     setSelectedOrders([selectedOrders]);
-  //     }else{
-  //       setSelectedOrders([]);
-  //     }
-  //   }
-  //   console.log(selectedOrders);
-  // };
   return (
     <main className="bg-black md:w-full min-h-screen flex flex-col space-y-4 p-4">
       {loading ? (
@@ -527,7 +510,6 @@ export default function Sales() {
                     <Checkbox
                       color="secondary"
                       onChange={() => handleCheckboxChange(groupedOrders)}
-                      // checked={selectedOrders.includes(groupedOrders)}
                       checked={printSelected}
                     />
                     <p>
