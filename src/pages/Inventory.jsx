@@ -31,7 +31,7 @@ export default function Inventory() {
       item.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredItems(filteredItems);
-  }, [searchTerm]);
+  }, [searchTerm, products]);
   async function getMercadoLibreProducts() {
     const session = extractCookie("session");
     try {
@@ -68,8 +68,8 @@ export default function Inventory() {
   };
   let items = [];
   if (searchTerm !== "") {
-    items = filteredItems.map((product, key) => (
-      <ProductCard product={product} key={key} reloadItems={reloadItems} />
+    items = filteredItems.map((product) => (
+      <ProductCard product={product} key={product.id} reloadItems={reloadItems} />
     ));
     console.log(searchTerm);
     console.log(filteredItems);
