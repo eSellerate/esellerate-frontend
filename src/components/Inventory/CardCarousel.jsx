@@ -26,7 +26,7 @@ const CardCarousel = (props) => {
         ? images.map((image, key) => (<Image
             className='md:w-64 w-60 object-contain'
             key={key}
-            src={image.url}
+            src={image.secure_url}
                                       />))
         : <Image className='md:w-64 w-60 object-contain' src={error404img} />
     )
