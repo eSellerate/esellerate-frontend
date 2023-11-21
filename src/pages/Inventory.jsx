@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { Input, Pagination } from "@nextui-org/react";
+import { Input, Pagination, Image } from "@nextui-org/react";
 import axios from "axios";
 import Masonry from "react-responsive-masonry";
 // Components
@@ -9,6 +9,7 @@ import ProductCard from "../components/Inventory/ProductCard";
 import AddProductButton from "../components/Inventory/AddProductButton";
 import LoadingCard from "../components/Utilities/Loading/LoadingCard";
 import LoadingPage from "../components/Utilities/Loading/LoadingPage";
+import error404img from "../assets/imagen-404.webp";
 // Utils
 import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 // Hooks
@@ -68,11 +69,35 @@ export default function Inventory() {
   };
   let items = [];
   if (searchTerm !== "") {
-    items = filteredItems.map((product) => (
-      <ProductCard product={product} key={product.id} reloadItems={reloadItems} />
-    ));
-    console.log(searchTerm);
-    console.log(filteredItems);
+    if (filteredItems.length !== 0) {
+      items = filteredItems.map((product) => (
+        <ProductCard
+          product={product}
+          key={product.id}
+          reloadItems={reloadItems}
+        />
+      ));
+    }
+    if (filteredItems.length === 0) {
+      items = (
+        <div className="h-screen flex text-black items-center bg-white rounded-md">
+          <div className="flex flex-col space-y-3">
+            <span className="font-bold px-2 md:text-xl  text-3xl justify-center text-center">Ningún item fué encontrado</span>
+            <span className="font-bold px-2 md:text-sm text-2xl justify-center text-center text-gray-500">Busque otro item</span>
+            <Image
+              className="object-contain rounded-xl"
+              loading="lazy"
+              isZoomed
+              alt="Producto"
+              src={error404img}
+            />
+          </div>
+        </div>
+      );
+    }
+    // console.log(searchTerm);
+    // console.log(filteredItems);
+    console.log(items.length);
   }
   if (searchTerm === "") {
     items = products.map((product, key) => (
