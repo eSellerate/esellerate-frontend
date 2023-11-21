@@ -33,15 +33,15 @@ export default function registerProduct() {
   const endpoint = import.meta.env.VITE_BACKEND_END_POINT;
   const session = extractCookie("session");
 
-  const defaultMessages = [{ text: "" }]
-  const [messages, setMessages] = useState([defaultMessages]);
-  const [customMessages, setCustomMessages] = useState(false);
-
-  const defaultAutomaticDesigns = [{ id: 0, description: "Hueso" }, { id: 1, description: "Otro" }]
+  const defaultAutomaticDesigns = [{ id: 1, description: "Hueso" }]
   const [automaticDesigns, setAutomaticDesigns] = useState(defaultAutomaticDesigns);
 
-  const defaultMessageRules = [{ id: 0, description: "Al recibir venta" }, { id: 1, description: "Diseño" }]
+  const defaultMessageRules = [{ id: 1, description: "Mensaje inicial" }]
   const [messageRules, setMessageRules] = useState(defaultMessageRules);
+
+  const defaultMessages = [{ type: 1, text: "" }]
+  const [messages, setMessages] = useState(defaultMessages);
+  const [customMessages, setCustomMessages] = useState(false);
 
   const handleDropdownSelect = (item) => {
     setSelectedCustom(item);
@@ -75,6 +75,12 @@ export default function registerProduct() {
     if (response.status === 200) {
       setCategories(response.data);
     }
+  };
+
+  const getAutomaticDesignOptions = async () => {
+  };
+
+  const getMessageRuleOptions = async () => {
   };
 
   const getMandatoryAttributes = async () => {
@@ -119,6 +125,9 @@ export default function registerProduct() {
       pictures,
       attributes: [],
     };
+    if (customMessages === true) {
+      data.customMessages = messages
+    }
     for (let [key, value] of formData.entries()) {
       if (key === "file") continue;
       if (
@@ -174,6 +183,10 @@ export default function registerProduct() {
         pictures,
         attributes: [],
       };
+      if (customMessages === true) {
+        console.log("Mensajes personalizados añadidos")
+        data.customMessages = messages
+      }
       for (let [key, value] of formData.entries()) {
         if (key === "file") continue;
         if (
@@ -381,7 +394,7 @@ export default function registerProduct() {
             placeholder="Ingresa el precio del producto"
             labelPlacement="outside"
             radius="none"
-            min={0} 
+            min={0}
           />
           <Input
             isRequired
@@ -391,17 +404,9 @@ export default function registerProduct() {
             placeholder="Cuantos productos tienes en stock"
             labelPlacement="outside"
             radius="none"
-            min={0} 
+            min={0}
           />
         </div>
-        <Switch
-          isSelected={customMessages}
-          onValueChange={() => {
-            setCustomMessages(!customMessages);
-          }}
-        >
-          Mensajes automaticos
-        </Switch>
         <div className="flex flex-col space-y-4 w-fit">
           <Switch
             isSelected={custom}
@@ -453,6 +458,14 @@ export default function registerProduct() {
             true
           )}
         </div>
+        <Switch
+          isSelected={customMessages}
+          onValueChange={() => {
+            setCustomMessages(!customMessages);
+          }}
+        >
+          Mensajes automaticos
+        </Switch>
         {customMessages ? (
           <>
             <div id="customMessages" className="flex flex-col gap-2 h-full">
@@ -462,9 +475,17 @@ export default function registerProduct() {
                     <p>{`Mensaje ` + (index + 1)}</p>
                     <Dropdown className="w-fit">
                       <DropdownTrigger>
-                        <Button variant="bordered">{messageRules[0].description}</Button>
+                        <Button variant="bordered">{messageRules[message.type-1].description}</Button>
                       </DropdownTrigger>
-                      <DropdownMenu aria-label="rules">
+                      <DropdownMenu aria-label="rules"
+                        onAction=
+                        {
+                          (key) => {
+                            let newArr = [...messages];
+                            newArr[index].type = Number(key);
+                            setMessages(newArr);
+                          }
+                        }>
                         {
                           messageRules.map((rule) => (
                             <DropdownItem
@@ -486,10 +507,6 @@ export default function registerProduct() {
                         let newArr = [...messages];
                         newArr[index].text = e.target.value;
                         setMessages(newArr);
-                        /*setMessages(messages => ({
-                          ...messages,
-                          [index]: e.target.value,
-                        }));*/
                       }}
                     />
                   </div>
@@ -498,7 +515,7 @@ export default function registerProduct() {
             </div>
             <Button onPress={() => {
               let newArr = [...messages];
-              newArr.push({ text: "" })
+              newArr.push({ type: 1, text: "" })
               setMessages(newArr)
             }}>
               Añadir mensaje
