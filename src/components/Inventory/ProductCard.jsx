@@ -204,10 +204,10 @@ export default function ProductCard(props) {
               <ModalHeader>Editar producto</ModalHeader>
               <ModalBody>
                 <div className="p-5 flex md:flex-row flex-col gap-10 md:gap-28 justify-center">
-                  <div>
+                  <div className="m-auto">
                     <CardCarousel images={image} />
                   </div>
-                  <div className="md:w-96 w-80 flex flex-col gap-2">
+                  <div className="md:w-96 w-full flex flex-col gap-2">
                     <Input
                       autoFocus
                       label="SKU"

@@ -82,9 +82,12 @@ export default function registerProduct() {
       const response = await axios.get(
         `https://api.mercadolibre.com/categories/${selectedCategory}/technical_specs/input`
       );
-      const mandatory = response.data.groups[0].components.filter((element) =>
-        element.attributes[0].tags.includes("required")
-      );
+      const groups = response.data.groups.map(group => (group.components)).flat()
+      const mandatory = groups.filter((element) => {
+        if (element.attributes[0].tags.includes('required') || element.attributes[0].tags.includes('conditional_required')){
+          return element
+        }
+      });
       setMandatoryInputs(mandatory);
     } catch (error) {
       console.log(error);
@@ -120,6 +123,7 @@ export default function registerProduct() {
       attributes: [],
     };
     for (let [key, value] of formData.entries()) {
+      console.log(key, value)
       if (key === "file") continue;
       if (
         key === "title" ||
@@ -128,6 +132,10 @@ export default function registerProduct() {
         key === "available_quantity"
       ) {
         data[key] = value;
+        continue;
+      }
+      if (key === "SELLER_SKU") {
+        data.attributes.push({ id: key, value_name: value });
         continue;
       }
       if (key === "DATA_STORAGE_CAPACITY") {
@@ -247,8 +255,8 @@ export default function registerProduct() {
         {text &&
           text.map((input) => (
             <Input
+              className="pt-4"
               key={input.label}
-              isRequired
               type="text"
               name={input.attributes[0].id}
               label={input.label}
@@ -259,7 +267,7 @@ export default function registerProduct() {
           ))}
         {colorInput && (
           <Select
-            isRequired
+            className="pt-4"
             label="Color"
             labelPlacement="outside"
             name="color"
@@ -276,13 +284,12 @@ export default function registerProduct() {
         {combo &&
           combo.map((input) => (
             <Select
-              isRequired
+              className="flex flex-row py-2"
               label={input.label}
               name={input.attributes[0].id}
               labelPlacement="outside"
               placeholder={input.ui_config.hint ?? input.label}
               radius="none"
-              className="flex flex-row space-y-5"
               key={input.label}
             >
               {input.label === "Marca" && (
@@ -300,8 +307,8 @@ export default function registerProduct() {
         {unit &&
           unit.map((input) => (
             <Input
+              className="py-4"
               key={input.label}
-              isRequired
               type="number"
               name={input.attributes[0].id}
               labelPlacement="outside"
@@ -318,7 +325,7 @@ export default function registerProduct() {
     <section className="flex flex-col gap-2 h-full items-center py-4">
       <form
         onSubmit={handleSubmit}
-        className="border rounded-lg border-secondary secondary p-4 flex flex-col space-y-4"
+        className="border rounded-lg border-secondary secondary p-4 flex flex-col"
       >
         <h2 className="pb-8 text-xl font-bold flex justify-center">
           Publicación nueva
@@ -340,7 +347,7 @@ export default function registerProduct() {
           placeholder="Escribe una descripción del producto"
           labelPlacement="outside"
           radius="none"
-          className="pt-5"
+          className="pt-5 mb-4"
         />
         {categories.length > 0 && (
           <Select
@@ -350,7 +357,7 @@ export default function registerProduct() {
             labelPlacement="outside"
             placeholder="Selecciona la categoria"
             radius="none"
-            className="pt-6"
+            className="pb-1"
           >
             {categories.map((category) => (
               <SelectItem
@@ -368,7 +375,7 @@ export default function registerProduct() {
           <Input
             type="text"
             label="SKU"
-            name="sku"
+            name="SELLER_SKU"
             placeholder="Ingresa el SKU del producto"
             labelPlacement="outside"
             radius="none"
@@ -395,6 +402,7 @@ export default function registerProduct() {
           />
         </div>
         <Switch
+          className="py-4"
           isSelected={customMessages}
           onValueChange={() => {
             setCustomMessages(!customMessages);
@@ -507,7 +515,7 @@ export default function registerProduct() {
         )
           : (true)
         }
-        <label htmlFor="Images">Imagenes</label>
+        <label htmlFor="Images" className="py-2">Imagenes</label>
         <DragNDrop getImages={getImagesFromDragNDrop} />
         <div className="flex justify-end mt-4">
           <Button
