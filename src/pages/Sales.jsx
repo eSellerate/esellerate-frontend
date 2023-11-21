@@ -211,7 +211,7 @@ export default function Sales() {
                     <div className="flex space-x-6 text-xl">
                       <div className="flex flex-col space-y-2 w-1/4">
                         <h1 className="whitespace-nowrap">En preparación</h1>
-                        <p className="text-sm">0 ventas</p>
+                        <p className="text-sm">12 ventas</p>
                       </div>
                       <div className="flex flex-col space-y-2 w-1/4">
                         <h1 className="whitespace-nowrap">
@@ -240,7 +240,7 @@ export default function Sales() {
                             </h1>
                           </CardHeader>
                           <CardBody>
-                            <p>0 ventas</p>
+                            <p>1 ventas</p>
                           </CardBody>
                         </Card>
                         <Card className="shadow-2xl">
@@ -248,7 +248,7 @@ export default function Sales() {
                             <h1>Para enviar</h1>
                           </CardHeader>
                           <CardBody>
-                            <p>0 ventas</p>
+                            <p>2 ventas</p>
                           </CardBody>
                         </Card>
                         <Card className="shadow-2xl">

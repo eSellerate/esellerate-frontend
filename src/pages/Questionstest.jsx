@@ -127,7 +127,7 @@ function Questionstest() {
           });
           setTimeout(() => {
             fetchQuestions();
-          }, 2000);
+          }, 3500);
         } else {
           console.log(`Error eliminando pregunta: ${status}`);
           Swal.fire({
