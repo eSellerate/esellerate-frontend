@@ -146,6 +146,66 @@ export default function ProductCard(props) {
     }
   }
 
+  const handleStatusChange = () => {
+    const session = GetCookieByName('session')
+    if (enabled) {
+      Swal.fire({
+        title: `¿Quieres pausar el producto ${product.id}?`,
+        text: "Nadie podrá ver ni comprar el producto en MercadoLibre",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Pausar"
+      }).then( async (result) => {
+        if (result.isConfirmed) {
+          const response = await axios.post(`${base_URL}mercado-libre/pause?id=${product.id}`, null, {
+            headers: {
+              Authorization: `Bearer ${session}`
+            }
+          })
+          if (response.status === 200) {
+            setEnabled(false)
+            Swal.fire({
+              title: "Producto deshabilitado",
+              text: product.id,
+              icon: "success"
+            })
+          }
+        }
+      })
+    } else {
+      Swal.fire({
+        title: `¿Quieres habilitar el producto ${product.id}?`,
+        text: "Los usuario podrán volver a comprar el producto en MercadoLibre",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Habilitar"
+      }).then( async (result) => {
+        if (result.isConfirmed) {
+          setEnabled(false)
+          const response = await axios.post(`${base_URL}mercado-libre/enable?id=${product.id}`, null, {
+            headers: {
+              Authorization: `Bearer ${session}`,
+            }
+          })
+          if (response.status === 200) {
+            setEnabled(true)
+            Swal.fire({
+              title: "Producto habilitado",
+              text: product.id,
+              icon: "success"
+            })
+          }
+        }
+      });
+    }
+  }
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -264,11 +324,9 @@ export default function ProductCard(props) {
                       <p className="text-secondary mb-2">Estado del producto</p>
                       <Switch
                         isSelected={enabled}
-                        onValueChange={() => {
-                          setEnabled(!enabled);
-                        }}
+                        onValueChange={handleStatusChange}
                       >
-                        {enabled ? "Habilitado 🥵👌" : "Deshabilitado 😣🚫"}
+                        {enabled ? "Habilitado" : "Deshabilitado"}
                       </Switch>
                     </div>
                     <div className="flex flex-col space-y-4">
@@ -282,8 +340,8 @@ export default function ProductCard(props) {
                         }}
                       >
                         {custom
-                          ? "Diseño personalizado 😎👌"
-                          : "Sin personalizar 😒🤢"}
+                          ? "Diseño personalizado"
+                          : "Sin personalizar"}
                       </Switch>
                       {custom ? (
                         <Dropdown className="w-fit">
