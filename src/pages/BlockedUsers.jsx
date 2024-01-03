@@ -65,10 +65,12 @@ export default function BlockedUsers() {
   }
 
   useEffect(() => {
-    setSortedBlacklist([]);
-    setTimeout(() => {
-      getMercadoLibreBlacklist();
-    }, 2000);
+    if (isLoading) {
+      setSortedBlacklist([]);
+      setTimeout(() => {
+        getMercadoLibreBlacklist();
+      }, 2000);
+    }
   }, [isLoading]);
 
   async function unBlackListUser(user_id, type) {
@@ -85,7 +87,6 @@ export default function BlockedUsers() {
         },
       }
     );
-    setIsLoading(true);
   }
 
   const renderCell = React.useCallback((item, columnKey) => {
@@ -110,12 +111,15 @@ export default function BlockedUsers() {
                 <DropdownItem onPress={() => {
                   unBlackListUser(item["id"], "order");
                   unBlackListUser(item["id"], "questions");
+                  setIsLoading(true);
                 }}>Desbloquear</DropdownItem>
                 <DropdownItem onPress={() => {
                   unBlackListUser(item["id"], "questions");
+                  setIsLoading(true);
                 }}>Desbloquear Preguntas</DropdownItem>
                 <DropdownItem onPress={() => {
                   unBlackListUser(item["id"], "order");
+                  setIsLoading(true);
                 }}>Desbloquear Compras</DropdownItem>
               </DropdownMenu>
             </Dropdown>

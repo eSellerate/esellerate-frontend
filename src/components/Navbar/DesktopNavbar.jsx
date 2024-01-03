@@ -43,6 +43,9 @@ export default function DesktopNavbar() {
             <NavbarItem isActive={currentPath === "/questions"}>
               <NavLink to="/questions"> Preguntas </NavLink>
             </NavbarItem>
+            <NavbarItem isActive={currentPath === "/clientpanel"}>
+              <NavLink to="/clientpanel"> Panel de respuesta </NavLink>
+            </NavbarItem>
             <NavbarItem isActive={currentPath === "/blockedusers"}>
               <NavLink to="/blockedusers"> Bloquear Usuarios </NavLink>
             </NavbarItem>
