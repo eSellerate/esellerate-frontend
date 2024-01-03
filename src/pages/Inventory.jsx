@@ -111,8 +111,8 @@ export default function Inventory() {
         // className="md:px-12 px-4 h-full"
         className={
           items.length < 5
-            ? "md:px-12 px-4 md:h-screen"
-            : "md:px-12 px-4 h-full"
+            ? "md:px-12 px-4"
+            : "md:px-12 px-4"
         }
       >
         <section className="py-9">
