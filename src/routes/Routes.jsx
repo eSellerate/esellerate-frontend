@@ -19,6 +19,7 @@ import PageNotFound from '../pages/PageNotFound'
 import AuthGuard from '../guards/AuthGuard.guard'
 import CheckSession from '../guards/CheckSession.guard'
 import SaleDetail from '../pages/SaleDetail'
+import InventoryList from '../pages/InventoryList'
 
 // routes definition
 const Routes = () => {
@@ -39,6 +40,7 @@ const Routes = () => {
           <Route path='/questions' element={<Questionstest />} />
           <Route path='/chat' element={<Questions />} />
           <Route path='/inventory' element={<Inventory />} />
+          <Route path='/inventorylist' element={<InventoryList />} />
           <Route path='/register_ml_app' element={<RegisterMLApp />} />
           <Route path='/sale-detail' element={<SaleDetail />} />
           {/* <Route path='/register-product' element={<RegisterProduct />} /> */}

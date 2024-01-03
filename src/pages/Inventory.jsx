@@ -13,18 +13,15 @@ import error404img from "../assets/imagen-404.webp";
 // Utils
 import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 // Hooks
-import useValidateSession from "../hooks/useValidateSession";
 
 export default function Inventory() {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
-  const validateSession = useValidateSession();
   const [totalPrice, setTotalPrice] = useState("0");
   const [totalPost, setTotalPost] = useState("0");
   useEffect(() => {
-    validateSession();
     getMercadoLibreProducts();
   }, []);
   useEffect(() => {
@@ -46,6 +43,7 @@ export default function Inventory() {
         }
       );
       const { data } = response;
+      console.log(data)
       setLoadingProducts(false);
       setProducts(data);
       const arrayLength = data.length;
@@ -62,10 +60,7 @@ export default function Inventory() {
 
   const reloadItems = () => {
     setLoadingProducts(true);
-    // Esperar 20 seg para que mercado libre actualice la informacion
-    setTimeout(() => {
-      getMercadoLibreProducts();
-    }, 20000);
+    getMercadoLibreProducts();
   };
   let items = [];
   if (searchTerm !== "") {

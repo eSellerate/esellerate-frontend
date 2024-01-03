@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import { Spinner } from '@nextui-org/react'
+import React, {
+  useEffect,
+  useState
+} from 'react'
 
-function LoadingPage () {
+function LoadingSpinner () {
   let [loadingDots, setLoadingDots] = useState('')
 
   useEffect(() => {
@@ -16,10 +19,8 @@ function LoadingPage () {
   }, [loadingDots])
 
   return (
-    <div className='fixed flex z-20 justify-center inset-0 bg-black bg-opacity-70'>
-      <Spinner label={'Cargando ' + loadingDots} color='primary' labelColor='primary' size='lg' />
-    </div>
+      <Spinner label={'Cargando ' + loadingDots}/>
   )
 }
 
-export default LoadingPage
+export default LoadingSpinner

@@ -6,47 +6,34 @@ import GetCookieByName from '../components/Utilities/Cookies/GetCookieByName'
 
 const useValidateSession = () => {
 
-    const navigate = useNavigate()
-    const location = useLocation()
+  const navigate = useNavigate()
+  const location = useLocation()
 
-    const validateSession = async () => {
-        const sessionCookie = GetCookieByName('session')
-        if (!sessionCookie) {
-            return
-        }
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}validate-session`,
-              {
-                withCredentials: true,
-                headers: {
-                  Authorization: `Bearer ${sessionCookie}`
-                }
-              }
-            )
-            if (response.status !== 200) {
-              navigate('/register_ml_app')
-              return
-            }
-            if (response.status === 200) {
-              // get last page visited from local storage
-              const page = localStorage.getItem('lastPage')
-              if (!page) {
-                navigate(location.pathname)
-              } else {
-                if(page === "login")
-                  navigate(`/inventory`)
-                navigate(`/${page}`)
-              }
-              return
-            }
-        } catch (error) {
-          console.log(error)
-          navigate('/login')
-          return
-        }
+  const validateSession = async () => {
+    const sessionCookie = GetCookieByName('session')
+    if (!sessionCookie) {
+      return
     }
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_END_POINT}validate-session`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${sessionCookie}`
+          }
+        }
+      )
+      if (response.status === 200) {
+        navigate(`/inventory`)
+      }
+    } catch (error) {
+      console.log(error)
+      navigate('/login')
+      return
+    }
+  }
 
-    return validateSession
+  return validateSession
 
 }
 

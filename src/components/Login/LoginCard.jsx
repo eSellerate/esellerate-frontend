@@ -1,121 +1,29 @@
 import React, { useEffect, useState } from "react";
 import {
+  Button,
   Card,
   CardHeader,
   CardBody,
   CardFooter,
-  Input,
-  Divider,
   Checkbox,
-  Button,
+  Divider,
+  Input,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
 } from "@nextui-org/react";
 import { PiEyeLight, PiEyeClosedLight } from "react-icons/pi";
 import GetCookieByName from "../Utilities/Cookies/GetCookieByName";
 // libraries
-import { NavLink, useNavigate } from "react-router-dom";
-import axios from "axios";
 // redux
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/userSlice";
-import Swal from "sweetalert2";
 
 export default function Login() {
-  const [isVisible, setVisible] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  let email = "";
-
-  useEffect(() => {
-    const sessionCookie = GetCookieByName("session");
-    if (sessionCookie) {
-      navigate("/inventory");
-    }
-  }, []);
-
-  const toggleVisibility = () => {
-    setVisible(!isVisible);
-  };
-
-  const setUserToRedux = async () => {
-    const sessionCookie = GetCookieByName("session");
-    if (!sessionCookie) {
-      return;
-    }
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_END_POINT}profile`,
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${sessionCookie}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        Swal.fire({
-          title: `Bienvenido, ${email}`,
-          text: "Sesión iniciada",
-          icon: "success",
-          timer: 2500,
-        });
-        dispatch(addUser(response.data.user));
-        navigate("/inventory");
-      }
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        title: "Error",
-        text: error,
-        icon: "error",
-      });
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    email = e.target.email_field.value;
-    const password = e.target.password_field.value;
-    // get data from form
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_END_POINT}login`,
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // save cookie
-      const { sid } = response.data;
-      const today = new Date(Date.now());
-      const expirationDate = new Date(today.getTime() + 6 * 60 * 60 * 1000);
-      const expirationCookie = expirationDate.toUTCString();
-      document.cookie = `session=${sid}; expires='${expirationCookie}';`;
-      setUserToRedux();
-    } catch (error) {
-      // notify
-      const errorText = error.response.data.message;
-      const multipleErrors = error.response.data.errors;
-      let errorMessage = "";
-      if (multipleErrors) {
-        errorMessage = `${errorText}<br>${multipleErrors
-          .map((error) => error.msg)
-          .join("<br>")}`;
-      }
-      if (!multipleErrors) {
-        errorMessage = errorText;
-      }
-      Swal.fire({
-        title: "Error",
-        html: errorMessage,
-        icon: "error",
-      });
-    }
-  };
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <Card className="w-[420px] p-4 h-fit">
@@ -123,62 +31,44 @@ export default function Login() {
         <h1 className="text-center">Inicia sesión</h1>
       </CardHeader>
       <CardBody>
-        <form
-          onSubmit={handleSubmit}
-          className="px-3 py-0 flex flex-col text-small text-default-400 gap-6 h-fit"
-        >
-          <Input
-            variant="faded"
-            type="email"
-            id="email_field"
-            label="Correo electrónico"
-            placeholder="Ingresa tu correo electrónico"
-            className="max-w-md"
-          />
-          <div>
-            <Input
-              id="password_field"
-              label="Contraseña"
-              variant="faded"
-              placeholder="Ingresa tu contraseña"
-              endContent={
-                <button
-                  tabIndex="-1"
-                  className="focus:outline-none"
-                  type="button"
-                  onClick={toggleVisibility}
-                >
-                  {isVisible ? (
-                    <PiEyeLight className="text-2xl text-default-400 pointer-events-none" />
-                  ) : (
-                    <PiEyeClosedLight className="text-2xl text-default-400 pointer-events-none" />
-                  )}
-                </button>
-              }
-              type={isVisible ? "text" : "password"}
-              className="max-w-md"
-            />
-            {/* <div className="flex justify-between items-center text-[0.65rem] md:text-sm py-3 md:py-2">
-              <Checkbox size="sm" color="secondary">
-                Recuérdame
-              </Checkbox>
-              <em>¿Olvidaste tu contraseña?</em>
-            </div> */}
-          </div>
-          <Button type="submit" color="primary" variant="solid">
-            Iniciar Sesión
-          </Button>
-        </form>
+        <Button onPress={onOpen} color="warning" variant="solid">
+          INGRESAR DE FORMA SEGURA CON MERCADOLIBRE
+        </Button>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="dark text-white">
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">Importante</ModalHeader>
+                <ModalBody className="text-justify">
+                  <p>
+                    Solo el administrador(cuenta principal) puede acceder.
+                  </p>
+                  <p>
+                    El acceso se realiza por parte de Mercadolibre, seras redireccionado al sitio oficial
+                    de Mercadolibre, no se almacena, ni se tiene el acceso a, contraseñas e información
+                    que este en contra de la integridad del usuario.
+                  </p>
+                  <p>
+                    Si tienes problemas al entrar, borra el cache de tu navegador o utiliza una ventana de icognito.
+                  </p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    Cerrar
+                  </Button>
+                  <Button color="primary" href={`https://auth.mercadolibre.com.mx/authorization?response_type=code&client_id=${import.meta.env.VITE_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_SITE_URL}`} onPress={() => {
+                    window.location.href = `https://auth.mercadolibre.com.mx/authorization?response_type=code&client_id=${import.meta.env.VITE_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_SITE_URL}`;
+                    return null;
+                  }}
+                  >
+                    Ingresar
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
       </CardBody>
-      <Divider className="my-4" />
-      <CardFooter className="p-2">
-        <div className="flex w-full justify-between text-sm">
-          <p className="decoration-solid">¿Aún no tienes cuenta?</p>
-          <NavLink to="/sign-up">
-            <em className="text-secondary">Registrate</em>
-          </NavLink>
-        </div>
-      </CardFooter>
     </Card>
   );
 }
