@@ -41,15 +41,15 @@ export default function Login() {
                 <ModalHeader className="flex flex-col gap-1">Importante</ModalHeader>
                 <ModalBody className="text-justify">
                   <p>
-                    Solo el administrador(cuenta principal) puede acceder.
+                    Solo el administrador (cuenta principal) puede acceder.
                   </p>
                   <p>
-                    El acceso se realiza por parte de Mercadolibre, seras redireccionado al sitio oficial
-                    de Mercadolibre, no se almacena, ni se tiene el acceso a, contraseñas e información
-                    que este en contra de la integridad del usuario.
+                    El acceso se realiza por parte de Mercado Libre, serás redireccionado al sitio oficial 
+                    de Mercado Libre, no se almacena, ni se tiene el acceso a contraseñas e información que 
+                    esté en contra de la integridad del usuario.
                   </p>
                   <p>
-                    Si tienes problemas al entrar, borra el cache de tu navegador o utiliza una ventana de icognito.
+                    Si tienes problemas al entrar, borra el caché de tu navegador o utiliza una ventana de incógnito.
                   </p>
                 </ModalBody>
                 <ModalFooter>
