@@ -15,6 +15,7 @@ import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 // Hooks
 
 export default function Inventory() {
+
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,30 +23,33 @@ export default function Inventory() {
   const [totalPrice, setTotalPrice] = useState("0");
   const [totalPost, setTotalPost] = useState("0");
   const [totalPages, setTotalPages] = useState(0);
-  const [scrollId, setScrollId] = useState('')
-  const [scroll2, setScroll2] = useState('')
-  const [co, setCo] = useState(0)
+
+  // Define the number of pages for offset
+  const PAGE_LIMIT = 10
+
   useEffect(() => {
     getMercadoLibreProducts();
   }, []);
-  useEffect(() => {
-    console.log('co cambip')
-  }, [co])
+
   useEffect(() => {
     let filteredItems = products.filter((item) =>
       item.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredItems(filteredItems);
   }, [searchTerm, products]);
-  async function getMercadoLibreProducts() {
-    alert('s')
-    console.log('state', scrollId)
+
+  async function getMercadoLibreProducts(offset=null) {
+    // set default offSet
+    if (!offset) {
+      offset = 0
+    }
+    console.log(offset)
     const session = extractCookie("session");
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/product`,
         {
-          scroll_id: scrollId
+          offset,
         },
         {
           withCredentials: true,
@@ -54,12 +58,8 @@ export default function Inventory() {
           },
         }
       );
-      const { products, paging, scroll } = response.data;
-      console.log('log', scroll)
-      setCo(co + 1)
+      const { products, paging } = response.data;
       setTotalPages(Math.round(paging.total / paging.limit))
-      setScrollId(scroll)
-      setScroll2('XD'+scroll)
       setLoadingProducts(false);
       setProducts(products);
       const arrayLength = products.length;
@@ -69,19 +69,16 @@ export default function Inventory() {
       );
       setTotalPost(`${arrayLength}`);
       setTotalPrice(`${totalArrayPrice}`);
-      console.log('2', scroll2)
     } catch (error) {
       console.log(error.response);
     }
   }
 
-  const reloadItems = () => {
+  const reloadItems = (offSet) => {
     setLoadingProducts(true);
-    setScroll2('ssasd')
-    console.log(scroll2)
-    console.log('reload', scrollId)
-    getMercadoLibreProducts();
+    getMercadoLibreProducts(offSet);
   };
+
   let items = [];
   if (searchTerm !== "") {
     if (filteredItems.length !== 0) {
@@ -172,13 +169,13 @@ export default function Inventory() {
           </section>
         </div>
         <section className="flex justify-center pb-5">
-          <button onClick={() => {
-            setCo(co + 1)
-          }}>hola {co}</button>
           <Pagination
             total={totalPages}
             initialPage={1}
-            onChange={getMercadoLibreProducts}
+            onChange={(page) => {
+              page--
+              reloadItems(page * PAGE_LIMIT)
+            }}
             color="secondary"
           />
         </section>
