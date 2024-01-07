@@ -42,6 +42,7 @@ import { VerticalDotsIcon } from "../components/Utilities/Icons/VerticalDotsIcon
 import SearchBar from "../components/Utilities/SearchBar";
 import BlockUserModal from "../components/BlockedUsers/BlockUserModal";
 import { CiChat1, CiChat2, CiPaperplane } from "react-icons/ci";
+import SideComponent from "../components/ClientPanel/SideComponent";
 
 const IconWrapper = ({ children, className }) => (
   <div className={cn(className, "flex items-center rounded-small justify-center w-7 h-7")}>
@@ -57,6 +58,7 @@ export default function ClientPanel() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [useChat, setUseChat] = useState(false);
   const [selectedChat, setSelectedChat] = useState([]);
+  const [flag, setFlag] = useState(false)
 
   async function getMercadoLibreOrders() {
     const response = await axios.get(
@@ -125,32 +127,9 @@ export default function ClientPanel() {
     }
   }
 
-  return (
-    <>
-      <div className="grid grid-flow-row-dense grid-cols-10 gap-4 h-[calc(100vh-90px)]">
-        <Listbox
-          aria-label="Actions"
-          onAction={(key) => alert(key)}
-          className="col-span-1"
-          itemClasses={{
-            base: "px-3 first:rounded-t-medium last:rounded-b-medium rounded-none gap-3 h-12 data-[hover=true]:bg-default-100/80",
-          }}
-        >
-          <ListboxItem key="new" textValue="chat">
-            <Button size="md">
-              <IconWrapper className="bg-success/10 text-success">
-                <CiChat2 className="text-xl " />
-              </IconWrapper>
-            </Button>
-          </ListboxItem>
-          <ListboxItem key="copy" textValue="automatic">
-            <Button size="md">
-              <IconWrapper className="bg-default/50 text-foreground">
-                <CiPaperplane className="text-xl " />
-              </IconWrapper>
-            </Button>
-          </ListboxItem>
-        </Listbox>
+  function ChatCompnent () {
+    return (
+      <>
         <Listbox
           className="col-span-2 p-0 gap-0 divide-y divide-default-300/50 dark:divide-default-100/80 bg-content1 overflow-visible shadow-small rounded-medium"
           itemClasses={{
@@ -187,6 +166,43 @@ export default function ClientPanel() {
           <CardFooter>
           </CardFooter>
         </Card>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <div className="grid grid-flow-row-dense grid-cols-10 gap-4 h-[calc(100vh-90px)]">
+        <Listbox
+          aria-label="Actions"
+          onAction={(key) => alert(key)}
+          className="col-span-1"
+          itemClasses={{
+            base: "px-3 first:rounded-t-medium last:rounded-b-medium rounded-none gap-3 h-12 data-[hover=true]:bg-default-100/80",
+          }}
+        >
+          <ListboxItem key="new" textValue="chat">
+            <Button
+              onClick={() => setFlag(true)}
+              size="md"
+            >
+              <IconWrapper className="bg-success/10 text-success">
+                <CiChat2 className="text-xl " />
+              </IconWrapper>
+            </Button>
+          </ListboxItem>
+          <ListboxItem key="copy" textValue="automatic">
+            <Button 
+              size="md"
+              onClick={() => setFlag(false)}
+            >
+              <IconWrapper className="bg-default/50 text-foreground">
+                <CiPaperplane className="text-xl " />
+              </IconWrapper>
+            </Button>
+          </ListboxItem>
+        </Listbox>
+        { flag ? <ChatCompnent/> : <SideComponent/> }
       </div>
     </>
   );
