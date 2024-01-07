@@ -21,9 +21,16 @@ export default function Inventory() {
   const [filteredItems, setFilteredItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState("0");
   const [totalPost, setTotalPost] = useState("0");
+  const [totalPages, setTotalPages] = useState(0);
+  const [scrollId, setScrollId] = useState('')
+  const [scroll2, setScroll2] = useState('')
+  const [co, setCo] = useState(0)
   useEffect(() => {
     getMercadoLibreProducts();
   }, []);
+  useEffect(() => {
+    console.log('co cambip')
+  }, [co])
   useEffect(() => {
     let filteredItems = products.filter((item) =>
       item.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -31,10 +38,15 @@ export default function Inventory() {
     setFilteredItems(filteredItems);
   }, [searchTerm, products]);
   async function getMercadoLibreProducts() {
+    alert('s')
+    console.log('state', scrollId)
     const session = extractCookie("session");
     try {
-      const response = await axios.get(
+      const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/product`,
+        {
+          scroll_id: scrollId
+        },
         {
           withCredentials: true,
           headers: {
@@ -42,17 +54,22 @@ export default function Inventory() {
           },
         }
       );
-      const { data } = response;
-      console.log(data)
+      const { products, paging, scroll } = response.data;
+      console.log('log', scroll)
+      setCo(co + 1)
+      setTotalPages(Math.round(paging.total / paging.limit))
+      setScrollId(scroll)
+      setScroll2('XD'+scroll)
       setLoadingProducts(false);
-      setProducts(data);
-      const arrayLength = data.length;
-      const totalArrayPrice = data.reduce(
+      setProducts(products);
+      const arrayLength = products.length;
+      const totalArrayPrice = products.reduce(
         (sum, item) => (item.price ? sum + item.price : sum),
         0
       );
       setTotalPost(`${arrayLength}`);
       setTotalPrice(`${totalArrayPrice}`);
+      console.log('2', scroll2)
     } catch (error) {
       console.log(error.response);
     }
@@ -60,6 +77,9 @@ export default function Inventory() {
 
   const reloadItems = () => {
     setLoadingProducts(true);
+    setScroll2('ssasd')
+    console.log(scroll2)
+    console.log('reload', scrollId)
     getMercadoLibreProducts();
   };
   let items = [];
@@ -152,14 +172,15 @@ export default function Inventory() {
           </section>
         </div>
         <section className="flex justify-center pb-5">
-          {/* <Pagination
-            total={10}
+          <button onClick={() => {
+            setCo(co + 1)
+          }}>hola {co}</button>
+          <Pagination
+            total={totalPages}
             initialPage={1}
-            onChange={(page) => {
-              // console.log(page)
-            }}
+            onChange={getMercadoLibreProducts}
             color="secondary"
-          /> */}
+          />
         </section>
       </div>
     </>
