@@ -41,8 +41,9 @@ import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 import { VerticalDotsIcon } from "../components/Utilities/Icons/VerticalDotsIcon";
 import SearchBar from "../components/Utilities/SearchBar";
 import BlockUserModal from "../components/BlockedUsers/BlockUserModal";
-import { CiChat1, CiChat2, CiPaperplane } from "react-icons/ci";
+import { CiChat1, CiChat2, CiPaperplane, CiPickerHalf } from "react-icons/ci";
 import SideComponent from "../components/ClientPanel/SideComponent";
+import RelevantMessages from "../components/ClientPanel/RelevantMessages";
 
 const IconWrapper = ({ children, className }) => (
   <div className={cn(className, "flex items-center rounded-small justify-center w-7 h-7")}>
@@ -58,7 +59,11 @@ export default function ClientPanel() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [useChat, setUseChat] = useState(false);
   const [selectedChat, setSelectedChat] = useState([]);
-  const [flag, setFlag] = useState(false)
+  const [componentflags, setComponentFlags] = useState([
+    true,
+    false,
+    false
+  ])
 
   async function getMercadoLibreOrders() {
     const response = await axios.get(
@@ -183,7 +188,7 @@ export default function ClientPanel() {
         >
           <ListboxItem key="new" textValue="chat">
             <Button
-              onClick={() => setFlag(true)}
+              onClick={() => setComponentFlags([true, false, false])}
               size="md"
             >
               <IconWrapper className="bg-success/10 text-success">
@@ -194,15 +199,27 @@ export default function ClientPanel() {
           <ListboxItem key="copy" textValue="automatic">
             <Button 
               size="md"
-              onClick={() => setFlag(false)}
+              onClick={() => setComponentFlags([false, true, false])}
             >
               <IconWrapper className="bg-default/50 text-foreground">
                 <CiPaperplane className="text-xl " />
               </IconWrapper>
             </Button>
           </ListboxItem>
+          <ListboxItem key="info" textValue="automatic" className="flex justify-center">
+            <Button 
+              size="md"
+              onClick={() => setComponentFlags([false, false, true])}
+            >
+              <IconWrapper className="bg-default/50">
+                <CiPickerHalf className="text-xl font-bold" />
+              </IconWrapper>
+            </Button>
+          </ListboxItem>
         </Listbox>
-        { flag ? <ChatCompnent/> : <SideComponent/> }
+        {componentflags[0] && <ChatCompnent />}
+        {componentflags[1] && <SideComponent />}
+        {componentflags[2] && <RelevantMessages />}
       </div>
     </>
   );
