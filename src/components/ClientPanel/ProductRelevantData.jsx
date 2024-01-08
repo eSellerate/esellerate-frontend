@@ -3,8 +3,19 @@ import React from 'react'
 import { Image } from "@nextui-org/image"
 import { Divider } from "@nextui-org/divider"
 
+import PropTypes from 'prop-types'
 
-export default function ProductRelevantData () {
+export default function ProductRelevantData (props) {
+
+    ProductRelevantData.propTypes = {
+        selectedOrder: PropTypes.object
+    }
+
+    if (Object.values(props.selectedOrder).length === 0) {
+        return (
+            <p>Selecciona una orden para ver los detalles</p>    
+        )
+    }
     return(
         <div className='bg-gray-800 px-8 py-4 rounded-lg'>
             <div className='flex gap-8 items-center mb-4'>
@@ -16,11 +27,24 @@ export default function ProductRelevantData () {
                     width={100}
                 />
                 <span>
-                    <h3 className='text-lg font-bold'>Product Name</h3>
-                    <p className='text-sm'>SKU</p>
-                    <h3 className='text-lg font-bold'>Client user</h3>
-                    <p className='text-sm'>ID</p>
-                    <p className='text-sm'>Dia de compra</p>
+                    <h3 className='text-lg font-bold'>
+                        ID: {props.selectedOrder.id}
+                    </h3>
+                    SKU:
+                    {props.selectedOrder.order_items.map((it, i) => (
+                        <p 
+                            className='text-sm'
+                            key={i}
+                        >
+                            {it.item.id},&nbsp;
+                        </p>
+                    ))}
+                    <h3 className='text-lg font-bold'>
+                        Usuario: {props.selectedOrder.buyer.nickname}
+                    </h3>
+                    <p className='text-sm'>
+                        id: {props.selectedOrder.buyer.id}
+                    </p>
                 </span>
             </div>
             <Divider />
