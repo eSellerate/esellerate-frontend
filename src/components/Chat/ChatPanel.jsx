@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Chip } from "@nextui-org/chip"
-
 export default function ChatPanel(props) {
 
     ChatPanel.propTypes = {
@@ -25,15 +23,11 @@ export default function ChatPanel(props) {
 
         return(
             <div className={`w-full flex ${props.position} my-2`}>
-                <Chip
-                    className='client-mesage font-bold w-[90%] px-1 py-[1.4rem] items-center overflow-hidden'
-                    color={props.color}
-                >
-                    <p className='text-sm p-0 m-auto px-2 py-2' style={style}>
+                <span className={`rounded-lg font-bold w-[90%] items-center bg-${props.color}`}>
+                <p className='text-sm p-0 px-2 py-2' style={style}>
                         {props.msj}
                     </p>
-                </Chip>
-                <span>{props.date ? props.date : ''}</span>
+                </span>
             </div>
         )
     }
