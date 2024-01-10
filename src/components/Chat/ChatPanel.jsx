@@ -31,7 +31,7 @@ export default function ChatPanel(props) {
 
             return (
                 <>
-                    {messages.map((message, index) => (
+                    {[...messages].reverse().map((message, index) => (
                         message.from.user_id === message.message_resources.find(function(o){ return o.name==="sellers" }).id ? (
                             <MessageBlubble key={index} color='default' position='left-0' msj={message.text} />
                           ) : <MessageBlubble key={index} color='primary' position='right-0' msj={message.text} />)
