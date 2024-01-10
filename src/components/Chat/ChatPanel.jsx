@@ -23,7 +23,7 @@ export default function ChatPanel(props) {
 
         return(
             <div className={`w-full flex ${props.position} my-2`}>
-                <span className={`rounded-lg font-bold w-[90%] items-center bg-${props.color}`}>
+                <span className={`rounded-lg w-[90%] items-center bg-${props.color}`}>
                 <p className='text-sm p-0 px-2 py-2' style={style}>
                         {props.msj}
                     </p>
@@ -51,11 +51,6 @@ export default function ChatPanel(props) {
         <section className='h-full container flex flex-col-reverse'>
             <div className='inline-block w-full'>
                 <LoadMessages />
-                <MessageBlubble 
-                    color='default' 
-                    position='justify-end'
-                    msj="esto es un mensaje de prueba prueba prueba prueba prueba prueba prueba prueba prueba pruebay prueba tu "
-                />
             </div>
         </section>
     )

@@ -103,7 +103,7 @@ export default function ClientPanel() {
   useEffect(() => {
     if (selectedOrder.id) {
       let orderid = selectedOrder.packid;
-      if(!orderid)
+      if (!orderid)
         orderid = selectedOrder.id;
       getMercadoLibreChat(selectedOrder.id);
     }
@@ -120,20 +120,62 @@ export default function ClientPanel() {
             </div>
           </CardHeader>
           <CardBody>
-            <ChatPanel messages={selectedChat}/>
+            <ChatPanel messages={selectedChat} />
           </CardBody>
           <CardFooter>
             <Textarea
               placeholder="Enviar mensaje al comprador"
-              className=""
+              className="first:rounded-s-medium last:rounded-e-medium rounded-none gap-3 h-12 data-[hover=true]:bg-default-100/80"
             />
+            <Button
+              size="md"
+              onClick=""
+              className="first:rounded-s-medium last:rounded-e-medium rounded-none gap-3 h-12 data-[hover=true]:bg-default-100/80"
+            >
+              <IconWrapper className="bg-default/50 text-foreground">
+                <CiPaperplane className="text-xl " />
+              </IconWrapper>
+            </Button>
           </CardFooter>
         </>
       );
     }
   }
 
-  function ChatComponent () {
+  function OrderInfo() {
+    if (useChat) {
+      let orderid = selectedOrder.packid;
+      if (!orderid)
+        orderid = selectedOrder.id;
+      return (
+        <>
+          <CardHeader className="flex gap-3">
+            <div className="flex flex-col">
+              <p className="text-md">Información del Pedido</p>
+            </div>
+          </CardHeader>
+          <CardBody className="grid grid-cols-3 align-top">
+            <p className="text-small text-default-500">Núm de Pedido</p>
+            <p className="text-small col-span-2">{orderid}</p>
+            <p className="text-small text-default-500">Monto total</p>
+            <p className="text-small col-span-2">{selectedOrder.payments[0].currency_id}$ {selectedOrder.payments[0].total_paid_amount.toFixed(2)}</p>
+            <p className="text-small text-default-500">Nombre del Comprador</p>
+            <p className="text-small col-span-2">{selectedOrder.seller.nickname}</p>
+            <p className="text-small text-default-500">Producto</p>
+            <div className="col-span-2">
+              <p className="text-small">{selectedOrder.payments[0].reason}</p>
+              <Avatar alt={selectedOrder.payments[0].reason} className="flex-shrink-0" size="sm"
+                src={selectedOrder.order_items[0].item.image} />
+            </div>
+          </CardBody>
+          <CardFooter>
+          </CardFooter>
+        </>
+      );
+    }
+  }
+
+  function ChatComponent() {
     return (
       <>
         <Listbox
@@ -161,16 +203,10 @@ export default function ClientPanel() {
           )}
         </Listbox>
         <Card className="col-span-4">
-          {Chat()}
+          <Chat />
         </Card>
         <Card className="col-span-3">
-          <CardHeader className="flex gap-3">
-          </CardHeader>
-          <CardBody>
-            <p></p>
-          </CardBody>
-          <CardFooter>
-          </CardFooter>
+          <OrderInfo />
         </Card>
       </>
     )
@@ -197,7 +233,7 @@ export default function ClientPanel() {
             </Button>
           </ListboxItem>
           <ListboxItem key="copy" textValue="automatic">
-            <Button 
+            <Button
               size="md"
               onClick={() => setComponentFlags([false, true, false])}
             >
@@ -207,7 +243,7 @@ export default function ClientPanel() {
             </Button>
           </ListboxItem>
           <ListboxItem key="info" textValue="automatic" className="flex justify-center">
-            <Button 
+            <Button
               size="md"
               onClick={() => setComponentFlags([false, false, true])}
             >
