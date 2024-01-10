@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 
 import { Chip } from "@nextui-org/chip"
 
-export default function ChatPanel() {
+export default function ChatPanel(props) {
+    var messages = props.messages
 
     const MessageBlubble = (props) => {
 
@@ -13,31 +14,37 @@ export default function ChatPanel() {
             msj: PropTypes.string
         }
 
-        const style = {
-            textWrap: 'wrap',
-        }
-
-        return(
-            <div className={`w-full flex ${props.position} my-2`}>
+        return (
+            <div className='w-full relative'>
                 <Chip
-                    className='client-mesage font-bold w-[90%] px-1 py-[1.4rem] items-center'
+                    className={`client-mesage font-bold absolute ${props.position}`}
                     color={props.color}
                 >
-                    <p className='text-sm p-0 m-0' style={style}>
-                        {props.msj}
-                    </p>
-                </Chip> 
+                    {props.msj}
+                </Chip>
             </div>
         )
     }
 
-    return(
+    function LoadMessages() {
+        if (messages.length > 0) {
+
+            return (
+                <>
+                    {[...messages].reverse().map((message, index) => (
+                        message.from.user_id === message.message_resources.find(function(o){ return o.name==="sellers" }).id ? (
+                            <MessageBlubble key={index} color='default' position='left-0' msj={message.text} />
+                          ) : <MessageBlubble key={index} color='primary' position='right-0' msj={message.text} />)
+                    )}
+                </>
+            )
+        }
+    }
+
+    return (
         <section className='h-full container'>
-            <div className='inline-block'>
-                {/* Ejemplo de uso */}
-                <MessageBlubble color='primary' position='justify-start' msj='hola mundo dsfsdf sdaf sda f dsf sda fsd af asd f sdaf sdafsdfsdaf sdfsadfsda fsdafsda sdf sdfsdf sd fd s'/>
-                <MessageBlubble color='primary' position='justify-start' msj='amigos de yt' />
-                <MessageBlubble color='default' position='justify-end' msj='no me vuelva a escribir en su vida'/>
+            <div className='flex flex-col gap-8'>
+                <LoadMessages />
             </div>
         </section>
     )
