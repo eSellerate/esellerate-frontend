@@ -13,13 +13,19 @@ export default function ChatPanel() {
             msj: PropTypes.string
         }
 
+        const style = {
+            textWrap: 'wrap',
+        }
+
         return(
-            <div className='w-full relative'>
+            <div className={`w-full flex ${props.position} my-2`}>
                 <Chip
-                    className={`client-mesage font-bold absolute ${props.position}`}
+                    className='client-mesage font-bold w-[90%] px-1 py-[1.4rem] items-center'
                     color={props.color}
                 >
-                    {props.msj}
+                    <p className='text-sm p-0 m-0' style={style}>
+                        {props.msj}
+                    </p>
                 </Chip> 
             </div>
         )
@@ -27,11 +33,11 @@ export default function ChatPanel() {
 
     return(
         <section className='h-full container'>
-            <div className='flex flex-col gap-8'>
+            <div className='inline-block'>
                 {/* Ejemplo de uso */}
-                <MessageBlubble color='primary' position='left-0' msj='hola mundo'/>
-                <MessageBlubble color='primary' position='left-0' msj='amigos de yt' />
-                <MessageBlubble color='default' position='right-0' msj='no me vuelva a escribir en su vida'/>
+                <MessageBlubble color='primary' position='justify-start' msj='hola mundo dsfsdf sdaf sda f dsf sda fsd af asd f sdaf sdafsdfsdaf sdfsadfsda fsdafsda sdf sdfsdf sd fd s'/>
+                <MessageBlubble color='primary' position='justify-start' msj='amigos de yt' />
+                <MessageBlubble color='default' position='justify-end' msj='no me vuelva a escribir en su vida'/>
             </div>
         </section>
     )
