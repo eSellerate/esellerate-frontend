@@ -30,7 +30,9 @@ import {
   Link,
   Textarea,
   cn,
-  Avatar
+  Avatar,
+  Autocomplete,
+  AutocompleteItem
 } from "@nextui-org/react";
 import axios from "axios";
 
@@ -151,6 +153,13 @@ export default function ClientPanel() {
           setMessage("")
           getMercadoLibreChat(selectedOrder.id);
         }
+        const [isOpen, setIsOpen] = useState(false);
+        const [test, setTest] = useState(false);
+
+        const selectedValue = React.useMemo(
+          () => message
+        );
+
         return (
           <>
             <CardHeader className="flex gap-3">
@@ -162,6 +171,21 @@ export default function ClientPanel() {
             <CardBody>
               <ChatPanel messages={selectedChat} />
             </CardBody>
+            {isOpen && (
+              <Listbox
+                className={`z-100`}
+                items={answers}
+                onAction={(key) => {
+                  setMessage(message+key)
+                }}
+              >
+                {(item) => (
+                  <ListboxItem key={item.answer} >
+                    @{item.keyword}
+                  </ListboxItem>
+                )}
+              </Listbox>
+            )}
             <CardFooter>
               {selectedChat.status === "available" ? true :
                 <>
@@ -171,6 +195,7 @@ export default function ClientPanel() {
                     className="gap-3 h-20"
                     value={message}
                     onValueChange={setMessage}
+                    onFocus={() => setIsOpen(true)}
                   />
                   <Button
                     color="primary"
@@ -313,9 +338,9 @@ export default function ClientPanel() {
           </ListboxItem>
         </Listbox>
         {componentflags[0] && <ChatComponent />}
-        {componentflags[1] && <QuickAnswers className="col-span-9" answersArr={answers}/>}
+        {componentflags[1] && <QuickAnswers className="col-span-9" answersArr={answers} />}
         {componentflags[2] && <RelevantMessages />}
-        {componentflags[3] && <AutoAnswers />}
+        {componentflags[3] && <AutoAnswers className="col-span-9"/>}
       </div>
     </>
   );
