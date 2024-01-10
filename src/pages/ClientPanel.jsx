@@ -44,6 +44,7 @@ import BlockUserModal from "../components/BlockedUsers/BlockUserModal";
 import { CiChat1, CiChat2, CiPaperplane, CiPickerHalf } from "react-icons/ci";
 import SideComponent from "../components/ClientPanel/SideComponent";
 import RelevantMessages from "../components/ClientPanel/RelevantMessages";
+import ChatPanel from "../components/Chat/ChatPanel";
 
 const IconWrapper = ({ children, className }) => (
   <div className={cn(className, "flex items-center rounded-small justify-center w-7 h-7")}>
@@ -119,7 +120,7 @@ export default function ClientPanel() {
             </div>
           </CardHeader>
           <CardBody>
-            <p>test_data</p>
+            <ChatPanel/>
           </CardBody>
           <CardFooter>
             <Textarea
@@ -166,7 +167,7 @@ export default function ClientPanel() {
           <CardHeader className="flex gap-3">
           </CardHeader>
           <CardBody>
-            <p>test_data</p>
+            <p></p>
           </CardBody>
           <CardFooter>
           </CardFooter>
