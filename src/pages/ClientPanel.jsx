@@ -120,7 +120,7 @@ export default function ClientPanel() {
             </div>
           </CardHeader>
           <CardBody>
-            <ChatPanel/>
+            <ChatPanel messages={selectedChat}/>
           </CardBody>
           <CardFooter>
             <Textarea
@@ -133,7 +133,7 @@ export default function ClientPanel() {
     }
   }
 
-  function ChatCompnent () {
+  function ChatComponent () {
     return (
       <>
         <Listbox
@@ -181,7 +181,6 @@ export default function ClientPanel() {
       <div className="grid grid-flow-row-dense grid-cols-10 gap-4 h-[calc(100vh-90px)]">
         <Listbox
           aria-label="Actions"
-          onAction={(key) => alert(key)}
           className="col-span-1"
           itemClasses={{
             base: "px-3 first:rounded-t-medium last:rounded-b-medium rounded-none gap-3 h-12 data-[hover=true]:bg-default-100/80",
@@ -218,7 +217,7 @@ export default function ClientPanel() {
             </Button>
           </ListboxItem>
         </Listbox>
-        {componentflags[0] && <ChatCompnent />}
+        {componentflags[0] && <ChatComponent />}
         {componentflags[1] && <SideComponent />}
         {componentflags[2] && <RelevantMessages />}
       </div>
