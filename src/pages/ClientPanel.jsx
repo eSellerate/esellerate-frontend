@@ -133,7 +133,7 @@ export default function ClientPanel() {
     }
   }
 
-  function ChatCompnent () {
+  function ChatComponent () {
     return (
       <>
         <Listbox
@@ -218,7 +218,7 @@ export default function ClientPanel() {
             </Button>
           </ListboxItem>
         </Listbox>
-        {componentflags[0] && <ChatCompnent />}
+        {componentflags[0] && <ChatComponent />}
         {componentflags[1] && <SideComponent />}
         {componentflags[2] && <RelevantMessages />}
       </div>
