@@ -14,14 +14,20 @@ export default function ChatPanel(props) {
             msj: PropTypes.string
         }
 
-        return (
-            <div className='w-full relative'>
+        const style = {
+            textWrap: 'wrap',
+        }
+
+        return(
+            <div className={`w-full flex ${props.position} my-2`}>
                 <Chip
-                    className={`client-mesage font-bold absolute ${props.position}`}
+                    className='client-mesage font-bold w-[90%] px-1 py-[1.4rem] items-center'
                     color={props.color}
                 >
-                    {props.msj}
-                </Chip>
+                    <p className='text-sm p-0 m-0' style={style}>
+                        {props.msj}
+                    </p>
+                </Chip> 
             </div>
         )
     }
@@ -45,6 +51,7 @@ export default function ChatPanel(props) {
         <section className='h-full container'>
             <div className='flex flex-col gap-8'>
                 <LoadMessages />
+                <MessageBlubble color='default' position='left-0' msj="esto es un mensaje de prueba prueba prueba prueba prueba prueba prueba prueba prueba pruebay prueba tu " />
             </div>
         </section>
     )
