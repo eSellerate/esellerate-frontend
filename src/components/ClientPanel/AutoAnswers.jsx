@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function SideComponent () {
+export default function AutoAnswers () {
     return (
         <div>
             <h2>
