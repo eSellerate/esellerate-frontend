@@ -59,7 +59,6 @@ export default function ClientPanel() {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [useChat, setUseChat] = useState(false);
-  const [selectedChat, setSelectedChat] = useState([]);
   const [componentflags, setComponentFlags] = useState([
     true,
     false,
@@ -81,36 +80,57 @@ export default function ClientPanel() {
     setIsLoading(false);
   }
 
-  async function getMercadoLibreChat(id) {
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/message_by_id?id=` + id,
-      {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${session}`,
-        },
-      }
-    );
-    console.log(response.data.data);
-    setSelectedChat(response.data.data.messages);
-    //setIsLoading(false);
-  }
-
   useEffect(() => {
     getMercadoLibreOrders();
   }, [isLoading]);
 
-  useEffect(() => {
-    if (selectedOrder.id) {
-      let orderid = selectedOrder.packid;
-      if (!orderid)
-        orderid = selectedOrder.id;
-      getMercadoLibreChat(selectedOrder.id);
-    }
-  }, [useChat]);
-
   function Chat() {
+    const [selectedChat, setSelectedChat] = useState([]);
+    useEffect(() => {
+      if (selectedOrder.id) {
+        let orderid = selectedOrder.packid;
+        if (!orderid)
+          orderid = selectedOrder.id;
+        getMercadoLibreChat(selectedOrder.id);
+      }
+    }, [useChat]);
+    async function getMercadoLibreChat(id) {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/message_by_id?id=` + id,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${session}`,
+          },
+        }
+      );
+      console.log(response.data.data);
+      setSelectedChat(response.data.data.messages);
+      //setIsLoading(false);
+    }
     if (useChat) {
+      const [message, setMessage] = useState("");
+      async function sendMercadoLibreMessage() {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/message_send`,
+          {
+            pack_id: selectedOrder.pack_id,
+            order_id: selectedOrder.id,
+            client_id: selectedOrder.buyer.id,
+            text: message,
+            attachments: null
+          },
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${session}`,
+            },
+          }
+        );
+        console.log(response.data)
+        setMessage("")
+        getMercadoLibreChat(selectedOrder.id);
+      }
       return (
         <>
           <CardHeader className="flex gap-3">
@@ -125,14 +145,17 @@ export default function ClientPanel() {
           <CardFooter>
             <Textarea
               placeholder="Enviar mensaje al comprador"
-              className="first:rounded-s-medium last:rounded-e-medium rounded-none gap-3 h-12 data-[hover=true]:bg-default-100/80"
+              disableAutosize
+              className="gap-3 h-20"
+              value={message}
+              onValueChange={setMessage}
             />
             <Button
-              size="md"
-              onClick=""
-              className="first:rounded-s-medium last:rounded-e-medium rounded-none gap-3 h-12 data-[hover=true]:bg-default-100/80"
+              color="primary"
+              onClick={sendMercadoLibreMessage}
+              isIconOnly
             >
-              <IconWrapper className="bg-default/50 text-foreground">
+              <IconWrapper>
                 <CiPaperplane className="text-xl " />
               </IconWrapper>
             </Button>
