@@ -4,6 +4,11 @@ import PropTypes from 'prop-types'
 import { Chip } from "@nextui-org/chip"
 
 export default function ChatPanel(props) {
+
+    ChatPanel.propTypes = {
+        messages: PropTypes.array
+    }
+
     var messages = props.messages
 
     const MessageBlubble = (props) => {
@@ -21,13 +26,14 @@ export default function ChatPanel(props) {
         return(
             <div className={`w-full flex ${props.position} my-2`}>
                 <Chip
-                    className='client-mesage font-bold w-[90%] px-1 py-[1.4rem] items-center'
+                    className='client-mesage font-bold w-[90%] px-1 py-[1.4rem] items-center overflow-hidden'
                     color={props.color}
                 >
-                    <p className='text-sm p-0 m-0' style={style}>
+                    <p className='text-sm p-0 m-auto px-2 py-2' style={style}>
                         {props.msj}
                     </p>
-                </Chip> 
+                </Chip>
+                <span>{props.date ? props.date : ''}</span>
             </div>
         )
     }
@@ -39,8 +45,8 @@ export default function ChatPanel(props) {
                 <>
                     {[...messages].reverse().map((message, index) => (
                         message.from.user_id === message.message_resources.find(function(o){ return o.name==="sellers" }).id ? (
-                            <MessageBlubble key={index} color='default' position='left-0' msj={message.text} />
-                          ) : <MessageBlubble key={index} color='primary' position='right-0' msj={message.text} />)
+                            <MessageBlubble key={index} color='default' position='justify-end' msj={message.text} />
+                          ) : <MessageBlubble key={index} color='primary' position='justify-start' msj={message.text} />)
                     )}
                 </>
             )
@@ -48,10 +54,14 @@ export default function ChatPanel(props) {
     }
 
     return (
-        <section className='h-full container'>
-            <div className='flex flex-col gap-8'>
+        <section className='h-full container flex flex-col-reverse'>
+            <div className='inline-block w-full'>
                 <LoadMessages />
-                <MessageBlubble color='default' position='left-0' msj="esto es un mensaje de prueba prueba prueba prueba prueba prueba prueba prueba prueba pruebay prueba tu " />
+                <MessageBlubble 
+                    color='default' 
+                    position='justify-end'
+                    msj="esto es un mensaje de prueba prueba prueba prueba prueba prueba prueba prueba prueba pruebay prueba tu "
+                />
             </div>
         </section>
     )
