@@ -186,13 +186,13 @@ export default function ClientPanel() {
                 )}
               </Listbox>
             )}
-            <CardFooter>
+            <CardFooter className="flex gap-2 items-center">
               {selectedChat.status === "available" ? true :
                 <>
                   <Textarea
                     placeholder="Enviar mensaje al comprador"
                     disableAutosize
-                    className="gap-3 h-20"
+                    className="gap-3 h-auto"
                     value={message}
                     onValueChange={setMessage}
                     onFocus={() => setIsOpen(true)}
