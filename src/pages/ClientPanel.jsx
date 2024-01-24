@@ -43,12 +43,12 @@ import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 import { VerticalDotsIcon } from "../components/Utilities/Icons/VerticalDotsIcon";
 import SearchBar from "../components/Utilities/SearchBar";
 import BlockUserModal from "../components/BlockedUsers/BlockUserModal";
-import { CiChat1, CiChat2, CiPaperplane, CiPickerHalf } from "react-icons/ci";
+import { CiChat1, CiChat2, CiPaperplane, CiPickerHalf, CiVolumeHigh, CiBoxList } from "react-icons/ci";
 import RelevantMessages from "../components/ClientPanel/RelevantMessages";
 import ChatPanel from "../components/Chat/ChatPanel";
 import QuickAnswers from "../components/ClientPanel/QuickAnswers";
 import AutoAnswers from "../components/ClientPanel/AutoAnswers";
-
+import DefaultMessages from "../components/ClientPanel/DefaultMessages";
 const IconWrapper = ({ children, className }) => (
   <div className={cn(className, "flex items-center rounded-small justify-center w-7 h-7")}>
     {children}
@@ -62,6 +62,7 @@ export default function ClientPanel() {
   const [orders, setOrders] = useState([]);
   const [componentflags, setComponentFlags] = useState([
     true,
+    false,
     false,
     false,
     false
@@ -309,7 +310,7 @@ export default function ClientPanel() {
           <ListboxItem key="copy" textValue="automatic">
             <Button
               size="md"
-              onClick={() => setComponentFlags([false, true, false, false])}
+              onClick={() => setComponentFlags([false, true, false, false, false])}
             >
               <IconWrapper className="bg-default/50 text-foreground">
                 <CiPaperplane className="text-xl " />
@@ -319,7 +320,7 @@ export default function ClientPanel() {
           <ListboxItem key="info" textValue="automatic" className="flex justify-center">
             <Button
               size="md"
-              onClick={() => setComponentFlags([false, false, true, false])}
+              onClick={() => setComponentFlags([false, false, true, false,false])}
             >
               <IconWrapper className="bg-default/50">
                 <CiPickerHalf className="text-xl font-bold" />
@@ -329,10 +330,20 @@ export default function ClientPanel() {
           <ListboxItem key="tt" textValue="automatic" className="flex justify-center">
             <Button
               size="md"
-              onClick={() => setComponentFlags([false, false, false, true])}
+              onClick={() => setComponentFlags([false, false, false, true, false])}
             >
               <IconWrapper className="bg-default/50">
-                <CiPickerHalf className="text-xl font-bold" />
+                <CiBoxList className="text-xl font-bold" />
+              </IconWrapper>
+            </Button>
+          </ListboxItem>
+          <ListboxItem key="defaultMessages" textValue="automatic" className="flex justify-center">
+            <Button
+              size="md"
+              onClick={() => setComponentFlags([false, false, false, false, true])}
+            >
+              <IconWrapper className="bg-default/50">
+                <CiChat1 className="text-xl font-bold" />
               </IconWrapper>
             </Button>
           </ListboxItem>
@@ -341,6 +352,7 @@ export default function ClientPanel() {
         {componentflags[1] && <QuickAnswers className="col-span-9" answersArr={answers} />}
         {componentflags[2] && <RelevantMessages />}
         {componentflags[3] && <AutoAnswers className="col-span-9"/>}
+        {componentflags[4] && <DefaultMessages className="col-span-9"/>}
       </div>
     </>
   );
