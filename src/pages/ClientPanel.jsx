@@ -1,38 +1,20 @@
 //Libraries
 import React, {
   useEffect,
-  useState
+  useState,
+  useRef
 } from "react";
-import { useAsyncList } from "react-stately";
 import {
-  Input,
-  Pagination,
-  Image,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Spinner,
   Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
   Listbox,
   ListboxItem,
   Card,
   CardHeader,
   CardBody,
   CardFooter,
-  Divider,
-  Link,
   Textarea,
   cn,
   Avatar,
-  Autocomplete,
-  AutocompleteItem
 } from "@nextui-org/react";
 import axios from "axios";
 
@@ -43,7 +25,7 @@ import extractCookie from "../components/Utilities/Cookies/GetCookieByName";
 import { VerticalDotsIcon } from "../components/Utilities/Icons/VerticalDotsIcon";
 import SearchBar from "../components/Utilities/SearchBar";
 import BlockUserModal from "../components/BlockedUsers/BlockUserModal";
-import { CiChat1, CiChat2, CiPaperplane, CiPickerHalf, CiVolumeHigh, CiBoxList } from "react-icons/ci";
+import { CiChat1, CiChat2, CiPaperplane, CiPickerHalf, CiVolumeHigh, CiBoxList, CiCircleRemove } from "react-icons/ci";
 import RelevantMessages from "../components/ClientPanel/RelevantMessages";
 import ChatPanel from "../components/Chat/ChatPanel";
 import QuickAnswers from "../components/ClientPanel/QuickAnswers";
@@ -156,6 +138,20 @@ export default function ClientPanel() {
         }
         const [isOpen, setIsOpen] = useState(false);
         const [test, setTest] = useState(false);
+        const txtA = useRef('');
+
+        function handleMessageChange(e) {
+          txtA.current = e.target.value
+          if (txtA.current.indexOf('@') >= 0) {
+            setIsOpen(true)
+          }
+        }
+
+        function handlePutText(txt) {
+          let msj = txt.replace('@', '')
+          setMessage(msj)
+          setIsOpen(false)
+        }
 
         const selectedValue = React.useMemo(
           () => message
@@ -172,22 +168,37 @@ export default function ClientPanel() {
             <CardBody>
               <ChatPanel messages={selectedChat} />
             </CardBody>
-            {isOpen && (
-              <Listbox
-                className={`z-100`}
-                items={answers}
-                onAction={(key) => {
-                  setMessage(message+key)
-                }}
-              >
-                {(item) => (
-                  <ListboxItem key={item.answer} >
-                    @{item.keyword}
-                  </ListboxItem>
-                )}
-              </Listbox>
-            )}
-            <CardFooter className="flex gap-2 items-center">
+            <div className="relative">
+                {isOpen && (
+                        <div className="absolute bottom-[5rem] bg-slate-700 w-full rounded-md p-2">
+                          <div className="flex items-center justify-between px-2">
+                            <span className="text-lg">
+                              Mensajes rápidos
+                            </span>
+                            <span 
+                              onClick={() => setIsOpen(false)}
+                              className="hover:cursor-pointer hover:text-red-600"
+                              >
+                              <CiCircleRemove size={25}/>
+                            </span>
+                          </div>
+                          <Listbox
+                          items={answers}
+                          onAction={(key) => {
+                            handlePutText(message+key)
+                          }}
+                        >
+                            {(item) => (
+                              <ListboxItem 
+                                key={item.answer}
+                              >
+                                @{item.keyword}
+                              </ListboxItem>
+                            )}
+                          </Listbox>
+                        </div>
+                      )}
+                <CardFooter className="flex gap-2 items-center">
               {selectedChat.status === "available" ? true :
                 <>
                   <Textarea
@@ -196,7 +207,9 @@ export default function ClientPanel() {
                     className="gap-3 h-auto"
                     value={message}
                     onValueChange={setMessage}
-                    onFocus={() => setIsOpen(true)}
+                    onChange={(e) => {
+                      handleMessageChange(e)
+                    }}
                   />
                   <Button
                     color="primary"
@@ -210,6 +223,7 @@ export default function ClientPanel() {
                 </>
               }
             </CardFooter>
+            </div>
           </>
         );
       }
