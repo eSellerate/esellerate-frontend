@@ -91,6 +91,7 @@ export default function ClientPanel() {
     const [selectedKeys, setSelectedKeys] = useState(new Set([]));
     function Chat() {
       const [selectedChat, setSelectedChat] = useState([]);
+      const [answersChat, setAnswersChat] = useState([]);
       useEffect(() => {
         if (selectedOrder.id) {
           let orderid = selectedOrder.packid;
@@ -99,6 +100,24 @@ export default function ClientPanel() {
           getMercadoLibreChat(selectedOrder.id);
         }
       }, [useChat]);
+
+      useEffect(() => {
+        getQuickAnswers()
+      }, [])
+
+      async function getQuickAnswers() {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/answers_quick`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${session}`,
+            },
+          }
+        );
+        setAnswersChat(response.data)
+      }
+      
       async function getMercadoLibreChat(id) {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/message_by_id?id=` + id,
@@ -183,7 +202,7 @@ export default function ClientPanel() {
                             </span>
                           </div>
                           <Listbox
-                          items={answers}
+                          items={answersChat}
                           onAction={(key) => {
                             handlePutText(message+key)
                           }}
@@ -202,7 +221,7 @@ export default function ClientPanel() {
               {selectedChat.status === "available" ? true :
                 <>
                   <Textarea
-                    placeholder="Enviar mensaje al comprador"
+                    placeholder="Escribe '@' para obtener mensajes rápidos"
                     disableAutosize
                     className="gap-3 h-auto"
                     value={message}
