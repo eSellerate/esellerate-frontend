@@ -83,7 +83,7 @@ export default function ChatPanel(props) {
     }
 
     return (
-        <section className='h-full container flex flex-col-reverse w-[90%] m-auto'>
+        <section className='h-full container flex flex-col-reverse w-[90%] m-auto overflow-y-scroll'>
             <div className='inline-block w-full'>
                 <LoadMessages />
             </div>

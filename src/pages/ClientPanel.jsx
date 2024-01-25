@@ -91,6 +91,7 @@ export default function ClientPanel() {
     const [selectedKeys, setSelectedKeys] = useState(new Set([]));
     function Chat() {
       const [selectedChat, setSelectedChat] = useState([]);
+      const [answersChat, setAnswersChat] = useState([]);
       useEffect(() => {
         if (selectedOrder.id) {
           let orderid = selectedOrder.packid;
@@ -99,6 +100,24 @@ export default function ClientPanel() {
           getMercadoLibreChat(selectedOrder.id);
         }
       }, [useChat]);
+
+      useEffect(() => {
+        getQuickAnswers()
+      }, [])
+
+      async function getQuickAnswers() {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/answers_quick`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${session}`,
+            },
+          }
+        );
+        setAnswersChat(response.data)
+      }
+      
       async function getMercadoLibreChat(id) {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_END_POINT}mercado-libre/message_by_id?id=` + id,
@@ -169,60 +188,60 @@ export default function ClientPanel() {
               <ChatPanel messages={selectedChat} />
             </CardBody>
             <div className="relative">
-              {isOpen && (
-                <div className="absolute bottom-[5rem] bg-slate-700 w-full rounded-md p-2">
-                  <div className="flex items-center justify-between px-2">
-                    <span className="text-lg">
-                      Mensajes rápidos
-                    </span>
-                    <span
-                      onClick={() => setIsOpen(false)}
-                      className="hover:cursor-pointer hover:text-red-600"
-                    >
-                      <CiCircleRemove size={25} />
-                    </span>
-                  </div>
-                  <Listbox
-                    items={answers}
-                    onAction={(key) => {
-                      handlePutText(message + key)
+                {isOpen && (
+                        <div className="absolute bottom-[5rem] bg-slate-700 w-full rounded-md p-2">
+                          <div className="flex items-center justify-between px-2">
+                            <span className="text-lg">
+                              Mensajes rápidos
+                            </span>
+                            <span 
+                              onClick={() => setIsOpen(false)}
+                              className="hover:cursor-pointer hover:text-red-600"
+                              >
+                              <CiCircleRemove size={25}/>
+                            </span>
+                          </div>
+                          <Listbox
+                          items={answersChat}
+                          onAction={(key) => {
+                            handlePutText(message+key)
+                          }}
+                        >
+                            {(item) => (
+                              <ListboxItem 
+                                key={item.answer}
+                              >
+                                @{item.keyword}
+                              </ListboxItem>
+                            )}
+                          </Listbox>
+                        </div>
+                      )}
+                <CardFooter className="flex gap-2 items-center">
+              {selectedChat.status === "available" ? true :
+                <>
+                  <Textarea
+                    placeholder="Escribe '@' para obtener mensajes rápidos"
+                    disableAutosize
+                    className="gap-3 h-auto"
+                    value={message}
+                    onValueChange={setMessage}
+                    onChange={(e) => {
+                      handleMessageChange(e)
                     }}
+                  />
+                  <Button
+                    color="primary"
+                    onClick={sendMercadoLibreMessage}
+                    isIconOnly
                   >
-                    {(item) => (
-                      <ListboxItem
-                        key={item.answer}
-                      >
-                        @{item.keyword}
-                      </ListboxItem>
-                    )}
-                  </Listbox>
-                </div>
-              )}
-              <CardFooter className="flex gap-2 items-center">
-                {selectedChat.status === "available" ? true :
-                  <>
-                    <Textarea
-                      placeholder="Enviar mensaje al comprador"
-                      disableAutosize
-                      className="gap-3 h-auto"
-                      value={message}
-                      onValueChange={setMessage}
-                      onChange={(e) => {
-                        handleMessageChange(e)
-                      }}
-                    />
-                    <Button
-                      color="primary"
-                      onClick={sendMercadoLibreMessage}
-                      isIconOnly
-                    >
-                      <IconWrapper>
-                        <CiPaperplane className="text-xl " />
-                      </IconWrapper>
-                    </Button>
-                  </>
-                }
-              </CardFooter>
+                    <IconWrapper>
+                      <CiPaperplane className="text-xl " />
+                    </IconWrapper>
+                  </Button>
+                </>
+              }
+            </CardFooter>
             </div>
           </>
         );
