@@ -51,25 +51,15 @@ export default function ListOfItems(props) {
                                     isBlurred
                                     width={40}
                                     height={40}
-                                    alt={order.order_items[0].item.title}
-                                    src={order.order_items[0].item.image}
+                                    src={`data:image/png;base64,${order.image}`}
                                 />
                                 <div className='flex flex-col gap-1'>
                                     <h3 className='text-sm font-bold'>
-                                        id: {order.id}
+                                        id: {order.order_id}
                                     </h3>
-                                    <span className='text-xs'>
-                                        {order.status}: ${order.total_amount} MXN
-                                    </span>
                                 </div>
                             </CardBody>
                             <Divider/>
-                            <div>
-                                <span className='flex text-xs gap-2 items-center p-2'>
-                                    <p className='font-bold'>Comprador: </p>
-                                    <p>{order.buyer.nickname}</p>
-                                </span>
-                            </div>
                         </Card>
                     </button>  
                 )) 

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Image} from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 
 export default function ChatPanel(props) {
 
@@ -31,24 +31,34 @@ export default function ChatPanel(props) {
         }
 
         let hasAttachment = false
-        if (props.attachment !== undefined) {
+        console.log(props.attachment)
+        if (props.attachment != undefined) {
             hasAttachment = true
+        }
+        else{
+            hasAttachment = false
         }
 
         return (
             <div className={`w-full flex ${props.position} my-2`}>
-                <span className={`rounded-lg ${chatBorder} w-[90%] items-center bg-${props.color}`}>
-                    {hasAttachment ? (
-                        <Image
-                            width={150}
-                            alt="attachment"
-                            src={`data:image/png;base64,${props.attachment.image}`}
-                        />
-                    ) : true}
-                    <p className='text-sm p-0 px-2 py-2' style={style}>
-                        {props.msj}
-                    </p>
-                </span>
+                {hasAttachment ? (
+                    <span className={`rounded-lg ${chatBorder} w-[30%] items-center bg-${props.color}`}>
+                        <div className='content-center'>
+                            <Image
+                                alt="attachment"
+                                src={`data:image/png;base64,${props.attachment[0].image}`}
+                            />
+                        </div>
+                        <p className='text-sm p-0 px-2 py-2' style={style}>
+                            {props.msj}
+                        </p>
+                    </span>
+                ) :
+                    <span className={`rounded-lg ${chatBorder} w-[90%] items-center bg-${props.color}`}>
+                        <p className='text-sm p-0 px-2 py-2' style={style}>
+                            {props.msj}
+                        </p>
+                    </span>}
             </div>
         )
     }
@@ -67,7 +77,7 @@ export default function ChatPanel(props) {
                                 color='default'
                                 position='justify-end'
                                 msj={message.text}
-                                attachment={message.message_attachments[0]}
+                                attachment={message.message_attachments}
                             />
                         ) : <MessageBlubble
                             key={index}

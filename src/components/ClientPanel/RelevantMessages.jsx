@@ -19,15 +19,15 @@ export default function RelevantMessages() {
             const session = GetCookieByName('session')
             try {
                 const response = await axios.get(
-                    `${import.meta.env.VITE_BACKEND_END_POINT}/mercado-libre/orders_unfulfilled`,
+                    `${import.meta.env.VITE_BACKEND_END_POINT}/mercado-libre/important_information`,
                     {
                         headers: {
                             Authorization: `Bearer ${session}`
                         }
                     }
                 )
-                const { results } = response.data.data
-                setOrders(results)
+                console.log(response.data)
+                setOrders(response.data)
             } catch(error) {
                 console.log(error)
             }
