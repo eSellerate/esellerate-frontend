@@ -109,7 +109,7 @@ export default function ClientPanel() {
             },
           }
         );
-        console.log(response.data.data);
+        console.log(response.data.data.messages);
         setSelectedChat(response.data.data.messages);
         //setIsLoading(false);
       }
@@ -169,60 +169,60 @@ export default function ClientPanel() {
               <ChatPanel messages={selectedChat} />
             </CardBody>
             <div className="relative">
-                {isOpen && (
-                        <div className="absolute bottom-[5rem] bg-slate-700 w-full rounded-md p-2">
-                          <div className="flex items-center justify-between px-2">
-                            <span className="text-lg">
-                              Mensajes rápidos
-                            </span>
-                            <span 
-                              onClick={() => setIsOpen(false)}
-                              className="hover:cursor-pointer hover:text-red-600"
-                              >
-                              <CiCircleRemove size={25}/>
-                            </span>
-                          </div>
-                          <Listbox
-                          items={answers}
-                          onAction={(key) => {
-                            handlePutText(message+key)
-                          }}
-                        >
-                            {(item) => (
-                              <ListboxItem 
-                                key={item.answer}
-                              >
-                                @{item.keyword}
-                              </ListboxItem>
-                            )}
-                          </Listbox>
-                        </div>
-                      )}
-                <CardFooter className="flex gap-2 items-center">
-              {selectedChat.status === "available" ? true :
-                <>
-                  <Textarea
-                    placeholder="Enviar mensaje al comprador"
-                    disableAutosize
-                    className="gap-3 h-auto"
-                    value={message}
-                    onValueChange={setMessage}
-                    onChange={(e) => {
-                      handleMessageChange(e)
+              {isOpen && (
+                <div className="absolute bottom-[5rem] bg-slate-700 w-full rounded-md p-2">
+                  <div className="flex items-center justify-between px-2">
+                    <span className="text-lg">
+                      Mensajes rápidos
+                    </span>
+                    <span
+                      onClick={() => setIsOpen(false)}
+                      className="hover:cursor-pointer hover:text-red-600"
+                    >
+                      <CiCircleRemove size={25} />
+                    </span>
+                  </div>
+                  <Listbox
+                    items={answers}
+                    onAction={(key) => {
+                      handlePutText(message + key)
                     }}
-                  />
-                  <Button
-                    color="primary"
-                    onClick={sendMercadoLibreMessage}
-                    isIconOnly
                   >
-                    <IconWrapper>
-                      <CiPaperplane className="text-xl " />
-                    </IconWrapper>
-                  </Button>
-                </>
-              }
-            </CardFooter>
+                    {(item) => (
+                      <ListboxItem
+                        key={item.answer}
+                      >
+                        @{item.keyword}
+                      </ListboxItem>
+                    )}
+                  </Listbox>
+                </div>
+              )}
+              <CardFooter className="flex gap-2 items-center">
+                {selectedChat.status === "available" ? true :
+                  <>
+                    <Textarea
+                      placeholder="Enviar mensaje al comprador"
+                      disableAutosize
+                      className="gap-3 h-auto"
+                      value={message}
+                      onValueChange={setMessage}
+                      onChange={(e) => {
+                        handleMessageChange(e)
+                      }}
+                    />
+                    <Button
+                      color="primary"
+                      onClick={sendMercadoLibreMessage}
+                      isIconOnly
+                    >
+                      <IconWrapper>
+                        <CiPaperplane className="text-xl " />
+                      </IconWrapper>
+                    </Button>
+                  </>
+                }
+              </CardFooter>
             </div>
           </>
         );
@@ -334,7 +334,7 @@ export default function ClientPanel() {
           <ListboxItem key="info" textValue="automatic" className="flex justify-center">
             <Button
               size="md"
-              onClick={() => setComponentFlags([false, false, true, false,false])}
+              onClick={() => setComponentFlags([false, false, true, false, false])}
             >
               <IconWrapper className="bg-default/50">
                 <CiPickerHalf className="text-xl font-bold" />
@@ -365,8 +365,8 @@ export default function ClientPanel() {
         {componentflags[0] && <ChatComponent />}
         {componentflags[1] && <QuickAnswers className="col-span-9" answersArr={answers} />}
         {componentflags[2] && <RelevantMessages />}
-        {componentflags[3] && <AutoAnswers className="col-span-9"/>}
-        {componentflags[4] && <DefaultMessages className="col-span-9"/>}
+        {componentflags[3] && <AutoAnswers className="col-span-9" />}
+        {componentflags[4] && <DefaultMessages className="col-span-9" />}
       </div>
     </>
   );
